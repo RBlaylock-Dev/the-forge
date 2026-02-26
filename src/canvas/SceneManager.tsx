@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import { PlayerController } from '@/player/PlayerController';
 import { Hearth } from '@/zones/Hearth';
 import { SkillTree } from '@/zones/SkillTree';
+import { ProjectVault } from '@/zones/ProjectVault';
 import { EmberParticles } from '@/objects/EmberParticles';
 import { ForgeEmbers } from '@/objects/ForgeEmbers';
 import { PathStrip } from '@/objects/PathStrip';
@@ -118,6 +119,7 @@ export function SceneManager() {
       {/* Zones */}
       <Hearth />
       <SkillTree />
+      <ProjectVault />
 
       {/* Player */}
       <PlayerController />
