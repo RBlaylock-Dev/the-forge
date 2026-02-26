@@ -51,7 +51,7 @@ src/
 | FORGE-002 | TypeScript Types & Interfaces | DONE | `feat/FORGE-002-types-interfaces` |
 | FORGE-003 | Content Data Files | DONE | `feat/FORGE-003-content-data` |
 | FORGE-004 | Zustand Store | DONE | `feat/FORGE-004-zustand-store` |
-| FORGE-005 | Docker + Makefile + Docker Compose | TODO | `chore/FORGE-005-docker-makefile` |
+| FORGE-005 | Docker + Makefile + Docker Compose | DONE | `chore/FORGE-005-docker-makefile` |
 
 ### PHASE 2: Core 3D Engine
 | ID | Ticket | Status | Branch |
