@@ -73,7 +73,7 @@ src/
 ### PHASE 4: HUD & Interaction
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
-| FORGE-015 | Start Overlay | TODO | `feat/FORGE-015-start-overlay` |
+| FORGE-015 | Start Overlay | DONE | `feat/FORGE-015-start-overlay` |
 | FORGE-016 | Top Bar & Zone Indicator | TODO | `feat/FORGE-016-top-bar` |
 | FORGE-017 | Zone Detection System | TODO | `feat/FORGE-017-zone-detection` |
 | FORGE-018 | Zone Flash & XP Bar | TODO | `feat/FORGE-018-zone-flash-xp` |
