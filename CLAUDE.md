@@ -56,7 +56,7 @@ src/
 ### PHASE 2: Core 3D Engine
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
-| FORGE-006 | R3F Canvas & Scene Shell | TODO | `feat/FORGE-006-canvas-scene-shell` |
+| FORGE-006 | R3F Canvas & Scene Shell | DONE | `feat/FORGE-006-canvas-scene-shell` |
 | FORGE-007 | Player Controller — Movement | TODO | `feat/FORGE-007-player-movement` |
 | FORGE-008 | Ember Particle Systems | TODO | `feat/FORGE-008-ember-particles` |
 | FORGE-009 | Path Strips Between Zones | TODO | `feat/FORGE-009-path-strips` |
