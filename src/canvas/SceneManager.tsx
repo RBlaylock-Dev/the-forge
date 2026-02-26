@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { PlayerController } from '@/player/PlayerController';
+import { Hearth } from '@/zones/Hearth';
 
 function Fog() {
   const { scene } = useThree();
@@ -48,18 +49,6 @@ export function SceneManager() {
 
       {/* Ambient */}
       <ambientLight color={0x1a0e06} intensity={0.35} />
-
-      {/* Fire light (center) */}
-      <pointLight
-        color={0xff6b1a}
-        intensity={3.5}
-        distance={30}
-        decay={2}
-        position={[0, 2.5, 0]}
-        castShadow
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
-      />
 
       {/* Fill light A */}
       <pointLight
@@ -111,6 +100,9 @@ export function SceneManager() {
 
       {/* Ground */}
       <Ground />
+
+      {/* Zones */}
+      <Hearth />
 
       {/* Player */}
       <PlayerController />
