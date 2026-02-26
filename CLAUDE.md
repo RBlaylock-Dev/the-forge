@@ -58,8 +58,8 @@ src/
 |----|--------|--------|--------|
 | FORGE-006 | R3F Canvas & Scene Shell | DONE | `feat/FORGE-006-canvas-scene-shell` |
 | FORGE-007 | Player Controller — Movement | DONE | `feat/FORGE-007-player-movement` |
-| FORGE-008 | Ember Particle Systems | TODO | `feat/FORGE-008-ember-particles` |
-| FORGE-009 | Path Strips Between Zones | TODO | `feat/FORGE-009-path-strips` |
+| FORGE-008 | Ember Particle Systems | DONE | `feat/FORGE-008-ember-particles` |
+| FORGE-009 | Path Strips Between Zones | DONE | `feat/FORGE-008-ember-particles` |
 
 ### PHASE 3: Zones
 | ID | Ticket | Status | Branch |

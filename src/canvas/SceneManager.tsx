@@ -5,6 +5,9 @@ import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { PlayerController } from '@/player/PlayerController';
 import { Hearth } from '@/zones/Hearth';
+import { EmberParticles } from '@/objects/EmberParticles';
+import { ForgeEmbers } from '@/objects/ForgeEmbers';
+import { PathStrip } from '@/objects/PathStrip';
 
 function Fog() {
   const { scene } = useThree();
@@ -100,6 +103,16 @@ export function SceneManager() {
 
       {/* Ground */}
       <Ground />
+
+      {/* Paths */}
+      <PathStrip from={{ x: 0, z: 0 }} to={{ x: -22, z: 0 }} color={0x44aa88} />
+      <PathStrip from={{ x: 0, z: 0 }} to={{ x: 22, z: 0 }} color={0xaa6622} />
+      <PathStrip from={{ x: 0, z: 0 }} to={{ x: 0, z: -24 }} color={0x6644aa} />
+      <PathStrip from={{ x: 0, z: 0 }} to={{ x: 0, z: 24 }} color={0x22aacc} />
+
+      {/* Particles */}
+      <EmberParticles />
+      <ForgeEmbers />
 
       {/* Zones */}
       <Hearth />
