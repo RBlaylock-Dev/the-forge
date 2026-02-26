@@ -5,6 +5,7 @@ import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { PlayerController } from '@/player/PlayerController';
 import { Hearth } from '@/zones/Hearth';
+import { SkillTree } from '@/zones/SkillTree';
 import { EmberParticles } from '@/objects/EmberParticles';
 import { ForgeEmbers } from '@/objects/ForgeEmbers';
 import { PathStrip } from '@/objects/PathStrip';
@@ -116,6 +117,7 @@ export function SceneManager() {
 
       {/* Zones */}
       <Hearth />
+      <SkillTree />
 
       {/* Player */}
       <PlayerController />
