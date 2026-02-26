@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Forge — Robert Blaylock | Interactive Portfolio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0806;
+    overflow: hidden;
+    font-family: 'Rajdhani', sans-serif;
+    user-select: none;
+  }
+
+  canvas { display: block; }
+
+  /* === OVERLAYS === */
+  #vignette {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(ellipse at center, transparent 45%, rgba(5,3,2,0.75) 100%);
+    pointer-events: none; z-index: 2;
+  }
+
+  #scanlines {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px);
+    pointer-events: none; z-index: 3;
+  }
+
+  /* === HUD TOP === */
+  #hud-top {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 10;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 28px;
+    background: linear-gradient(180deg, rgba(10,8,6,0.92) 0%, transparent 100%);
+  }
+
+  .forge-brand {
+    font-family: 'Cinzel', serif;
+    font-weight: 900; font-size: 16px;
+    letter-spacing: 5px; color: #c4813a;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(196,129,58,0.4);
+  }
+  .forge-brand span { color: #f5deb3; font-weight: 400; }
+
+  #zone-indicator {
+    font-family: 'Cinzel', serif;
+    font-size: 13px; letter-spacing: 4px;
+    color: #5a4a3a; text-transform: uppercase;
+    transition: all 0.6s ease;
+  }
+  #zone-indicator.active { color: #e8a54b; text-shadow: 0 0 12px rgba(232,165,75,0.5); }
+
+  /* === DISCOVERY / XP BAR === */
+  #xp-bar-wrap {
+    position: fixed; top: 60px; right: 28px;
+    z-index: 10; display: flex; align-items: center; gap: 10px;
+  }
+  #xp-label {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 2px; color: #5a4a3a;
+    text-transform: uppercase;
+  }
+  #xp-bar {
+    width: 120px; height: 4px;
+    background: rgba(196,129,58,0.12);
+    border-radius: 2px; overflow: hidden;
+  }
+  #xp-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, #c4813a, #e8a54b);
+    box-shadow: 0 0 8px rgba(232,165,75,0.5);
+    transition: width 0.8s ease;
+  }
+
+  /* === CROSSHAIR === */
+  #crosshair {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10; pointer-events: none;
+    opacity: 0; transition: opacity 0.4s ease;
+  }
+  #crosshair.visible { opacity: 1; }
+  #crosshair::before, #crosshair::after {
+    content: ''; position: absolute;
+    background: rgba(232,165,75,0.5);
+  }
+  #crosshair::before {
+    width: 16px; height: 1px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  #crosshair::after {
+    width: 1px; height: 16px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* === INTERACTION PROMPT === */
+  #interact-prompt {
+    position: fixed;
+    bottom: 140px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 10; pointer-events: none;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px; font-weight: 500;
+    letter-spacing: 2px; color: #e8a54b;
+    text-transform: uppercase;
+    opacity: 0; transition: opacity 0.4s ease;
+    text-shadow: 0 0 10px rgba(232,165,75,0.4);
+    text-align: center;
+  }
+  #interact-prompt.visible { opacity: 1; }
+  #interact-prompt .key {
+    display: inline-block;
+    padding: 2px 8px; margin: 0 2px;
+    background: rgba(232,165,75,0.15);
+    border: 1px solid rgba(232,165,75,0.3);
+    border-radius: 3px; font-weight: 700;
+  }
+
+  /* === MINIMAP === */
+  #minimap {
+    position: fixed; bottom: 24px; right: 24px;
+    z-index: 10; width: 140px; height: 140px;
+    background: rgba(10,8,6,0.88);
+    border: 1px solid rgba(196,129,58,0.2);
+    border-radius: 6px; overflow: hidden;
+    backdrop-filter: blur(8px);
+  }
+  #minimap canvas {
+    width: 100%; height: 100%;
+  }
+  #minimap-label {
+    position: absolute; top: 4px; left: 8px;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 2px; color: #5a4a3a;
+    text-transform: uppercase;
+  }
+
+  /* === PROJECT / ZONE DETAIL PANEL === */
+  #detail-panel {
+    position: fixed;
+    top: 50%; right: 36px;
+    transform: translateY(-50%) translateX(20px);
+    z-index: 12; max-width: 380px;
+    padding: 28px;
+    background: rgba(8,6,4,0.94);
+    border: 1px solid rgba(196,129,58,0.18);
+    border-radius: 6px;
+    backdrop-filter: blur(20px);
+    opacity: 0; pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  #detail-panel.visible {
+    opacity: 1; pointer-events: auto;
+    transform: translateY(-50%) translateX(0);
+  }
+  #detail-panel h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700; font-size: 20px;
+    color: #e8a54b; letter-spacing: 2px;
+    margin-bottom: 4px;
+    text-shadow: 0 0 12px rgba(232,165,75,0.3);
+  }
+  .detail-type {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 3px; color: #6a5a4a;
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+  .detail-desc {
+    font-size: 14px; font-weight: 400;
+    line-height: 1.65; color: #a89a8a; margin-bottom: 16px;
+  }
+  .detail-tags {
+    display: flex; flex-wrap: wrap;
+    gap: 5px; margin-bottom: 16px;
+  }
+  .detail-tag {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 1px; padding: 3px 8px;
+    background: rgba(196,129,58,0.1);
+    border: 1px solid rgba(196,129,58,0.2);
+    border-radius: 3px; color: #c4813a;
+  }
+  .detail-items { list-style: none; padding: 0; }
+  .detail-items li {
+    font-size: 13px; color: #8a7a6a;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(196,129,58,0.06);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .detail-items li::before {
+    content: '◆'; color: #c4813a; font-size: 7px; flex-shrink: 0;
+  }
+  .detail-level {
+    margin-left: auto; font-size: 10px;
+    color: #e8a54b; letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  .detail-links { margin-top: 14px; display: flex; gap: 8px; }
+  .detail-link {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 1px; padding: 6px 14px;
+    background: rgba(196,129,58,0.12);
+    border: 1px solid rgba(196,129,58,0.25);
+    border-radius: 3px; color: #e8a54b;
+    text-decoration: none; cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .detail-link:hover {
+    background: rgba(196,129,58,0.25);
+    border-color: rgba(232,165,75,0.5);
+    color: #f5deb3;
+  }
+  .detail-close {
+    position: absolute; top: 12px; right: 14px;
+    background: none; border: none;
+    color: #5a4a3a; font-size: 18px;
+    cursor: pointer; transition: color 0.3s;
+  }
+  .detail-close:hover { color: #e8a54b; }
+
+  /* === CONTROLS HUD === */
+  #controls-hud {
+    position: fixed; bottom: 24px; left: 24px;
+    z-index: 10; padding: 14px 18px;
+    background: rgba(10,8,6,0.85);
+    border: 1px solid rgba(196,129,58,0.12);
+    border-radius: 6px;
+    backdrop-filter: blur(10px);
+    font-size: 11px; color: #4a3a2a;
+    line-height: 1.8; letter-spacing: 1px;
+  }
+  .ctrl-key {
+    display: inline-block;
+    padding: 1px 6px;
+    background: rgba(196,129,58,0.1);
+    border: 1px solid rgba(196,129,58,0.2);
+    border-radius: 2px; color: #8a7a6a;
+    font-weight: 600; font-size: 10px;
+    margin-right: 4px;
+  }
+
+  /* === CLICK-TO-START OVERLAY === */
+  #start-overlay {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(10,8,6,0.95);
+    z-index: 100;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    cursor: pointer;
+    transition: opacity 1s ease;
+  }
+  #start-overlay.hidden { opacity: 0; pointer-events: none; }
+  #start-overlay h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: clamp(32px, 5vw, 60px);
+    color: #f5deb3; letter-spacing: 4px;
+    text-shadow: 0 0 40px rgba(232,165,75,0.4), 0 2px 20px rgba(0,0,0,0.8);
+    margin-bottom: 8px;
+  }
+  #start-overlay .sub {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 300;
+    font-size: clamp(13px, 2vw, 18px);
+    color: #c4813a; letter-spacing: 6px;
+    text-transform: uppercase; margin-bottom: 40px;
+  }
+  #start-overlay .enter {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px; font-weight: 500;
+    letter-spacing: 3px; color: #6a5a4a;
+    text-transform: uppercase;
+    animation: pulse-glow 2.5s ease-in-out infinite;
+    border: 1px solid rgba(196,129,58,0.2);
+    padding: 12px 32px; border-radius: 4px;
+  }
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.5; border-color: rgba(196,129,58,0.1); }
+    50% { opacity: 1; color: #c4813a; border-color: rgba(196,129,58,0.4); }
+  }
+
+  /* === ZONE ENTRANCE FLASH === */
+  #zone-flash {
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 11; pointer-events: none;
+    font-family: 'Cinzel', serif;
+    font-weight: 900; font-size: 28px;
+    letter-spacing: 6px; color: #e8a54b;
+    text-transform: uppercase;
+    text-shadow: 0 0 30px rgba(232,165,75,0.6);
+    opacity: 0; transition: opacity 0.4s ease;
+  }
+  #zone-flash.show {
+    animation: zone-enter 2s ease forwards;
+  }
+  @keyframes zone-enter {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    80% { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1.05); }
+  }
+
+  /* === QUICK NAV === */
+  #quick-nav {
+    position: fixed; top: 50%; left: 20px;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .qnav-btn {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(196,129,58,0.15);
+    border: 1px solid rgba(196,129,58,0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  .qnav-btn:hover {
+    background: rgba(196,129,58,0.4);
+    transform: scale(1.3);
+  }
+  .qnav-btn.active {
+    background: #e8a54b;
+    box-shadow: 0 0 8px rgba(232,165,75,0.5);
+  }
+  .qnav-btn .qnav-tip {
+    position: absolute; left: 20px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 2px; color: #8a7a6a;
+    text-transform: uppercase; white-space: nowrap;
+    opacity: 0; transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .qnav-btn:hover .qnav-tip { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- START OVERLAY -->
+<div id="start-overlay">
+  <h1>THE FORGE</h1>
+  <div class="sub">Robert Blaylock — Senior Full Stack & 3D Engineer</div>
+  <div class="enter">Click to Enter the Forge</div>
+</div>
+
+<!-- ZONE ENTRANCE FLASH -->
+<div id="zone-flash"></div>
+
+<!-- HUD -->
+<div id="hud-top">
+  <div class="forge-brand">THE FORGE <span>— RB</span></div>
+  <div id="zone-indicator">The Hearth</div>
+</div>
+
+<div id="xp-bar-wrap">
+  <div id="xp-label">Explored</div>
+  <div id="xp-bar"><div id="xp-fill"></div></div>
+</div>
+
+<div id="crosshair"></div>
+<div id="interact-prompt"></div>
+
+<!-- QUICK NAV -->
+<div id="quick-nav">
+  <div class="qnav-btn active" data-zone="hearth" onclick="teleportTo('hearth')"><span class="qnav-tip">Hearth</span></div>
+  <div class="qnav-btn" data-zone="skill-tree" onclick="teleportTo('skill-tree')"><span class="qnav-tip">Skill Tree</span></div>
+  <div class="qnav-btn" data-zone="vault" onclick="teleportTo('vault')"><span class="qnav-tip">Vault</span></div>
+  <div class="qnav-btn" data-zone="timeline" onclick="teleportTo('timeline')"><span class="qnav-tip">Timeline</span></div>
+  <div class="qnav-btn" data-zone="war-room" onclick="teleportTo('war-room')"><span class="qnav-tip">War Room</span></div>
+</div>
+
+<!-- DETAIL PANEL -->
+<div id="detail-panel">
+  <button class="detail-close" onclick="closeDetail()">&times;</button>
+</div>
+
+<!-- MINIMAP -->
+<div id="minimap">
+  <div id="minimap-label">Map</div>
+  <canvas id="minimap-canvas" width="140" height="140"></canvas>
+</div>
+
+<!-- CONTROLS -->
+<div id="controls-hud">
+  <span class="ctrl-key">W A S D</span> Move<br>
+  <span class="ctrl-key">Mouse</span> Look<br>
+  <span class="ctrl-key">E</span> Interact<br>
+  <span class="ctrl-key">ESC</span> Release cursor
+</div>
+
+<!-- OVERLAYS -->
+<div id="vignette"></div>
+<div id="scanlines"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ============================================================
+// THE FORGE v2 — Walkable Interactive 3D Portfolio
+// Robert Blaylock | rblaylock.dev
+// ============================================================
+
+// ============================================================
+// PROJECT DATA — Edit this to add/change projects
+// ============================================================
+const PROJECTS = [
+  {
+    name: 'Derksen 3D Configurator',
+    desc: 'Production 3D building configurator. Customers customize and visualize portable buildings in real-time with a full Three.js/Vue.js application.',
+    tags: ['Three.js', 'Vue.js', 'PHP', 'GitLab', '3D', 'Production'],
+    tier: 'LEGENDARY',
+    color: 0xff6600,
+    liveUrl: 'https://3d.derksenbuildings.com/neworder',
+    shape: 'box'
+  },
+  {
+    name: 'ShareXR Platform',
+    desc: 'Immersive 3D platform providing companies virtual training environments for employee onboarding and skill development.',
+    tags: ['Three.js', 'Strapi', 'Firebase', '3D', 'Interactive'],
+    tier: 'EPIC',
+    color: 0xcc4400,
+    liveUrl: 'https://sharexr.app',
+    shape: 'ico'
+  },
+  {
+    name: 'UpCurve',
+    desc: 'Donation platform enabling users to contribute to non-profits with integrated Stripe payment processing and Supabase backend.',
+    tags: ['Next.js', 'Stripe', 'Supabase', 'SendGrid'],
+    tier: 'EPIC',
+    color: 0xee8833,
+    liveUrl: 'https://upcurve.life',
+    shape: 'octa'
+  },
+  {
+    name: 'Redeemly',
+    desc: 'Social platform for ministries to connect with their members featuring real-time chat and community tools.',
+    tags: ['Next.js', 'Realtime Chat', 'Social', 'Ministry'],
+    tier: 'EPIC',
+    color: 0xbb6644,
+    liveUrl: 'https://redeemly-startup.vercel.app',
+    shape: 'torus'
+  },
+  {
+    name: 'Stor-It',
+    desc: 'Cloud storage platform with file uploads, OTP authentication, and clean UI for managing personal documents.',
+    tags: ['Next.js', 'Appwrite', 'File-Uploads', 'OTP'],
+    tier: 'RARE',
+    color: 0xddaa44,
+    liveUrl: 'https://stor-it-alpha.vercel.app',
+    shape: 'cone'
+  },
+  {
+    name: 'Portal Scene',
+    desc: 'Mystical 3D portal with custom GLSL shaders, glowing effects, geometric structures, and a starfield background.',
+    tags: ['R3F', 'Three.js', 'GLSL', 'Shaders'],
+    tier: 'RARE',
+    color: 0xaa44ff,
+    liveUrl: 'https://portal-scene-r3-f.vercel.app',
+    shape: 'ico'
+  },
+  {
+    name: 'Earth Shaders',
+    desc: 'Stunning 3D Earth with realistic continents, atmospheric glow, and day/night cycle — all custom GLSL.',
+    tags: ['Three.js', 'GLSL', 'Shaders', 'WebGL'],
+    tier: 'RARE',
+    color: 0x4488cc,
+    liveUrl: 'https://earth-shaders-kappa.vercel.app',
+    shape: 'sphere'
+  },
+  {
+    name: 'Marble Race Game',
+    desc: 'Interactive 3D marble racing game with realistic physics, timer, and a colorful obstacle course.',
+    tags: ['Three.js', 'Physics', 'Game Dev', 'WebGL'],
+    tier: 'RARE',
+    color: 0xff5522,
+    liveUrl: 'https://marble-game-delta.vercel.app',
+    shape: 'sphere'
+  },
+  {
+    name: 'Galaxy Generator',
+    desc: 'Procedural spiral galaxy with customizable parameters and beautiful particle effects.',
+    tags: ['Three.js', 'Procedural', 'Particles', 'WebGL'],
+    tier: 'RARE',
+    color: 0x9944dd,
+    liveUrl: 'https://galaxy-generator-iota-liard.vercel.app',
+    shape: 'octa'
+  },
+  {
+    name: 'Rooftop Ministries',
+    desc: 'Professional ministry website with custom branding, domain setup, DNS config, and email setup.',
+    tags: ['Next.js', 'TailwindCSS', 'DNS', 'Email'],
+    tier: 'COMMON',
+    color: 0x88aa44,
+    liveUrl: 'https://www.rooftopministries.org',
+    shape: 'box'
+  },
+  {
+    name: 'Fireworks Display',
+    desc: 'Interactive particle fireworks system with customizable parameters and explosive effects.',
+    tags: ['Three.js', 'Particles', 'Animation', 'Interactive'],
+    tier: 'COMMON',
+    color: 0xff4466,
+    liveUrl: 'https://fireworks-delta-fawn.vercel.app',
+    shape: 'cone'
+  },
+  {
+    name: 'Haunted House',
+    desc: 'Spooky 3D haunted house scene with atmospheric fog, eerie lighting, and interactive camera controls.',
+    tags: ['Three.js', '3D', 'Lighting', 'Atmosphere'],
+    tier: 'COMMON',
+    color: 0x668844,
+    liveUrl: 'https://haunted-house-3-js-tau.vercel.app',
+    shape: 'box'
+  }
+];
+
+const SKILL_DATA = {
+  frontend: [
+    { name: 'React / Next.js', level: 5 },
+    { name: 'TypeScript', level: 4 },
+    { name: 'Three.js / R3F', level: 5 },
+    { name: 'GLSL Shaders', level: 4 },
+    { name: 'Vue.js', level: 4 },
+    { name: 'Tailwind CSS', level: 5 },
+    { name: 'HTML / CSS', level: 5 }
+  ],
+  backend: [
+    { name: 'Node.js / Express', level: 4 },
+    { name: 'PostgreSQL', level: 4 },
+    { name: 'MongoDB', level: 3 },
+    { name: 'Supabase', level: 4 },
+    { name: 'REST APIs', level: 5 },
+    { name: 'PHP', level: 3 }
+  ],
+  devops: [
+    { name: 'Docker', level: 4 },
+    { name: 'Git / GitFlow', level: 5 },
+    { name: 'CI/CD', level: 3 },
+    { name: 'AWS', level: 3 },
+    { name: 'Vercel', level: 4 },
+    { name: 'Apache', level: 3 }
+  ]
+};
+
+const TIMELINE_DATA = [
+  { era: 'Restaurant GM', org: 'Taco Bell', years: '2011-2017', skill: 'Leadership & Operations', color: 0x993366 },
+  { era: 'Team Lead', org: 'National Retail Solutions', years: '2017-2022', skill: 'Project Management', color: 0x886644 },
+  { era: 'Self-Taught + Cert', org: 'Persevere', years: '2019-2022', skill: 'The Transformation', color: 0x7744aa },
+  { era: 'Full Stack Dev', org: 'Banyan Labs', years: '2022-2025', skill: 'Professional Engineering', color: 0x5566cc },
+  { era: 'Senior Engineer', org: 'Banyan Labs / RB Digital', years: '2025+', skill: 'Mastery', color: 0x44aa88 }
+];
+
+const ACTIVE_PROJECTS = [
+  { name: 'HALO', desc: 'Decentralized endorsement platform on Ethereum smart contracts', color: 0x22aacc, status: 'In Development' },
+  { name: 'BibleWalk', desc: 'Unity-based mobile Scripture journey app with Adult & Kid modes', color: 0x44dd88, status: 'In Development' },
+  { name: 'Savannah Connect', desc: 'Community event platform for Savannah, TN', color: 0xcc8844, status: 'In Development' },
+  { name: 'RB Digital', desc: 'Full-service web development agency', color: 0xdd6644, status: 'Active' }
+];
+
+// ============================================================
+// TIER COLORS
+// ============================================================
+const TIER_COLORS = {
+  LEGENDARY: '#ff6600',
+  EPIC: '#cc44ff',
+  RARE: '#4488ff',
+  COMMON: '#44aa66'
+};
+
+// ============================================================
+// ZONE DEFINITIONS
+// ============================================================
+const ZONE_DEFS = {
+  hearth:       { center: { x: 0, z: 0 }, radius: 8, name: 'The Hearth' },
+  'skill-tree': { center: { x: -22, z: 0 }, radius: 8, name: 'The Skill Tree' },
+  vault:        { center: { x: 22, z: 0 }, radius: 12, name: 'The Vault' },
+  timeline:     { center: { x: 0, z: -24 }, radius: 10, name: 'The Timeline' },
+  'war-room':   { center: { x: 0, z: 24 }, radius: 8, name: 'The War Room' }
+};
+
+// ============================================================
+// STATE
+// ============================================================
+const keys = {};
+let isLocked = false;
+let currentZone = 'hearth';
+let lastZone = '';
+let discovered = new Set(['hearth']);
+let yaw = 0, pitch = 0;
+const playerPos = new THREE.Vector3(0, 1.7, 8);
+const playerVel = new THREE.Vector3();
+const SPEED = 8;
+const FRICTION = 0.85;
+let clock = new THREE.Clock();
+let interactTarget = null;
+const interactables = [];
+
+// ============================================================
+// SCENE
+// ============================================================
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x0a0806, 0.018);
+
+const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 250);
+camera.position.copy(playerPos);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0x0a0806);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.85;
+document.body.prepend(renderer.domElement);
+
+// ============================================================
+// LIGHTING
+// ============================================================
+scene.add(new THREE.AmbientLight(0x1a0e06, 0.35));
+
+const fireLight = new THREE.PointLight(0xff6b1a, 3.5, 30, 2);
+fireLight.position.set(0, 2.5, 0);
+fireLight.castShadow = true;
+scene.add(fireLight);
+
+const fillA = new THREE.PointLight(0xc4813a, 1, 35, 2);
+fillA.position.set(-15, 5, -8);
+scene.add(fillA);
+
+const fillB = new THREE.PointLight(0x8b4513, 0.7, 35, 2);
+fillB.position.set(15, 4, 8);
+scene.add(fillB);
+
+// Zone lights
+const skillLight = new THREE.PointLight(0x44aa88, 2, 18, 2);
+skillLight.position.set(-22, 5, 0);
+scene.add(skillLight);
+
+const vaultLight = new THREE.PointLight(0xaa6622, 2, 20, 2);
+vaultLight.position.set(22, 5, 0);
+scene.add(vaultLight);
+
+const timelineLight = new THREE.PointLight(0x6644aa, 2, 18, 2);
+timelineLight.position.set(0, 5, -24);
+scene.add(timelineLight);
+
+const warLight = new THREE.PointLight(0x22aacc, 2, 18, 2);
+warLight.position.set(0, 5, 24);
+scene.add(warLight);
+
+// ============================================================
+// GROUND
+// ============================================================
+const groundGeo = new THREE.PlaneGeometry(120, 120, 80, 80);
+const posArr = groundGeo.getAttribute('position');
+for (let i = 0; i < posArr.count; i++) {
+  const x = posArr.getX(i), z = posArr.getY(i);
+  posArr.setZ(i, (Math.sin(x * 0.2) * Math.cos(z * 0.2)) * 0.4);
+}
+groundGeo.computeVertexNormals();
+const ground = new THREE.Mesh(groundGeo, new THREE.MeshStandardMaterial({
+  color: 0x1a1210, roughness: 0.95, metalness: 0.1
+}));
+ground.rotation.x = -Math.PI / 2;
+ground.receiveShadow = true;
+scene.add(ground);
+
+// Path markings between zones (glowing strips on ground)
+function createPath(from, to, color) {
+  const dir = new THREE.Vector3(to.x - from.x, 0, to.z - from.z);
+  const len = dir.length();
+  dir.normalize();
+  const segments = Math.floor(len / 1.5);
+  const mat = new THREE.MeshStandardMaterial({
+    color, emissive: color, emissiveIntensity: 0.4,
+    roughness: 0.5, metalness: 0.5
+  });
+  for (let i = 0; i < segments; i++) {
+    const t = i / segments;
+    const m = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.04, 0.8), mat);
+    m.position.set(
+      from.x + dir.x * len * t,
+      0.03,
+      from.z + dir.z * len * t
+    );
+    m.lookAt(new THREE.Vector3(to.x, 0.03, to.z));
+    scene.add(m);
+  }
+}
+createPath({x:0,z:0}, {x:-22,z:0}, 0x44aa88);
+createPath({x:0,z:0}, {x:22,z:0}, 0xaa6622);
+createPath({x:0,z:0}, {x:0,z:-24}, 0x6644aa);
+createPath({x:0,z:0}, {x:0,z:24}, 0x22aacc);
+
+// ============================================================
+// CENTRAL FORGE (HEARTH)
+// ============================================================
+function buildHearth() {
+  const g = new THREE.Group();
+  const darkMetal = new THREE.MeshStandardMaterial({ color: 0x2a2018, roughness: 0.6, metalness: 0.8 });
+  const brightMetal = new THREE.MeshStandardMaterial({ color: 0x3a3028, roughness: 0.4, metalness: 0.9 });
+
+  // Anvil
+  const base = new THREE.Mesh(new THREE.BoxGeometry(2, 1.2, 1.2), darkMetal);
+  base.position.y = 0.6; base.castShadow = true; g.add(base);
+  const top = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.4, 1.5), brightMetal);
+  top.position.y = 1.4; top.castShadow = true; g.add(top);
+  const hornGeo = new THREE.ConeGeometry(0.3, 1.4, 8);
+  hornGeo.rotateZ(Math.PI / 2);
+  const horn = new THREE.Mesh(hornGeo, brightMetal);
+  horn.position.set(1.8, 1.4, 0); horn.castShadow = true; g.add(horn);
+
+  // Fire pit
+  const pit = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 0.9, 1, 12),
+    new THREE.MeshStandardMaterial({ color: 0x1a1008, roughness: 0.7, metalness: 0.6 }));
+  pit.position.set(-3, 0.5, 0); g.add(pit);
+
+  // Glowing coals
+  const coalMat = new THREE.MeshStandardMaterial({
+    color: 0xff4400, emissive: 0xff4400, emissiveIntensity: 2.5, roughness: 0.8
+  });
+  for (let i = 0; i < 12; i++) {
+    const c = new THREE.Mesh(new THREE.SphereGeometry(0.1 + Math.random() * 0.12, 6, 6), coalMat);
+    c.position.set(-3 + (Math.random() - 0.5) * 1, 0.9 + Math.random() * 0.2, (Math.random() - 0.5) * 0.7);
+    g.add(c);
+  }
+
+  // Decorative pillars around hearth
+  for (let i = 0; i < 6; i++) {
+    const angle = (i / 6) * Math.PI * 2;
+    const px = Math.cos(angle) * 6, pz = Math.sin(angle) * 6;
+    const pillar = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.3, 3, 6), darkMetal);
+    pillar.position.set(px, 1.5, pz); pillar.castShadow = true; g.add(pillar);
+    // Torch on top
+    const torch = new THREE.Mesh(new THREE.SphereGeometry(0.15, 8, 8),
+      new THREE.MeshStandardMaterial({ color: 0xff6b1a, emissive: 0xff6b1a, emissiveIntensity: 1.5 }));
+    torch.position.set(px, 3.2, pz); g.add(torch);
+    const tLight = new THREE.PointLight(0xff6b1a, 0.5, 8, 2);
+    tLight.position.set(px, 3.2, pz); g.add(tLight);
+  }
+
+  scene.add(g);
+}
+buildHearth();
+
+// ============================================================
+// SKILL TREE ZONE
+// ============================================================
+function buildSkillTree() {
+  const g = new THREE.Group();
+  g.position.set(-22, 0, 0);
+
+  const trunkMat = new THREE.MeshStandardMaterial({
+    color: 0x44aa88, emissive: 0x44aa88, emissiveIntensity: 0.2, roughness: 0.4, metalness: 0.7
+  });
+  const nodeMat = new THREE.MeshStandardMaterial({
+    color: 0x66ccaa, emissive: 0x44aa88, emissiveIntensity: 0.7, roughness: 0.3, metalness: 0.6
+  });
+
+  // Main trunk
+  const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.35, 6, 8), trunkMat);
+  trunk.position.y = 3; trunk.castShadow = true; g.add(trunk);
+
+  // Platform base
+  const platform = new THREE.Mesh(new THREE.CylinderGeometry(4, 4.5, 0.3, 16),
+    new THREE.MeshStandardMaterial({ color: 0x1a2a22, roughness: 0.5, metalness: 0.7 }));
+  platform.position.y = 0.15; g.add(platform);
+
+  // Skill category branches
+  const categories = [
+    { name: 'Frontend', angle: 0, height: 5.5, skills: SKILL_DATA.frontend, color: 0x44dd88 },
+    { name: 'Backend', angle: 2.1, height: 4.8, skills: SKILL_DATA.backend, color: 0x4488dd },
+    { name: 'DevOps', angle: 4.2, height: 4.2, skills: SKILL_DATA.devops, color: 0xdd8844 }
+  ];
+
+  categories.forEach((cat, ci) => {
+    const bx = Math.cos(cat.angle) * 2;
+    const bz = Math.sin(cat.angle) * 2;
+
+    // Branch line
+    const branch = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.1, 3, 4), trunkMat);
+    branch.position.set(bx * 0.5, cat.height - 1, bz * 0.5);
+    branch.lookAt(new THREE.Vector3(0, 3, 0));
+    branch.rotateX(Math.PI / 2);
+    g.add(branch);
+
+    // Category node (interactable)
+    const catNode = new THREE.Mesh(new THREE.IcosahedronGeometry(0.4, 1),
+      new THREE.MeshStandardMaterial({
+        color: cat.color, emissive: cat.color, emissiveIntensity: 0.8, roughness: 0.3, metalness: 0.6
+      }));
+    catNode.position.set(bx, cat.height, bz);
+    catNode.userData = {
+      interactable: true,
+      type: 'skill-category',
+      name: cat.name,
+      skills: cat.skills,
+      baseY: cat.height,
+      phase: ci * 1.5
+    };
+    g.add(catNode);
+    interactables.push(catNode);
+
+    // Sub-nodes for individual skills
+    cat.skills.forEach((skill, si) => {
+      const subAngle = cat.angle + (si - cat.skills.length / 2) * 0.4;
+      const subR = 3 + si * 0.3;
+      const sx = Math.cos(subAngle) * subR;
+      const sz = Math.sin(subAngle) * subR;
+      const sy = cat.height - 0.5 + si * 0.3;
+
+      const subNode = new THREE.Mesh(new THREE.IcosahedronGeometry(0.12 + skill.level * 0.03, 0),
+        new THREE.MeshStandardMaterial({
+          color: cat.color, emissive: cat.color,
+          emissiveIntensity: 0.3 + skill.level * 0.12, roughness: 0.3, metalness: 0.5
+        }));
+      subNode.position.set(sx, sy, sz);
+      subNode.userData = { baseY: sy, phase: si * 0.8 + ci * 2 };
+      g.add(subNode);
+
+      // Connector
+      const conn = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 1.5, 3),
+        new THREE.MeshStandardMaterial({ color: cat.color, emissive: cat.color, emissiveIntensity: 0.2, transparent: true, opacity: 0.4 }));
+      conn.position.set((bx + sx) / 2, (cat.height + sy) / 2, (bz + sz) / 2);
+      conn.lookAt(catNode.position);
+      conn.rotateX(Math.PI / 2);
+      g.add(conn);
+    });
+  });
+
+  scene.add(g);
+}
+buildSkillTree();
+
+// ============================================================
+// PROJECT VAULT ZONE
+// ============================================================
+function buildVault() {
+  const g = new THREE.Group();
+  g.position.set(22, 0, 0);
+
+  // Vault floor platform
+  const floor = new THREE.Mesh(new THREE.CylinderGeometry(10, 10.5, 0.2, 24),
+    new THREE.MeshStandardMaterial({ color: 0x1a1510, roughness: 0.5, metalness: 0.7 }));
+  floor.position.y = 0.1; g.add(floor);
+
+  // Place projects in a spiral
+  PROJECTS.forEach((proj, i) => {
+    const angle = (i / PROJECTS.length) * Math.PI * 2 + 0.3;
+    const radius = 3 + (i % 3) * 2.5;
+    const px = Math.cos(angle) * radius;
+    const pz = Math.sin(angle) * radius;
+
+    // Pedestal
+    const pedMat = new THREE.MeshStandardMaterial({ color: 0x2a1e14, roughness: 0.5, metalness: 0.8 });
+    const ped = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.55, 1.5, 8), pedMat);
+    ped.position.set(px, 0.85, pz); ped.castShadow = true; g.add(ped);
+
+    // Tier glow ring on pedestal
+    const tierCol = parseInt(TIER_COLORS[proj.tier].replace('#', '0x'));
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.03, 8, 24),
+      new THREE.MeshStandardMaterial({ color: tierCol, emissive: tierCol, emissiveIntensity: 0.8 }));
+    ring.rotation.x = -Math.PI / 2;
+    ring.position.set(px, 1.62, pz); g.add(ring);
+
+    // Artifact
+    const artMat = new THREE.MeshStandardMaterial({
+      color: proj.color, emissive: proj.color,
+      emissiveIntensity: 0.7, roughness: 0.3, metalness: 0.7
+    });
+    let geo;
+    switch (proj.shape) {
+      case 'box': geo = new THREE.BoxGeometry(0.45, 0.45, 0.45); break;
+      case 'ico': geo = new THREE.IcosahedronGeometry(0.32, 0); break;
+      case 'octa': geo = new THREE.OctahedronGeometry(0.32, 0); break;
+      case 'torus': geo = new THREE.TorusGeometry(0.28, 0.1, 8, 16); break;
+      case 'cone': geo = new THREE.ConeGeometry(0.28, 0.5, 6); break;
+      case 'sphere': geo = new THREE.SphereGeometry(0.3, 12, 12); break;
+      default: geo = new THREE.BoxGeometry(0.4, 0.4, 0.4);
+    }
+
+    const art = new THREE.Mesh(geo, artMat);
+    art.position.set(px, 2.3, pz);
+    art.userData = {
+      interactable: true,
+      type: 'project',
+      project: proj,
+      baseY: 2.3,
+      phase: i * 0.7,
+      worldGroup: g
+    };
+    g.add(art);
+    interactables.push(art);
+  });
+
+  scene.add(g);
+}
+buildVault();
+
+// ============================================================
+// TIMELINE ZONE
+// ============================================================
+function buildTimeline() {
+  const g = new THREE.Group();
+  g.position.set(0, 0, -24);
+
+  // Path
+  const pathMat = new THREE.MeshStandardMaterial({
+    color: 0x6644aa, emissive: 0x6644aa, emissiveIntensity: 0.25, roughness: 0.5, metalness: 0.6
+  });
+
+  TIMELINE_DATA.forEach((era, i) => {
+    const x = (i - 2) * 3.5;
+    const z = Math.sin(i * 0.8) * 1.5;
+
+    // Path segment
+    if (i < TIMELINE_DATA.length - 1) {
+      const nx = (i - 1) * 3.5;
+      const nz = Math.sin((i + 1) * 0.8) * 1.5;
+      const seg = new THREE.Mesh(new THREE.BoxGeometry(3.5, 0.06, 0.3), pathMat);
+      seg.position.set((x + nx) / 2, 0.05, (z + nz) / 2);
+      seg.lookAt(new THREE.Vector3(nx, 0.05, nz));
+      g.add(seg);
+    }
+
+    // Era marker
+    const mMat = new THREE.MeshStandardMaterial({
+      color: era.color, emissive: era.color, emissiveIntensity: 0.9, roughness: 0.3, metalness: 0.5
+    });
+    const marker = new THREE.Mesh(new THREE.OctahedronGeometry(0.4, 0), mMat);
+    marker.position.set(x, 2.2, z);
+    marker.userData = {
+      interactable: true,
+      type: 'timeline-era',
+      era,
+      baseY: 2.2,
+      phase: i * 1.2
+    };
+    g.add(marker);
+    interactables.push(marker);
+
+    // Vertical connector
+    const conn = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 2, 4), pathMat);
+    conn.position.set(x, 1.1, z); g.add(conn);
+
+    // Ground circle
+    const gc = new THREE.Mesh(new THREE.RingGeometry(0.6, 0.75, 24),
+      new THREE.MeshStandardMaterial({ color: era.color, emissive: era.color, emissiveIntensity: 0.3, side: THREE.DoubleSide }));
+    gc.rotation.x = -Math.PI / 2;
+    gc.position.set(x, 0.03, z); g.add(gc);
+  });
+
+  scene.add(g);
+}
+buildTimeline();
+
+// ============================================================
+// WAR ROOM ZONE
+// ============================================================
+function buildWarRoom() {
+  const g = new THREE.Group();
+  g.position.set(0, 0, 24);
+
+  // Table
+  const tableMat = new THREE.MeshStandardMaterial({ color: 0x1a2a3a, roughness: 0.4, metalness: 0.8 });
+  const table = new THREE.Mesh(new THREE.CylinderGeometry(3, 2.8, 0.15, 20), tableMat);
+  table.position.y = 1; g.add(table);
+  const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.5, 1, 10), tableMat);
+  leg.position.y = 0.5; g.add(leg);
+
+  // Holographic ring on table
+  const holoRing = new THREE.Mesh(
+    new THREE.TorusGeometry(2.5, 0.02, 8, 48),
+    new THREE.MeshStandardMaterial({ color: 0x22aacc, emissive: 0x22aacc, emissiveIntensity: 1, transparent: true, opacity: 0.4 })
+  );
+  holoRing.rotation.x = -Math.PI / 2;
+  holoRing.position.y = 1.15;
+  holoRing.userData = { type: 'holo-ring' };
+  g.add(holoRing);
+
+  // Active project holograms
+  ACTIVE_PROJECTS.forEach((proj, i) => {
+    const angle = (i / ACTIVE_PROJECTS.length) * Math.PI * 2;
+    const r = 1.6;
+    const px = Math.cos(angle) * r, pz = Math.sin(angle) * r;
+
+    const holoMat = new THREE.MeshStandardMaterial({
+      color: proj.color, emissive: proj.color, emissiveIntensity: 1.2,
+      roughness: 0.2, metalness: 0.3, transparent: true, opacity: 0.7, wireframe: true
+    });
+
+    let geo;
+    switch (i) {
+      case 0: geo = new THREE.BoxGeometry(0.6, 0.6, 0.6); break;
+      case 1: geo = new THREE.BoxGeometry(0.7, 0.12, 0.5); break;
+      case 2: geo = new THREE.SphereGeometry(0.35, 12, 12); break;
+      case 3: geo = new THREE.OctahedronGeometry(0.35, 0); break;
+    }
+
+    const mesh = new THREE.Mesh(geo, holoMat);
+    mesh.position.set(px, 2, pz);
+    mesh.userData = {
+      interactable: true,
+      type: 'active-project',
+      project: proj,
+      baseY: 2,
+      phase: i * 1.5,
+      spin: true
+    };
+    g.add(mesh);
+    interactables.push(mesh);
+  });
+
+  scene.add(g);
+}
+buildWarRoom();
+
+// ============================================================
+// EMBER PARTICLES
+// ============================================================
+function createParticles(count, spread, yMax, color, size) {
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(count * 3);
+  const spd = new Float32Array(count);
+  for (let i = 0; i < count; i++) {
+    pos[i * 3] = (Math.random() - 0.5) * spread;
+    pos[i * 3 + 1] = Math.random() * yMax;
+    pos[i * 3 + 2] = (Math.random() - 0.5) * spread;
+    spd[i] = Math.random() * 0.5 + 0.15;
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const mat = new THREE.PointsMaterial({
+    color, size, transparent: true, opacity: 0.7,
+    blending: THREE.AdditiveBlending, depthWrite: false
+  });
+  const pts = new THREE.Points(geo, mat);
+  pts.userData = { speeds: spd, yMax, spread };
+  scene.add(pts);
+  return pts;
+}
+
+const embers = createParticles(500, 60, 18, 0xff6b1a, 0.07);
+const forgeEmbers = createParticles(150, 5, 6, 0xff4400, 0.05);
+forgeEmbers.position.set(-3, 0, 0);
+
+// ============================================================
+// MINIMAP
+// ============================================================
+const mmCanvas = document.getElementById('minimap-canvas');
+const mmCtx = mmCanvas.getContext('2d');
+
+function drawMinimap() {
+  mmCtx.fillStyle = 'rgba(10,8,6,0.9)';
+  mmCtx.fillRect(0, 0, 140, 140);
+
+  const scale = 2.2;
+  const cx = 70, cy = 70;
+
+  // Draw paths
+  mmCtx.strokeStyle = 'rgba(196,129,58,0.2)';
+  mmCtx.lineWidth = 1;
+  Object.values(ZONE_DEFS).forEach(z => {
+    if (z.center.x === 0 && z.center.z === 0) return;
+    mmCtx.beginPath();
+    mmCtx.moveTo(cx, cy);
+    mmCtx.lineTo(cx + z.center.x * scale, cy + z.center.z * scale);
+    mmCtx.stroke();
+  });
+
+  // Draw zones
+  Object.entries(ZONE_DEFS).forEach(([key, z]) => {
+    const x = cx + z.center.x * scale;
+    const y = cy + z.center.z * scale;
+    const isDiscovered = discovered.has(key);
+    const isCurrent = currentZone === key;
+
+    mmCtx.beginPath();
+    mmCtx.arc(x, y, isCurrent ? 5 : 3, 0, Math.PI * 2);
+    mmCtx.fillStyle = isCurrent ? '#e8a54b' : isDiscovered ? 'rgba(196,129,58,0.5)' : 'rgba(100,80,60,0.3)';
+    mmCtx.fill();
+
+    if (isCurrent) {
+      mmCtx.beginPath();
+      mmCtx.arc(x, y, 8, 0, Math.PI * 2);
+      mmCtx.strokeStyle = 'rgba(232,165,75,0.3)';
+      mmCtx.lineWidth = 1;
+      mmCtx.stroke();
+    }
+  });
+
+  // Player dot
+  const px = cx + playerPos.x * scale;
+  const py = cy + playerPos.z * scale;
+  mmCtx.beginPath();
+  mmCtx.arc(px, py, 3, 0, Math.PI * 2);
+  mmCtx.fillStyle = '#f5deb3';
+  mmCtx.fill();
+
+  // Direction indicator
+  const dirLen = 6;
+  const dx = px - Math.sin(yaw) * dirLen;
+  const dy = py - Math.cos(yaw) * dirLen;
+  mmCtx.beginPath();
+  mmCtx.moveTo(px, py);
+  mmCtx.lineTo(dx, dy);
+  mmCtx.strokeStyle = '#f5deb3';
+  mmCtx.lineWidth = 1.5;
+  mmCtx.stroke();
+}
+
+// ============================================================
+// DETAIL PANEL
+// ============================================================
+function showDetail(data) {
+  const panel = document.getElementById('detail-panel');
+  let html = '<button class="detail-close" onclick="closeDetail()">&times;</button>';
+
+  if (data.type === 'project') {
+    const p = data.project;
+    const tierColor = TIER_COLORS[p.tier] || '#888';
+    html += `
+      <h2>${p.name}</h2>
+      <div class="detail-type" style="color:${tierColor}">${p.tier}</div>
+      <div class="detail-desc">${p.desc}</div>
+      <div class="detail-tags">${p.tags.map(t => `<span class="detail-tag">${t}</span>`).join('')}</div>
+      <div class="detail-links">
+        ${p.liveUrl ? `<a class="detail-link" href="${p.liveUrl}" target="_blank" rel="noopener">Live Demo ↗</a>` : ''}
+      </div>
+    `;
+  } else if (data.type === 'skill-category') {
+    html += `
+      <h2>${data.name}</h2>
+      <div class="detail-type">Skill Branch</div>
+      <ul class="detail-items">${data.skills.map(s =>
+        `<li>${s.name}<span class="detail-level">${'⚒'.repeat(s.level)}</span></li>`
+      ).join('')}</ul>
+    `;
+  } else if (data.type === 'timeline-era') {
+    const e = data.era;
+    html += `
+      <h2>${e.era}</h2>
+      <div class="detail-type">${e.org} — ${e.years}</div>
+      <div class="detail-desc">${e.skill}</div>
+    `;
+  } else if (data.type === 'active-project') {
+    const p = data.project;
+    html += `
+      <h2>${p.name}</h2>
+      <div class="detail-type" style="color:#22aacc">${p.status}</div>
+      <div class="detail-desc">${p.desc}</div>
+    `;
+  }
+
+  panel.innerHTML = html;
+  panel.classList.add('visible');
+}
+
+function closeDetail() {
+  document.getElementById('detail-panel').classList.remove('visible');
+}
+
+// ============================================================
+// ZONE DETECTION
+// ============================================================
+function detectZone() {
+  let closest = 'wilderness';
+  let closestDist = Infinity;
+
+  Object.entries(ZONE_DEFS).forEach(([key, z]) => {
+    const dx = playerPos.x - z.center.x;
+    const dz = playerPos.z - z.center.z;
+    const dist = Math.sqrt(dx * dx + dz * dz);
+    if (dist < z.radius && dist < closestDist) {
+      closest = key;
+      closestDist = dist;
+    }
+  });
+
+  if (closest !== currentZone) {
+    currentZone = closest;
+    const indicator = document.getElementById('zone-indicator');
+
+    if (ZONE_DEFS[closest]) {
+      indicator.textContent = ZONE_DEFS[closest].name;
+      indicator.classList.add('active');
+
+      // Discovery tracking
+      if (!discovered.has(closest)) {
+        discovered.add(closest);
+        document.getElementById('xp-fill').style.width = (discovered.size / 5 * 100) + '%';
+
+        // Zone entrance flash
+        const flash = document.getElementById('zone-flash');
+        flash.textContent = ZONE_DEFS[closest].name;
+        flash.classList.remove('show');
+        void flash.offsetWidth;
+        flash.classList.add('show');
+      }
+
+      // Quick nav update
+      document.querySelectorAll('.qnav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector(`.qnav-btn[data-zone="${closest}"]`)?.classList.add('active');
+    } else {
+      indicator.textContent = 'The Wilds';
+      indicator.classList.remove('active');
+      document.querySelectorAll('.qnav-btn').forEach(b => b.classList.remove('active'));
+    }
+  }
+}
+
+// ============================================================
+// INTERACTION DETECTION
+// ============================================================
+const raycaster = new THREE.Raycaster();
+raycaster.far = 6;
+
+function checkInteraction() {
+  const dir = new THREE.Vector3(0, 0, -1);
+  dir.applyQuaternion(camera.quaternion);
+  raycaster.set(camera.position, dir);
+
+  const hits = raycaster.intersectObjects(interactables, true);
+  const prompt = document.getElementById('interact-prompt');
+  const crosshair = document.getElementById('crosshair');
+
+  if (hits.length > 0) {
+    let obj = hits[0].object;
+    while (obj && !obj.userData.interactable) obj = obj.parent;
+    if (obj && obj.userData.interactable) {
+      interactTarget = obj;
+      let label = '';
+      if (obj.userData.type === 'project') label = obj.userData.project.name;
+      else if (obj.userData.type === 'skill-category') label = obj.userData.name;
+      else if (obj.userData.type === 'timeline-era') label = obj.userData.era.era;
+      else if (obj.userData.type === 'active-project') label = obj.userData.project.name;
+
+      prompt.innerHTML = `<span class="key">E</span> Inspect ${label}`;
+      prompt.classList.add('visible');
+      crosshair.classList.add('visible');
+      return;
+    }
+  }
+
+  interactTarget = null;
+  prompt.classList.remove('visible');
+  crosshair.classList.remove('visible');
+}
+
+// ============================================================
+// TELEPORT (quick nav)
+// ============================================================
+function teleportTo(zone) {
+  if (!ZONE_DEFS[zone]) return;
+  const z = ZONE_DEFS[zone];
+  playerPos.set(z.center.x, 1.7, z.center.z + 6);
+  yaw = Math.PI;
+  closeDetail();
+}
+
+// ============================================================
+// INPUT
+// ============================================================
+window.addEventListener('keydown', e => { keys[e.code] = true; });
+window.addEventListener('keyup', e => {
+  keys[e.code] = false;
+  if (e.code === 'KeyE' && interactTarget) {
+    showDetail(interactTarget.userData);
+  }
+  if (e.code === 'Escape') {
+    closeDetail();
+  }
+});
+
+document.addEventListener('pointerlockchange', () => {
+  isLocked = document.pointerLockElement === renderer.domElement;
+  document.getElementById('crosshair').classList.toggle('visible', isLocked);
+});
+
+renderer.domElement.addEventListener('mousemove', e => {
+  if (!isLocked) return;
+  yaw -= e.movementX * 0.002;
+  pitch -= e.movementY * 0.002;
+  pitch = Math.max(-1.2, Math.min(1.2, pitch));
+});
+
+renderer.domElement.addEventListener('click', () => {
+  if (!isLocked) {
+    renderer.domElement.requestPointerLock();
+  } else if (interactTarget) {
+    showDetail(interactTarget.userData);
+  }
+});
+
+// Start overlay
+document.getElementById('start-overlay').addEventListener('click', () => {
+  document.getElementById('start-overlay').classList.add('hidden');
+  renderer.domElement.requestPointerLock();
+});
+
+// ============================================================
+// ANIMATION LOOP
+// ============================================================
+function animate() {
+  requestAnimationFrame(animate);
+  const t = clock.getElapsedTime();
+  const dt = Math.min(clock.getDelta(), 0.05);
+
+  // === PLAYER MOVEMENT ===
+  const forward = new THREE.Vector3(-Math.sin(yaw), 0, -Math.cos(yaw));
+  const right = new THREE.Vector3(Math.cos(yaw), 0, -Math.sin(yaw));
+
+  if (keys['KeyW'] || keys['ArrowUp']) playerVel.add(forward.clone().multiplyScalar(SPEED * dt));
+  if (keys['KeyS'] || keys['ArrowDown']) playerVel.add(forward.clone().multiplyScalar(-SPEED * dt));
+  if (keys['KeyA'] || keys['ArrowLeft']) playerVel.add(right.clone().multiplyScalar(-SPEED * dt));
+  if (keys['KeyD'] || keys['ArrowRight']) playerVel.add(right.clone().multiplyScalar(SPEED * dt));
+
+  playerVel.multiplyScalar(FRICTION);
+  playerPos.add(playerVel);
+  playerPos.y = 1.7;
+
+  // Clamp to world bounds
+  playerPos.x = Math.max(-45, Math.min(45, playerPos.x));
+  playerPos.z = Math.max(-45, Math.min(45, playerPos.z));
+
+  camera.position.copy(playerPos);
+  camera.rotation.order = 'YXZ';
+  camera.rotation.y = yaw;
+  camera.rotation.x = pitch;
+
+  // === ZONE DETECTION ===
+  detectZone();
+
+  // === INTERACTION CHECK ===
+  if (isLocked) checkInteraction();
+
+  // === FIRE FLICKER ===
+  fireLight.intensity = 3.5 + Math.sin(t * 8) * 0.6 + Math.sin(t * 13) * 0.35;
+  fireLight.position.y = 2.5 + Math.sin(t * 3) * 0.1;
+
+  // === ANIMATE EMBERS ===
+  [embers, forgeEmbers].forEach(pts => {
+    const pos = pts.geometry.getAttribute('position');
+    for (let i = 0; i < pos.count; i++) {
+      let y = pos.getY(i) + pts.userData.speeds[i] * 0.02;
+      if (y > pts.userData.yMax) {
+        y = 0;
+        pos.setX(i, (Math.random() - 0.5) * pts.userData.spread);
+        pos.setZ(i, (Math.random() - 0.5) * pts.userData.spread);
+      }
+      pos.setX(i, pos.getX(i) + Math.sin(t + i) * 0.002);
+      pos.setY(i, y);
+    }
+    pos.needsUpdate = true;
+  });
+
+  // === ANIMATE INTERACTABLES ===
+  interactables.forEach(obj => {
+    if (obj.userData.baseY !== undefined) {
+      obj.position.y = obj.userData.baseY + Math.sin(t * 1.3 + (obj.userData.phase || 0)) * 0.15;
+    }
+    if (obj.userData.spin || obj.userData.type === 'project') {
+      obj.rotation.y = t * 0.7 + (obj.userData.phase || 0);
+    }
+    if (obj.userData.type === 'timeline-era') {
+      obj.rotation.y = t * 0.5;
+      obj.rotation.x = t * 0.3;
+    }
+    if (obj.userData.type === 'skill-category') {
+      obj.rotation.y = t * 0.4 + (obj.userData.phase || 0);
+    }
+
+    // Glow brighter when player is close
+    if (obj.userData.interactable && obj.material) {
+      const worldPos = new THREE.Vector3();
+      obj.getWorldPosition(worldPos);
+      const dist = playerPos.distanceTo(worldPos);
+      if (dist < 5) {
+        obj.material.emissiveIntensity = 0.7 + (1 - dist / 5) * 1.3;
+      }
+    }
+  });
+
+  // === MINIMAP ===
+  drawMinimap();
+
+  renderer.render(scene, camera);
+}
+
+// ============================================================
+// RESIZE
+// ============================================================
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// Start
+animate();
+</script>
+</body>
+</html>

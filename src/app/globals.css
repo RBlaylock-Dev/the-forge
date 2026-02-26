@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --forge-bg: #0a0806;
+  --forge-amber: #c4813a;
+  --forge-gold: #e8a54b;
+  --forge-wheat: #f5deb3;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--forge-bg);
+  color: var(--forge-wheat);
+  font-family: "Rajdhani", sans-serif;
+}
