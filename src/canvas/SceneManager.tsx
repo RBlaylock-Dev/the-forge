@@ -8,6 +8,7 @@ import { Hearth } from '@/zones/Hearth';
 import { SkillTree } from '@/zones/SkillTree';
 import { ProjectVault } from '@/zones/ProjectVault';
 import { Timeline } from '@/zones/Timeline';
+import { WarRoom } from '@/zones/WarRoom';
 import { EmberParticles } from '@/objects/EmberParticles';
 import { ForgeEmbers } from '@/objects/ForgeEmbers';
 import { PathStrip } from '@/objects/PathStrip';
@@ -122,6 +123,7 @@ export function SceneManager() {
       <SkillTree />
       <ProjectVault />
       <Timeline />
+      <WarRoom />
 
       {/* Player */}
       <PlayerController />
