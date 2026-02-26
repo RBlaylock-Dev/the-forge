@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
+import { PlayerController } from '@/player/PlayerController';
 
 function Fog() {
   const { scene } = useThree();
@@ -110,6 +111,9 @@ export function SceneManager() {
 
       {/* Ground */}
       <Ground />
+
+      {/* Player */}
+      <PlayerController />
     </>
   );
 }
