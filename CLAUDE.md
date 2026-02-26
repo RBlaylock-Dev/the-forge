@@ -66,7 +66,7 @@ src/
 |----|--------|--------|--------|
 | FORGE-010 | Hearth Zone (Center) | DONE | `feat/FORGE-010-hearth-zone` |
 | FORGE-011 | Skill Tree Zone | DONE | `feat/FORGE-011-skill-tree-zone` |
-| FORGE-012 | Project Vault Zone | TODO | `feat/FORGE-012-project-vault-zone` |
+| FORGE-012 | Project Vault Zone | DONE | `feat/FORGE-012-project-vault-zone` |
 | FORGE-013 | Timeline Zone | TODO | `feat/FORGE-013-timeline-zone` |
 | FORGE-014 | War Room Zone | TODO | `feat/FORGE-014-war-room-zone` |
 
