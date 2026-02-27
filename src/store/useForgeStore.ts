@@ -14,6 +14,7 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   // ── Zones ────────────────────────────────────────────────
   currentZone: null,
   discoveredZones: new Set<ZoneId>(),
+  lastDiscoveredZone: null,
 
   // ── Interaction ──────────────────────────────────────────
   interactTarget: null,
@@ -38,7 +39,7 @@ export const useForgeStore = create<ForgeState>()((set) => ({
       if (state.discoveredZones.has(zone)) return state;
       const next = new Set(state.discoveredZones);
       next.add(zone);
-      return { discoveredZones: next };
+      return { discoveredZones: next, lastDiscoveredZone: zone };
     }),
 
   setInteractTarget: (target) => set({ interactTarget: target }),
