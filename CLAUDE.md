@@ -76,7 +76,7 @@ src/
 | FORGE-015 | Start Overlay | DONE | `feat/FORGE-015-start-overlay` |
 | FORGE-016 | Top Bar & Zone Indicator | DONE | `feat/FORGE-016-top-bar` |
 | FORGE-017 | Zone Detection System | DONE | `feat/FORGE-017-zone-detection` |
-| FORGE-018 | Zone Flash & XP Bar | TODO | `feat/FORGE-018-zone-flash-xp` |
+| FORGE-018 | Zone Flash & XP Bar | DONE | `feat/FORGE-018-zone-flash-xp` |
 | FORGE-019 | Interaction System (Raycaster + Prompt) | TODO | `feat/FORGE-019-interaction-system` |
 | FORGE-020 | Detail Panel | TODO | `feat/FORGE-020-detail-panel` |
 | FORGE-021 | Minimap | TODO | `feat/FORGE-021-minimap` |

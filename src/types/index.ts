@@ -76,6 +76,7 @@ export interface ForgeState {
   // Zones
   currentZone: ZoneId | null;
   discoveredZones: Set<ZoneId>;
+  lastDiscoveredZone: ZoneId | null;
 
   // Interaction
   interactTarget: { name: string; userData: DetailData } | null;
