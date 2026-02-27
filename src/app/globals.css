@@ -107,6 +107,14 @@ body {
   );
 }
 
+/* ── NavBar Responsive ─────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .nav-label {
+    display: none;
+  }
+}
+
 /* ── Keyboard Focus ─────────────────────────────────────── */
 
 /* Visible focus ring for keyboard users (not mouse) */

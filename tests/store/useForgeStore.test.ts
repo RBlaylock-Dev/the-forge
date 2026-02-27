@@ -154,4 +154,17 @@ describe('useForgeStore', () => {
       expect(selectDiscoveryProgress(useForgeStore.getState())).toBe(1);
     });
   });
+
+  describe('flyToZone / clearFlyTarget', () => {
+    it('sets flyTarget with coordinates and yaw', () => {
+      useForgeStore.getState().flyToZone(22, 25, 1.2);
+      expect(useForgeStore.getState().flyTarget).toEqual({ x: 22, z: 25, yaw: 1.2 });
+    });
+
+    it('clears flyTarget', () => {
+      useForgeStore.getState().flyToZone(10, 5, 0);
+      useForgeStore.getState().clearFlyTarget();
+      expect(useForgeStore.getState().flyTarget).toBeNull();
+    });
+  });
 });
