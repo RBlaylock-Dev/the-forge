@@ -5,6 +5,7 @@ import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useForgeStore } from '@/store/useForgeStore';
 import { ZONE_DEFS } from '@/data/zones';
+import { DEFAULT_PITCH } from './useMovement';
 import type { ZoneId } from '@/types';
 
 const WALK_SPEED = 6;
@@ -12,6 +13,7 @@ const ARRIVE_THRESHOLD = 0.5;
 const FLY_DURATION = 1.5;
 const BOUND = 45;
 const PLAYER_Y = 1.7;
+const DRAG_THRESHOLD = 5; // px — ignore clicks that moved more than this
 
 const GROUND_PLANE = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
 const ZONE_ENTRIES = Object.entries(ZONE_DEFS) as [ZoneId, (typeof ZONE_DEFS)[ZoneId]][];
@@ -26,12 +28,13 @@ interface FlyState {
 
 /**
  * Click-to-walk + double-click fly-to-zone.
- * Works when the cursor is visible (not pointer-locked).
  * Keyboard input cancels any active walk target.
  */
 export function useClickToWalk(
   yawRef: React.MutableRefObject<number>,
   pitchRef: React.MutableRefObject<number>,
+  zoomRef: React.MutableRefObject<number>,
+  playerPosRef: React.MutableRefObject<THREE.Vector3>,
 ) {
   const { camera, gl } = useThree();
   const walkTarget = useRef<THREE.Vector3 | null>(null);
@@ -39,6 +42,7 @@ export function useClickToWalk(
   const raycaster = useRef(new THREE.Raycaster());
   const mouseVec = useRef(new THREE.Vector2());
   const intersectPt = useRef(new THREE.Vector3());
+  const mouseDownPos = useRef({ x: 0, y: 0 });
 
   const updatePlayerPosition = useForgeStore((s) => s.updatePlayerPosition);
   const updatePlayerRotation = useForgeStore((s) => s.updatePlayerRotation);
@@ -75,12 +79,44 @@ export function useClickToWalk(
     return Math.atan2(-(toX - fromX), -(toZ - fromZ));
   }, []);
 
+  /** Check if mouse moved more than threshold between down and up (was a drag). */
+  const wasDrag = useCallback((e: MouseEvent): boolean => {
+    const dx = e.clientX - mouseDownPos.current.x;
+    const dy = e.clientY - mouseDownPos.current.y;
+    return Math.sqrt(dx * dx + dy * dy) > DRAG_THRESHOLD;
+  }, []);
+
+  /** Apply zoom offset to camera based on player position. */
+  const applyCameraZoom = useCallback(
+    (px: number, py: number, pz: number, yaw: number) => {
+      const zoomDist = zoomRef.current;
+      if (zoomDist > 0.1) {
+        camera.position.set(
+          px + Math.sin(yaw) * zoomDist,
+          py + zoomDist * 0.5,
+          pz + Math.cos(yaw) * zoomDist,
+        );
+        camera.lookAt(px, py, pz);
+      } else {
+        camera.position.set(px, py, pz);
+        camera.rotation.order = 'YXZ';
+        camera.rotation.y = yaw;
+        camera.rotation.x = pitchRef.current;
+      }
+    },
+    [camera, zoomRef, pitchRef],
+  );
+
   // ── Click handlers ──────────────────────────────────────
   useEffect(() => {
     const canvas = gl.domElement;
 
+    const onMouseDown = (e: MouseEvent) => {
+      mouseDownPos.current = { x: e.clientX, y: e.clientY };
+    };
+
     const onClick = (e: MouseEvent) => {
-      if (document.pointerLockElement) return;
+      if (wasDrag(e)) return;
       if (!useForgeStore.getState().isStarted) return;
       if (useForgeStore.getState().showDetail) return;
       if (flyState.current) return;
@@ -93,7 +129,7 @@ export function useClickToWalk(
     };
 
     const onDblClick = (e: MouseEvent) => {
-      if (document.pointerLockElement) return;
+      if (wasDrag(e)) return;
       if (!useForgeStore.getState().isStarted) return;
 
       const pt = screenToGround(e.clientX, e.clientY);
@@ -108,7 +144,7 @@ export function useClickToWalk(
       const toYaw = yawToward(toX, toZ, def.center.x, def.center.z);
 
       flyState.current = {
-        from: camera.position.clone(),
+        from: playerPosRef.current.clone(),
         to: new THREE.Vector3(toX, PLAYER_Y, toZ),
         fromYaw: yawRef.current,
         toYaw,
@@ -120,13 +156,15 @@ export function useClickToWalk(
       e.stopPropagation();
     };
 
+    canvas.addEventListener('mousedown', onMouseDown);
     canvas.addEventListener('click', onClick);
     canvas.addEventListener('dblclick', onDblClick);
     return () => {
+      canvas.removeEventListener('mousedown', onMouseDown);
       canvas.removeEventListener('click', onClick);
       canvas.removeEventListener('dblclick', onDblClick);
     };
-  }, [camera, gl, screenToGround, findZoneNear, yawToward, yawRef]);
+  }, [camera, gl, screenToGround, findZoneNear, yawToward, yawRef, playerPosRef, wasDrag]);
 
   // ── Per-frame update ────────────────────────────────────
   const update = useCallback(
@@ -140,9 +178,12 @@ export function useClickToWalk(
         // Cubic ease in-out
         const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
-        camera.position.lerpVectors(fly.from, fly.to, ease);
-        // Arc up slightly during fly
-        camera.position.y = PLAYER_Y + Math.sin(t * Math.PI) * 2;
+        // Interpolate player position
+        const px = fly.from.x + (fly.to.x - fly.from.x) * ease;
+        const pz = fly.from.z + (fly.to.z - fly.from.z) * ease;
+        const py = PLAYER_Y + Math.sin(t * Math.PI) * 2; // Arc up
+
+        playerPosRef.current.set(px, py, pz);
 
         // Shortest-path yaw interpolation
         let yawDiff = fly.toYaw - fly.fromYaw;
@@ -151,20 +192,19 @@ export function useClickToWalk(
         const newYaw = fly.fromYaw + yawDiff * ease;
 
         yawRef.current = newYaw;
-        pitchRef.current = -0.15 * Math.sin(t * Math.PI); // Slight look-down
+        pitchRef.current = DEFAULT_PITCH - 0.15 * Math.sin(t * Math.PI); // Slight extra look-down during fly
 
-        camera.rotation.order = 'YXZ';
-        camera.rotation.y = newYaw;
-        camera.rotation.x = pitchRef.current;
+        // Apply camera with zoom offset
+        applyCameraZoom(px, py, pz, newYaw);
 
-        updatePlayerPosition(camera.position.x, camera.position.y, camera.position.z);
+        updatePlayerPosition(px, py, pz);
         updatePlayerRotation(newYaw, pitchRef.current);
 
         if (t >= 1) {
           flyState.current = null;
-          pitchRef.current = 0;
-          camera.rotation.x = 0;
-          camera.position.y = PLAYER_Y;
+          pitchRef.current = DEFAULT_PITCH;
+          playerPosRef.current.y = PLAYER_Y;
+          applyCameraZoom(px, PLAYER_Y, pz, newYaw);
         }
 
         return true; // Signal: click-to-walk is active
@@ -173,8 +213,9 @@ export function useClickToWalk(
       // ── Walk-to-target ──────────────────────────────────
       if (walkTarget.current && !keysActive) {
         const target = walkTarget.current;
-        const dx = target.x - camera.position.x;
-        const dz = target.z - camera.position.z;
+        const pp = playerPosRef.current;
+        const dx = target.x - pp.x;
+        const dz = target.z - pp.z;
         const dist = Math.sqrt(dx * dx + dz * dz);
 
         if (dist < ARRIVE_THRESHOLD) {
@@ -187,26 +228,25 @@ export function useClickToWalk(
         const dirX = dx / dist;
         const dirZ = dz / dist;
 
-        camera.position.x += dirX * step;
-        camera.position.z += dirZ * step;
-        camera.position.y = PLAYER_Y;
+        pp.x += dirX * step;
+        pp.z += dirZ * step;
+        pp.y = PLAYER_Y;
 
         // World bounds
-        camera.position.x = Math.max(-BOUND, Math.min(BOUND, camera.position.x));
-        camera.position.z = Math.max(-BOUND, Math.min(BOUND, camera.position.z));
+        pp.x = Math.max(-BOUND, Math.min(BOUND, pp.x));
+        pp.z = Math.max(-BOUND, Math.min(BOUND, pp.z));
 
         // Auto-rotate yaw toward target (smooth)
-        const targetYaw = yawToward(camera.position.x, camera.position.z, target.x, target.z);
+        const targetYaw = yawToward(pp.x, pp.z, target.x, target.z);
         let yd = targetYaw - yawRef.current;
         while (yd > Math.PI) yd -= Math.PI * 2;
         while (yd < -Math.PI) yd += Math.PI * 2;
         yawRef.current += yd * Math.min(1, 5 * delta);
 
-        camera.rotation.order = 'YXZ';
-        camera.rotation.y = yawRef.current;
-        camera.rotation.x = pitchRef.current;
+        // Apply camera with zoom offset
+        applyCameraZoom(pp.x, PLAYER_Y, pp.z, yawRef.current);
 
-        updatePlayerPosition(camera.position.x, PLAYER_Y, camera.position.z);
+        updatePlayerPosition(pp.x, PLAYER_Y, pp.z);
         updatePlayerRotation(yawRef.current, pitchRef.current);
 
         return true;
@@ -219,7 +259,7 @@ export function useClickToWalk(
 
       return false;
     },
-    [camera, updatePlayerPosition, updatePlayerRotation, yawRef, pitchRef, yawToward],
+    [updatePlayerPosition, updatePlayerRotation, yawRef, pitchRef, playerPosRef, yawToward, applyCameraZoom],
   );
 
   return { update, walkTarget, flyState };

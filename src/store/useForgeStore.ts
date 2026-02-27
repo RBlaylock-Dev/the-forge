@@ -4,7 +4,6 @@ import type { ForgeState, ZoneId, DetailData } from '@/types';
 export const useForgeStore = create<ForgeState>()((set) => ({
   // ── Game State ───────────────────────────────────────────
   isStarted: false,
-  isLocked: false,
 
   // ── Player ───────────────────────────────────────────────
   playerPosition: { x: 0, y: 1.7, z: 0 },
@@ -26,8 +25,6 @@ export const useForgeStore = create<ForgeState>()((set) => ({
 
   // ── Actions ──────────────────────────────────────────────
   startGame: () => set({ isStarted: true }),
-
-  setLocked: (locked: boolean) => set({ isLocked: locked }),
 
   updatePlayerPosition: (x: number, y: number, z: number) =>
     set({ playerPosition: { x, y, z } }),

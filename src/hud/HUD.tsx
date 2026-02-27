@@ -4,7 +4,6 @@ import { StartOverlay } from './StartOverlay';
 import { TopBar } from './TopBar';
 import { XPBar } from './XPBar';
 import { ZoneFlash } from './ZoneFlash';
-import { Crosshair } from './Crosshair';
 import { InteractPrompt } from './InteractPrompt';
 import { DetailPanel } from './DetailPanel';
 import { Minimap } from './Minimap';
@@ -51,7 +50,6 @@ export function HUD() {
       <QuickNav />
 
       {/* ── z-20: Dynamic prompts ────────────────────────────── */}
-      <Crosshair />
       <InteractPrompt />
 
       {/* ── z-50: Notifications ──────────────────────────────── */}

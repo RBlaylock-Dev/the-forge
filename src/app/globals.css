@@ -15,6 +15,15 @@
   box-sizing: border-box;
 }
 
+/* ── Orbit Camera Cursor ──────────────────────────────── */
+canvas {
+  cursor: grab;
+}
+
+canvas:active {
+  cursor: grabbing;
+}
+
 html,
 body {
   width: 100%;

@@ -23,7 +23,7 @@ const _worldPos = new THREE.Vector3();
  * Vector3 for world position calculations in the hot loop.
  */
 export function useInteraction() {
-  const { camera, scene } = useThree();
+  const { camera, scene, gl } = useThree();
   const prevTarget = useRef<string | null>(null);
   const cachedInteractables = useRef<THREE.Mesh[]>([]);
   const lastChildCount = useRef(0);
@@ -96,6 +96,8 @@ export function useInteraction() {
     const hits = raycaster.intersectObjects(interactables, false);
     const hit = hits.length > 0 ? hits[0] : null;
 
+    const canvas = gl.domElement;
+
     if (hit && hit.object.userData.interactable) {
       const ud = hit.object.userData;
       const name = ud.name as string;
@@ -103,13 +105,21 @@ export function useInteraction() {
         prevTarget.current = name;
         setInteractTarget({ name, userData: ud.detailData });
       }
+      // Show pointer cursor for interactables (unless mid-drag)
+      if (canvas.style.cursor !== 'grabbing') {
+        canvas.style.cursor = 'pointer';
+      }
     } else {
       if (prevTarget.current !== null) {
         prevTarget.current = null;
         setInteractTarget(null);
       }
+      // Reset to grab cursor (unless mid-drag)
+      if (canvas.style.cursor === 'pointer') {
+        canvas.style.cursor = 'grab';
+      }
     }
-  }, [camera, scene, setInteractTarget]);
+  }, [camera, scene, gl, setInteractTarget]);
 
   return { update };
 }
