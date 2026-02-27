@@ -9,12 +9,6 @@ export function StartOverlay() {
 
   const handleClick = useCallback(() => {
     startGame();
-    // Request pointer lock on the canvas after a brief delay
-    // so the fade-out transition starts first
-    requestAnimationFrame(() => {
-      const canvas = document.querySelector('canvas');
-      canvas?.requestPointerLock();
-    });
   }, [startGame]);
 
   return (

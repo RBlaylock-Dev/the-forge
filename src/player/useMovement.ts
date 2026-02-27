@@ -5,7 +5,7 @@ import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useForgeStore } from '@/store/useForgeStore';
 
-const SPEED = 8;
+const SPEED = 6;
 const FRICTION = 0.85;
 const PITCH_LIMIT = 1.2;
 const BOUND = 45;
@@ -57,19 +57,11 @@ export function useMovement() {
       setLocked(isLocked.current);
     };
 
-    const onClick = () => {
-      if (!isLocked.current) {
-        canvas.requestPointerLock();
-      }
-    };
-
     canvas.addEventListener('mousemove', onMouseMove);
-    canvas.addEventListener('click', onClick);
     document.addEventListener('pointerlockchange', onPointerLockChange);
 
     return () => {
       canvas.removeEventListener('mousemove', onMouseMove);
-      canvas.removeEventListener('click', onClick);
       document.removeEventListener('pointerlockchange', onPointerLockChange);
     };
   }, [gl.domElement, setLocked]);
@@ -129,5 +121,15 @@ export function useMovement() {
     [camera, updatePlayerPosition, updatePlayerRotation],
   );
 
-  return { update, yaw, pitch, isLocked };
+  const isKeysActive = useCallback(() => {
+    const k = keys.current;
+    return !!(
+      k['KeyW'] || k['ArrowUp'] ||
+      k['KeyS'] || k['ArrowDown'] ||
+      k['KeyA'] || k['ArrowLeft'] ||
+      k['KeyD'] || k['ArrowRight']
+    );
+  }, []);
+
+  return { update, yaw, pitch, isLocked, isKeysActive };
 }
