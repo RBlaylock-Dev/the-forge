@@ -21,6 +21,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   activeDetail: null,
   showDetail: false,
 
+  // ── Teleport ───────────────────────────────────────────
+  teleportTarget: null,
+
   // ── Actions ──────────────────────────────────────────────
   startGame: () => set({ isStarted: true }),
 
@@ -49,6 +52,11 @@ export const useForgeStore = create<ForgeState>()((set) => ({
 
   closeDetailPanel: () =>
     set({ activeDetail: null, showDetail: false, interactTarget: null }),
+
+  teleportTo: (x: number, z: number, yaw: number) =>
+    set({ teleportTarget: { x, z, yaw } }),
+
+  clearTeleport: () => set({ teleportTarget: null }),
 }));
 
 /** Derived selector: discovery progress as 0–1 ratio */

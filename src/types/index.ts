@@ -83,6 +83,9 @@ export interface ForgeState {
   activeDetail: DetailData | null;
   showDetail: boolean;
 
+  // Teleport
+  teleportTarget: { x: number; z: number; yaw: number } | null;
+
   // Actions
   startGame: () => void;
   setLocked: (locked: boolean) => void;
@@ -93,4 +96,6 @@ export interface ForgeState {
   setInteractTarget: (target: { name: string; userData: DetailData } | null) => void;
   showDetailPanel: (data: DetailData) => void;
   closeDetailPanel: () => void;
+  teleportTo: (x: number, z: number, yaw: number) => void;
+  clearTeleport: () => void;
 }
