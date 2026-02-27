@@ -10,6 +10,7 @@ Always reference these docs before building any ticket:
 
 - `docs/THE-FORGE-HANDOFF.md` — Complete project spec (tech stack, zones, aesthetics, architecture, content data, engineering rules)
 - `docs/THE-FORGE-TICKETS.md` — 24 detailed tickets across 6 phases with acceptance criteria
+- `docs/the-forge-ux-tickets.md` — 18 UX overhaul tickets across 5 phases (navigation, labeling, onboarding, content, polish)
 - `docs/the-forge-v2.html` — Fully functional HTML prototype (open in browser for visual/behavioral reference)
 
 ## Tech Stack
@@ -95,6 +96,44 @@ src/
 |----|--------|--------|--------|
 | FORGE-027 | Vercel Deployment & Domain | TODO | `chore/FORGE-027-deployment` |
 
+### PHASE UX-1: Navigation Overhaul
+| ID | Ticket | Status | Branch |
+|----|--------|--------|--------|
+| UX-001 | Arrow Keys + Click-to-Walk | DONE | `feat/UX-001-navigation-overhaul` |
+| UX-002 | Orbit-Style Camera (Remove Pointer Lock) | TODO | `feat/UX-002-orbit-camera` |
+| UX-003 | Persistent Navigation Bar | TODO | `feat/UX-003-nav-bar` |
+
+### PHASE UX-2: Zone Clarity & Labeling
+| ID | Ticket | Status | Branch |
+|----|--------|--------|--------|
+| UX-004 | Floating Zone Title Signs | TODO | `feat/UX-004-zone-labels` |
+| UX-005 | Project Labels & Tier Badges | TODO | `feat/UX-005-project-labels` |
+| UX-006 | Skill Node Labels & Category Headers | TODO | `feat/UX-006-skill-labels` |
+| UX-007 | Timeline Era Labels & Narrative Cards | TODO | `feat/UX-007-timeline-labels` |
+| UX-008 | War Room Project Status Cards | TODO | `feat/UX-008-warroom-labels` |
+
+### PHASE UX-3: Onboarding & Guided Experience
+| ID | Ticket | Status | Branch |
+|----|--------|--------|--------|
+| UX-009 | Guided Intro Tour (First Visit) | TODO | `feat/UX-009-intro-tour` |
+| UX-010 | Contextual Tooltips & Hover States | TODO | `feat/UX-010-hover-tooltips` |
+| UX-011 | Click-to-Interact (Replace E Key) | TODO | `feat/UX-011-click-interact` |
+
+### PHASE UX-4: Information Architecture & Contact
+| ID | Ticket | Status | Branch |
+|----|--------|--------|--------|
+| UX-012 | Welcome Zone (Hearth) — Bio & Resume | TODO | `feat/UX-012-hearth-bio` |
+| UX-013 | Contact Section / Modal | TODO | `feat/UX-013-contact-modal` |
+| UX-014 | Project Detail Panel — Enhanced | TODO | `feat/UX-014-enhanced-detail` |
+
+### PHASE UX-5: Accessibility, Performance & Polish
+| ID | Ticket | Status | Branch |
+|----|--------|--------|--------|
+| UX-015 | Loading Screen with Progress | TODO | `feat/UX-015-loading-screen` |
+| UX-016 | Responsive Design & Mobile Experience | TODO | `feat/UX-016-responsive-mobile` |
+| UX-017 | Keyboard Accessibility & Screen Reader | TODO | `feat/UX-017-accessibility` |
+| UX-018 | Social Preview & Meta Tags | TODO | `feat/UX-018-social-meta` |
+
 ## Optimized Build Order
 
 Build solo in this sequence to minimize context-switching:
@@ -109,6 +148,17 @@ Build solo in this sequence to minimize context-switching:
 8. **FORGE-021 → 022 → 023** — Minimap + controls + compositor
 9. **FORGE-024 → 025 → 026** — Polish pass
 10. **FORGE-027** — Ship it
+
+## UX Overhaul Build Order
+
+Build the UX tickets in sessions to minimize context-switching:
+
+1. **UX-001 → UX-002 → UX-003** — Navigation revolution (do all three together — they replace the movement system)
+2. **UX-004 → UX-005 → UX-006 → UX-007 → UX-008** — Label everything (can be parallelized)
+3. **UX-010 → UX-011** — Interaction polish (hover states + click-to-interact)
+4. **UX-015 → UX-009** — First impressions (loading screen + guided tour)
+5. **UX-012 → UX-013 → UX-014** — Content completeness (bio, contact, enhanced details)
+6. **UX-016 → UX-017 → UX-018** — Ship quality (mobile, accessibility, social meta)
 
 ## Engineering Rules
 
@@ -142,7 +192,7 @@ Skill Tree (-22, 0, 0) — HEARTH (0, 0, 0) — Vault (22, 0, 0)
 
 ## Workflow
 
-- **Before each ticket:** Read the ticket's acceptance criteria in `docs/THE-FORGE-TICKETS.md`
+- **Before each ticket:** Read the ticket's acceptance criteria in `docs/THE-FORGE-TICKETS.md` or `docs/the-forge-ux-tickets.md`
 - **During:** Reference `docs/THE-FORGE-HANDOFF.md` for specs and `docs/the-forge-v2.html` for visual behavior
 - **After:** Verify all acceptance criteria checkboxes pass, then update the ticket status in this file from TODO → DONE
 - **Branching:** Create a branch per ticket using the branch name listed above

@@ -13,7 +13,7 @@ export function XPBar() {
     <div
       style={{
         position: 'fixed',
-        top: 20,
+        top: 52,
         right: 28,
         zIndex: 10,
         display: 'flex',
