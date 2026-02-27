@@ -5,6 +5,7 @@ import { ZoneFlash } from '@/hud/ZoneFlash';
 import { XPBar } from '@/hud/XPBar';
 import { Crosshair } from '@/hud/Crosshair';
 import { InteractPrompt } from '@/hud/InteractPrompt';
+import { DetailPanel } from '@/hud/DetailPanel';
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <XPBar />
       <Crosshair />
       <InteractPrompt />
+      <DetailPanel />
       <ZoneFlash />
       <StartOverlay />
     </>

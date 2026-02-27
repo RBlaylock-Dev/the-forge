@@ -1,0 +1,256 @@
+'use client';
+
+import { useEffect } from 'react';
+import { useForgeStore } from '@/store/useForgeStore';
+import type { Project, SkillCategory, TimelineEra, ActiveProject, ProjectTier } from '@/types';
+
+const TIER_HEX: Record<ProjectTier, string> = {
+  LEGENDARY: '#ff6600',
+  EPIC: '#cc44ff',
+  RARE: '#4488ff',
+  COMMON: '#44aa66',
+};
+
+// ── Sub-renderers ───────────────────────────────────────────
+
+function ProjectDetail({ data }: { data: Project }) {
+  return (
+    <>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+        <h2 className="font-cinzel" style={{ fontSize: 22, fontWeight: 700, color: '#f5deb3', margin: 0 }}>
+          {data.name}
+        </h2>
+        <span
+          style={{
+            fontSize: 10,
+            fontWeight: 700,
+            letterSpacing: '1.5px',
+            textTransform: 'uppercase',
+            color: TIER_HEX[data.tier],
+            border: `1px solid ${TIER_HEX[data.tier]}`,
+            borderRadius: 3,
+            padding: '2px 8px',
+          }}
+        >
+          {data.tier}
+        </span>
+      </div>
+
+      <p style={{ fontSize: 14, lineHeight: 1.6, color: '#c4b99a', marginBottom: 16 }}>
+        {data.desc}
+      </p>
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 20 }}>
+        {data.tags.map((tag) => (
+          <span
+            key={tag}
+            style={{
+              fontSize: 11,
+              color: '#c4813a',
+              background: 'rgba(196,129,58,0.1)',
+              border: '1px solid rgba(196,129,58,0.2)',
+              borderRadius: 3,
+              padding: '3px 8px',
+              letterSpacing: '0.5px',
+            }}
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      {data.liveUrl && (
+        <a
+          href={data.liveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            fontSize: 13,
+            fontWeight: 600,
+            color: '#e8a54b',
+            textDecoration: 'none',
+            letterSpacing: '1px',
+            pointerEvents: 'auto',
+          }}
+        >
+          Live Demo &#8599;
+        </a>
+      )}
+      {data.codeUrl && (
+        <a
+          href={data.codeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            fontSize: 13,
+            fontWeight: 600,
+            color: '#e8a54b',
+            textDecoration: 'none',
+            letterSpacing: '1px',
+            marginLeft: data.liveUrl ? 16 : 0,
+            pointerEvents: 'auto',
+          }}
+        >
+          Source &#8599;
+        </a>
+      )}
+    </>
+  );
+}
+
+function SkillCategoryDetail({ data }: { data: SkillCategory }) {
+  const colorHex = `#${data.color.toString(16).padStart(6, '0')}`;
+  return (
+    <>
+      <h2 className="font-cinzel" style={{ fontSize: 22, fontWeight: 700, color: '#f5deb3', margin: 0, marginBottom: 4 }}>
+        {data.name}
+      </h2>
+      <div
+        className="font-rajdhani"
+        style={{ fontSize: 11, letterSpacing: '2px', textTransform: 'uppercase', color: colorHex, marginBottom: 20 }}
+      >
+        Skill Branch
+      </div>
+
+      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+        {data.skills.map((skill) => (
+          <li
+            key={skill.name}
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '6px 0',
+              borderBottom: '1px solid rgba(196,129,58,0.1)',
+            }}
+          >
+            <span style={{ fontSize: 13, color: '#c4b99a' }}>{skill.name}</span>
+            <span style={{ fontSize: 12, letterSpacing: '2px', color: colorHex }}>
+              {'⚒'.repeat(skill.level)}
+              <span style={{ opacity: 0.2 }}>{'⚒'.repeat(5 - skill.level)}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+
+function TimelineEraDetail({ data }: { data: TimelineEra }) {
+  const colorHex = `#${data.color.toString(16).padStart(6, '0')}`;
+  return (
+    <>
+      <h2 className="font-cinzel" style={{ fontSize: 22, fontWeight: 700, color: '#f5deb3', margin: 0, marginBottom: 8 }}>
+        {data.era}
+      </h2>
+      <div style={{ fontSize: 13, color: colorHex, marginBottom: 4 }}>{data.org}</div>
+      <div style={{ fontSize: 12, color: '#6a5a4a', marginBottom: 16 }}>{data.years}</div>
+      <p style={{ fontSize: 14, lineHeight: 1.6, color: '#c4b99a' }}>{data.skill}</p>
+    </>
+  );
+}
+
+function ActiveProjectDetail({ data }: { data: ActiveProject }) {
+  const colorHex = `#${data.color.toString(16).padStart(6, '0')}`;
+  return (
+    <>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+        <h2 className="font-cinzel" style={{ fontSize: 22, fontWeight: 700, color: '#f5deb3', margin: 0 }}>
+          {data.name}
+        </h2>
+        <span
+          style={{
+            fontSize: 10,
+            fontWeight: 600,
+            letterSpacing: '1px',
+            textTransform: 'uppercase',
+            color: colorHex,
+            border: `1px solid ${colorHex}`,
+            borderRadius: 3,
+            padding: '2px 8px',
+          }}
+        >
+          {data.status}
+        </span>
+      </div>
+      <p style={{ fontSize: 14, lineHeight: 1.6, color: '#c4b99a' }}>{data.desc}</p>
+    </>
+  );
+}
+
+// ── Main Component ──────────────────────────────────────────
+
+export function DetailPanel() {
+  const activeDetail = useForgeStore((s) => s.activeDetail);
+  const showDetail = useForgeStore((s) => s.showDetail);
+  const closeDetailPanel = useForgeStore((s) => s.closeDetailPanel);
+
+  // ESC to close
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'Escape' && showDetail) {
+        closeDetailPanel();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [showDetail, closeDetailPanel]);
+
+  return (
+    <aside
+      role="dialog"
+      aria-label="Detail panel"
+      className="font-rajdhani"
+      style={{
+        position: 'fixed',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        width: 360,
+        maxWidth: '90vw',
+        zIndex: 60,
+        background: 'rgba(10,8,6,0.92)',
+        backdropFilter: 'blur(12px)',
+        borderLeft: '1px solid rgba(196,129,58,0.2)',
+        padding: '32px 28px',
+        overflowY: 'auto',
+        transform: showDetail ? 'translateX(0)' : 'translateX(100%)',
+        transition: 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
+        pointerEvents: showDetail ? 'auto' : 'none',
+      }}
+    >
+      {/* Close button */}
+      <button
+        onClick={closeDetailPanel}
+        aria-label="Close detail panel"
+        style={{
+          position: 'absolute',
+          top: 16,
+          right: 16,
+          background: 'none',
+          border: '1px solid rgba(196,129,58,0.3)',
+          borderRadius: 4,
+          color: '#c4813a',
+          fontSize: 18,
+          width: 32,
+          height: 32,
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          pointerEvents: 'auto',
+        }}
+      >
+        &times;
+      </button>
+
+      {/* Content */}
+      <div style={{ marginTop: 24 }}>
+        {activeDetail?.type === 'project' && <ProjectDetail data={activeDetail.data} />}
+        {activeDetail?.type === 'skill-category' && <SkillCategoryDetail data={activeDetail.data} />}
+        {activeDetail?.type === 'timeline-era' && <TimelineEraDetail data={activeDetail.data} />}
+        {activeDetail?.type === 'active-project' && <ActiveProjectDetail data={activeDetail.data} />}
+      </div>
+    </aside>
+  );
+}
