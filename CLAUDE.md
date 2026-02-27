@@ -78,7 +78,7 @@ src/
 | FORGE-017 | Zone Detection System | DONE | `feat/FORGE-017-zone-detection` |
 | FORGE-018 | Zone Flash & XP Bar | DONE | `feat/FORGE-018-zone-flash-xp` |
 | FORGE-019 | Interaction System (Raycaster + Prompt) | DONE | `feat/FORGE-019-interaction-system` |
-| FORGE-020 | Detail Panel | TODO | `feat/FORGE-020-detail-panel` |
+| FORGE-020 | Detail Panel | DONE | `feat/FORGE-020-detail-panel` |
 | FORGE-021 | Minimap | TODO | `feat/FORGE-021-minimap` |
 | FORGE-022 | Controls HUD & Quick Nav | TODO | `feat/FORGE-022-controls-quicknav` |
 | FORGE-023 | HUD Compositor | TODO | `feat/FORGE-023-hud-compositor` |
