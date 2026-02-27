@@ -46,6 +46,7 @@ export function useClickToWalk(
 
   const updatePlayerPosition = useForgeStore((s) => s.updatePlayerPosition);
   const updatePlayerRotation = useForgeStore((s) => s.updatePlayerRotation);
+  const closeDetailPanel = useForgeStore((s) => s.closeDetailPanel);
 
   // ── Helpers ─────────────────────────────────────────────
   const screenToGround = useCallback(
@@ -169,6 +170,21 @@ export function useClickToWalk(
   // ── Per-frame update ────────────────────────────────────
   const update = useCallback(
     (delta: number, keysActive: boolean): boolean => {
+      // ── Pick up nav bar fly request ─────────────────────
+      const { flyTarget, clearFlyTarget, showDetail } = useForgeStore.getState();
+      if (flyTarget && !flyState.current) {
+        if (showDetail) closeDetailPanel();
+        flyState.current = {
+          from: playerPosRef.current.clone(),
+          to: new THREE.Vector3(flyTarget.x, PLAYER_Y, flyTarget.z),
+          fromYaw: yawRef.current,
+          toYaw: flyTarget.yaw,
+          elapsed: 0,
+        };
+        walkTarget.current = null;
+        clearFlyTarget();
+      }
+
       // ── Fly animation ───────────────────────────────────
       if (flyState.current) {
         const fly = flyState.current;
@@ -259,7 +275,7 @@ export function useClickToWalk(
 
       return false;
     },
-    [updatePlayerPosition, updatePlayerRotation, yawRef, pitchRef, playerPosRef, yawToward, applyCameraZoom],
+    [updatePlayerPosition, updatePlayerRotation, closeDetailPanel, yawRef, pitchRef, playerPosRef, yawToward, applyCameraZoom],
   );
 
   return { update, walkTarget, flyState };

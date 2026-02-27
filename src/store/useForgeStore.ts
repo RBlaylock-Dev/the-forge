@@ -23,6 +23,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   // ── Teleport ───────────────────────────────────────────
   teleportTarget: null,
 
+  // ── Navigation Fly ────────────────────────────────────
+  flyTarget: null,
+
   // ── Actions ──────────────────────────────────────────────
   startGame: () => set({ isStarted: true }),
 
@@ -54,6 +57,11 @@ export const useForgeStore = create<ForgeState>()((set) => ({
     set({ teleportTarget: { x, z, yaw } }),
 
   clearTeleport: () => set({ teleportTarget: null }),
+
+  flyToZone: (x: number, z: number, yaw: number) =>
+    set({ flyTarget: { x, z, yaw } }),
+
+  clearFlyTarget: () => set({ flyTarget: null }),
 }));
 
 /** Derived selector: discovery progress as 0–1 ratio */

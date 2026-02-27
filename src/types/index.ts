@@ -85,6 +85,9 @@ export interface ForgeState {
   // Teleport
   teleportTarget: { x: number; z: number; yaw: number } | null;
 
+  // Navigation fly (smooth animation)
+  flyTarget: { x: number; z: number; yaw: number } | null;
+
   // Actions
   startGame: () => void;
   updatePlayerPosition: (x: number, y: number, z: number) => void;
@@ -96,4 +99,6 @@ export interface ForgeState {
   closeDetailPanel: () => void;
   teleportTo: (x: number, z: number, yaw: number) => void;
   clearTeleport: () => void;
+  flyToZone: (x: number, z: number, yaw: number) => void;
+  clearFlyTarget: () => void;
 }

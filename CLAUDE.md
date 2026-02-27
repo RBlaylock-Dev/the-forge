@@ -101,7 +101,7 @@ src/
 |----|--------|--------|--------|
 | UX-001 | Arrow Keys + Click-to-Walk | DONE | `feat/UX-001-navigation-overhaul` |
 | UX-002 | Orbit-Style Camera (Remove Pointer Lock) | DONE | `feat/UX-002-orbit-camera` |
-| UX-003 | Persistent Navigation Bar | TODO | `feat/UX-003-nav-bar` |
+| UX-003 | Persistent Navigation Bar | DONE | `feat/UX-003-nav-bar` |
 
 ### PHASE UX-2: Zone Clarity & Labeling
 | ID | Ticket | Status | Branch |

@@ -8,7 +8,7 @@ import { InteractPrompt } from './InteractPrompt';
 import { DetailPanel } from './DetailPanel';
 import { Minimap } from './Minimap';
 import { ControlsHUD } from './ControlsHUD';
-import { QuickNav } from './QuickNav';
+import { NavBar } from './NavBar';
 
 /**
  * HUD — single compositor component that renders all overlay elements.
@@ -17,8 +17,8 @@ import { QuickNav } from './QuickNav';
  *   z-2:   CSS vignette overlay (cinematic edge darkening)
  *   z-3:   CSS scanlines overlay (subtle CRT effect)
  *   z-10:  Static overlays (TopBar, XPBar, Minimap, ControlsHUD)
- *   z-10:  QuickNav (interactive, pointer-events: auto)
- *   z-20:  Dynamic prompts (Crosshair, InteractPrompt)
+ *   z-10:  NavBar (interactive, pointer-events: auto)
+ *   z-20:  Dynamic prompts (InteractPrompt)
  *   z-50:  Notifications (ZoneFlash)
  *   z-60:  DetailPanel (slide-in panel)
  *   z-100: Modal overlays (StartOverlay)
@@ -47,7 +47,7 @@ export function HUD() {
       <XPBar />
       <Minimap />
       <ControlsHUD />
-      <QuickNav />
+      <NavBar />
 
       {/* ── z-20: Dynamic prompts ────────────────────────────── */}
       <InteractPrompt />
