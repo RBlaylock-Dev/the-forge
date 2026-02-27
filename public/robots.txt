@@ -1,0 +1,5 @@
+# https://rblaylock.dev
+User-agent: *
+Allow: /
+
+Sitemap: https://rblaylock.dev/sitemap.xml

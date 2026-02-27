@@ -86,9 +86,9 @@ src/
 ### PHASE 5: Polish & Performance
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
-| FORGE-024 | Post-Processing & Shader Polish | TODO | `feat/FORGE-024-post-processing` |
-| FORGE-025 | Accessibility & 2D Fallback | TODO | `feat/FORGE-025-accessibility-fallback` |
-| FORGE-026 | Performance Optimization | TODO | `chore/FORGE-026-performance` |
+| FORGE-024 | Post-Processing & Shader Polish | DONE | `feat/FORGE-024-post-processing` |
+| FORGE-025 | Accessibility & 2D Fallback | DONE | `feat/FORGE-025-accessibility-fallback` |
+| FORGE-026 | Performance Optimization | DONE | `chore/FORGE-026-performance` |
 
 ### PHASE 6: Deployment
 | ID | Ticket | Status | Branch |

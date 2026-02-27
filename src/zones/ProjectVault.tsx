@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useMemo } from 'react';
+import { memo, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { PROJECTS } from '@/data/projects';
@@ -85,7 +85,7 @@ function Artifact({
 
 // ── Main Component ──────────────────────────────────────────
 
-export function ProjectVault() {
+export const ProjectVault = memo(function ProjectVault() {
   const artifactsRef = useRef<(THREE.Mesh | null)[]>([]);
 
   useFrame(({ clock }) => {
@@ -124,4 +124,4 @@ export function ProjectVault() {
       })}
     </group>
   );
-}
+});

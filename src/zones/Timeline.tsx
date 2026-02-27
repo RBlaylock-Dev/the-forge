@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useMemo } from 'react';
+import { memo, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { TIMELINE_DATA } from '@/data/timeline';
@@ -126,7 +126,7 @@ function EraMarker({
 
 // ── Main Component ──────────────────────────────────────────
 
-export function Timeline() {
+export const Timeline = memo(function Timeline() {
   const markersRef = useRef<(THREE.Mesh | null)[]>([]);
 
   useFrame(({ clock }) => {
@@ -159,4 +159,4 @@ export function Timeline() {
       ))}
     </group>
   );
-}
+});

@@ -19,7 +19,16 @@ export function StartOverlay() {
 
   return (
     <div
+      role="button"
+      tabIndex={isStarted ? -1 : 0}
       onClick={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleClick();
+        }
+      }}
+      aria-label="Enter The Forge — click or press Enter to begin"
       style={{
         position: 'fixed',
         inset: 0,
@@ -33,6 +42,7 @@ export function StartOverlay() {
         opacity: isStarted ? 0 : 1,
         pointerEvents: isStarted ? 'none' : 'auto',
         transition: 'opacity 1s ease',
+        outline: 'none',
       }}
     >
       <h1

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useMemo } from 'react';
+import { memo, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -150,21 +150,31 @@ function Pillars() {
 
 // ── Main Component ──────────────────────────────────────────
 
-export function Hearth() {
+export const Hearth = memo(function Hearth() {
   const fireLightRef = useRef<THREE.PointLight>(null);
+  const fireFillRef = useRef<THREE.PointLight>(null);
 
   useFrame(({ clock }) => {
-    if (!fireLightRef.current) return;
     const t = clock.getElapsedTime();
-    fireLightRef.current.intensity =
-      3.5 + Math.sin(t * 8) * 0.6 + Math.sin(t * 13) * 0.35;
-    fireLightRef.current.position.y =
-      2.5 + Math.sin(t * 3) * 0.1;
+
+    // Primary fire light — fast flicker with two sine waves
+    if (fireLightRef.current) {
+      fireLightRef.current.intensity =
+        3.5 + Math.sin(t * 8) * 0.6 + Math.sin(t * 13) * 0.35;
+      fireLightRef.current.position.y =
+        2.5 + Math.sin(t * 3) * 0.1;
+    }
+
+    // Secondary fill light — slower, offset phase for depth
+    if (fireFillRef.current) {
+      fireFillRef.current.intensity =
+        1.2 + Math.sin(t * 5 + 1.5) * 0.3 + Math.sin(t * 9 + 0.7) * 0.2;
+    }
   });
 
   return (
     <group position={[0, 0, 0]}>
-      {/* Fire light (animated) */}
+      {/* Primary fire light (animated, casts shadows) */}
       <pointLight
         ref={fireLightRef}
         color={0xff6b1a}
@@ -173,8 +183,18 @@ export function Hearth() {
         decay={2}
         position={[0, 2.5, 0]}
         castShadow
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
+        shadow-mapSize-width={512}
+        shadow-mapSize-height={512}
+      />
+
+      {/* Secondary fill light — warmer, offset, no shadows for perf */}
+      <pointLight
+        ref={fireFillRef}
+        color={0xff4400}
+        intensity={1.2}
+        distance={15}
+        decay={2}
+        position={[-3, 1.5, 0]}
       />
 
       <Anvil />
@@ -182,4 +202,4 @@ export function Hearth() {
       <Pillars />
     </group>
   );
-}
+});
