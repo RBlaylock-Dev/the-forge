@@ -77,6 +77,21 @@ export function useMovement() {
   // ── Per-frame update ────────────────────────────────────
   const update = useCallback(
     (delta: number) => {
+      // ── Check for teleport request ──────────────────────
+      const { teleportTarget, clearTeleport } = useForgeStore.getState();
+      if (teleportTarget) {
+        camera.position.set(teleportTarget.x, PLAYER_Y, teleportTarget.z);
+        yaw.current = teleportTarget.yaw;
+        pitch.current = 0;
+        velocity.current.set(0, 0, 0);
+        clearTeleport();
+
+        // Sync immediately
+        updatePlayerPosition(teleportTarget.x, PLAYER_Y, teleportTarget.z);
+        updatePlayerRotation(teleportTarget.yaw, 0);
+        return;
+      }
+
       const dt = Math.min(delta, 0.05);
       const k = keys.current;
       const vel = velocity.current;
