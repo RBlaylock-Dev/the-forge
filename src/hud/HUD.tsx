@@ -15,6 +15,8 @@ import { QuickNav } from './QuickNav';
  * HUD — single compositor component that renders all overlay elements.
  * Manages the full z-index stack for the 2D HUD layer:
  *
+ *   z-2:   CSS vignette overlay (cinematic edge darkening)
+ *   z-3:   CSS scanlines overlay (subtle CRT effect)
  *   z-10:  Static overlays (TopBar, XPBar, Minimap, ControlsHUD)
  *   z-10:  QuickNav (interactive, pointer-events: auto)
  *   z-20:  Dynamic prompts (Crosshair, InteractPrompt)
@@ -37,6 +39,10 @@ export function HUD() {
         pointerEvents: 'none',
       }}
     >
+      {/* ── z-2/3: CSS post-processing overlays ──────────────── */}
+      <div className="forge-vignette" aria-hidden="true" />
+      <div className="forge-scanlines" aria-hidden="true" />
+
       {/* ── z-10: Static overlays ────────────────────────────── */}
       <TopBar />
       <XPBar />

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useMemo } from 'react';
+import { memo, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { ACTIVE_PROJECTS } from '@/data/activeProjects';
@@ -85,7 +85,7 @@ function Hologram({
 
 // ── Main Component ──────────────────────────────────────────
 
-export function WarRoom() {
+export const WarRoom = memo(function WarRoom() {
   const holosRef = useRef<(THREE.Mesh | null)[]>([]);
   const ringRef = useRef<THREE.Mesh>(null);
 
@@ -141,4 +141,4 @@ export function WarRoom() {
       ))}
     </group>
   );
-}
+});

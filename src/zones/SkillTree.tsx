@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useMemo } from 'react';
+import { memo, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { SKILL_DATA } from '@/data/skills';
@@ -181,7 +181,7 @@ function CategoryNode({
 
 // ── Main Component ──────────────────────────────────────────
 
-export function SkillTree() {
+export const SkillTree = memo(function SkillTree() {
   const nodesRef = useRef<THREE.Mesh[]>([]);
 
   useFrame(({ clock }) => {
@@ -219,4 +219,4 @@ export function SkillTree() {
       ))}
     </group>
   );
-}
+});

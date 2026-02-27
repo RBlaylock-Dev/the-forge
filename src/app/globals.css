@@ -67,3 +67,55 @@ body {
 .zone-flash-animate {
   animation: zone-flash 2s ease-out forwards;
 }
+
+/* ── Post-Processing CSS Overlays ───────────────────────── */
+
+/* CSS vignette fallback — darkens screen edges for cinematic feel */
+.forge-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+}
+
+/* CSS scanlines — subtle 2px repeating horizontal lines */
+.forge-scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+}
+
+/* ── Keyboard Focus ─────────────────────────────────────── */
+
+/* Visible focus ring for keyboard users (not mouse) */
+button:focus-visible,
+[role="button"]:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--forge-gold);
+  outline-offset: 2px;
+}
+
+/* ── Reduced Motion ─────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse-glow {
+    animation: none;
+  }
+  .zone-flash-animate {
+    animation: none;
+    opacity: 1;
+  }
+}

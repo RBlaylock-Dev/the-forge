@@ -3,6 +3,7 @@
 import { Canvas } from '@react-three/fiber';
 import { ACESFilmicToneMapping, PCFSoftShadowMap } from 'three';
 import { SceneManager } from './SceneManager';
+import { PostProcessing } from './PostProcessing';
 
 export function ForgeCanvas() {
   return (
@@ -18,6 +19,7 @@ export function ForgeCanvas() {
         dpr={[1, 2]}
       >
         <SceneManager />
+        <PostProcessing />
       </Canvas>
     </div>
   );
