@@ -66,7 +66,6 @@ export type DetailData =
 export interface ForgeState {
   // Game state
   isStarted: boolean;
-  isLocked: boolean;
 
   // Player
   playerPosition: { x: number; y: number; z: number };
@@ -88,7 +87,6 @@ export interface ForgeState {
 
   // Actions
   startGame: () => void;
-  setLocked: (locked: boolean) => void;
   updatePlayerPosition: (x: number, y: number, z: number) => void;
   updatePlayerRotation: (yaw: number, pitch: number) => void;
   setCurrentZone: (zone: ZoneId | null) => void;

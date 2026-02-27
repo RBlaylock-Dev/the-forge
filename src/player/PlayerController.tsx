@@ -5,14 +5,13 @@ import { useMovement } from './useMovement';
 import { useZoneDetection } from './useZoneDetection';
 import { useInteraction } from './useInteraction';
 import { useClickToWalk } from './useClickToWalk';
-import { useForgeStore } from '@/store/useForgeStore';
 import { WalkIndicator } from '@/objects/WalkIndicator';
 
 export function PlayerController() {
-  const { update, yaw, pitch, isKeysActive } = useMovement();
+  const { update, yaw, pitch, isKeysActive, zoom, playerPos } = useMovement();
   const detect = useZoneDetection();
   const { update: interact } = useInteraction();
-  const { update: walkUpdate, walkTarget } = useClickToWalk(yaw, pitch);
+  const { update: walkUpdate, walkTarget } = useClickToWalk(yaw, pitch, zoom, playerPos);
 
   useFrame((_, delta) => {
     const keysActive = isKeysActive();
@@ -25,8 +24,8 @@ export function PlayerController() {
       update(delta);
     }
 
-    const { x, z } = useForgeStore.getState().playerPosition;
-    detect(x, z);
+    // Use playerPos for zone detection (more immediate than store read)
+    detect(playerPos.current.x, playerPos.current.z);
     interact();
   });
 

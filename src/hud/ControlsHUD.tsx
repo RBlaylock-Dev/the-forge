@@ -66,22 +66,10 @@ export function ControlsHUD() {
         <span style={labelStyle}>Move</span>
       </div>
 
-      {/* Mouse */}
-      <div style={rowStyle}>
-        <span style={keyBadgeStyle}>Mouse</span>
-        <span style={labelStyle}>Look</span>
-      </div>
-
       {/* E key */}
-      <div style={rowStyle}>
+      <div style={{ ...rowStyle, marginBottom: 0 }}>
         <span style={keyBadgeStyle}>E</span>
         <span style={labelStyle}>Inspect</span>
-      </div>
-
-      {/* ESC */}
-      <div style={{ ...rowStyle, marginBottom: 0 }}>
-        <span style={keyBadgeStyle}>ESC</span>
-        <span style={labelStyle}>Release cursor</span>
       </div>
     </nav>
   );

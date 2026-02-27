@@ -4,9 +4,9 @@ import { useForgeStore } from '@/store/useForgeStore';
 
 export function InteractPrompt() {
   const interactTarget = useForgeStore((s) => s.interactTarget);
-  const isLocked = useForgeStore((s) => s.isLocked);
+  const isStarted = useForgeStore((s) => s.isStarted);
 
-  const visible = isLocked && interactTarget !== null;
+  const visible = isStarted && interactTarget !== null;
 
   return (
     <div
