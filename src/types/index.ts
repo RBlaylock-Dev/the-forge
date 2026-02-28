@@ -66,7 +66,6 @@ export type DetailData =
 export interface ForgeState {
   // Game state
   isStarted: boolean;
-  isLocked: boolean;
 
   // Player
   playerPosition: { x: number; y: number; z: number };
@@ -76,15 +75,21 @@ export interface ForgeState {
   // Zones
   currentZone: ZoneId | null;
   discoveredZones: Set<ZoneId>;
+  lastDiscoveredZone: ZoneId | null;
 
   // Interaction
   interactTarget: { name: string; userData: DetailData } | null;
   activeDetail: DetailData | null;
   showDetail: boolean;
 
+  // Teleport
+  teleportTarget: { x: number; z: number; yaw: number } | null;
+
+  // Navigation fly (smooth animation)
+  flyTarget: { x: number; z: number; yaw: number } | null;
+
   // Actions
   startGame: () => void;
-  setLocked: (locked: boolean) => void;
   updatePlayerPosition: (x: number, y: number, z: number) => void;
   updatePlayerRotation: (yaw: number, pitch: number) => void;
   setCurrentZone: (zone: ZoneId | null) => void;
@@ -92,4 +97,8 @@ export interface ForgeState {
   setInteractTarget: (target: { name: string; userData: DetailData } | null) => void;
   showDetailPanel: (data: DetailData) => void;
   closeDetailPanel: () => void;
+  teleportTo: (x: number, z: number, yaw: number) => void;
+  clearTeleport: () => void;
+  flyToZone: (x: number, z: number, yaw: number) => void;
+  clearFlyTarget: () => void;
 }

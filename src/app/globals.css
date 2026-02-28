@@ -15,6 +15,15 @@
   box-sizing: border-box;
 }
 
+/* ── Orbit Camera Cursor ──────────────────────────────── */
+canvas {
+  cursor: grab;
+}
+
+canvas:active {
+  cursor: grabbing;
+}
+
 html,
 body {
   width: 100%;
@@ -23,4 +32,305 @@ body {
   background: var(--forge-bg);
   color: var(--forge-wheat);
   font-family: "Rajdhani", sans-serif;
+  user-select: none;
+}
+
+/* ── Animations ──────────────────────────────────────────── */
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.5;
+    border-color: rgba(196, 129, 58, 0.1);
+  }
+  50% {
+    opacity: 1;
+    color: #c4813a;
+    border-color: rgba(196, 129, 58, 0.4);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2.5s ease-in-out infinite;
+}
+
+@keyframes zone-flash {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+}
+
+.zone-flash-animate {
+  animation: zone-flash 2s ease-out forwards;
+}
+
+/* ── Post-Processing CSS Overlays ───────────────────────── */
+
+/* CSS vignette fallback — darkens screen edges for cinematic feel */
+.forge-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+}
+
+/* CSS scanlines — subtle 2px repeating horizontal lines */
+.forge-scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+}
+
+/* ── NavBar Responsive ─────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .nav-label {
+    display: none;
+  }
+}
+
+/* ── Zone Labels ───────────────────────────────────────── */
+
+.zone-label {
+  text-align: center;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+}
+
+.zone-label-title {
+  font-family: var(--font-cinzel), "Cinzel", serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #e8a54b;
+  text-shadow: 0 0 12px rgba(232, 165, 75, 0.6), 0 0 24px rgba(196, 129, 58, 0.3);
+  letter-spacing: 0.12em;
+}
+
+.zone-label-subtitle {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #c4813a;
+  text-shadow: 0 0 8px rgba(196, 129, 58, 0.3);
+  margin-top: 0.15rem;
+  letter-spacing: 0.05em;
+}
+
+/* ── Project Labels ────────────────────────────────────── */
+
+.project-label {
+  text-align: center;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+}
+
+.project-label-name {
+  font-family: var(--font-cinzel), "Cinzel", serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.06em;
+}
+
+.project-label-badge {
+  display: inline-block;
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  color: #fff;
+  padding: 0.05rem 0.4rem;
+  border-radius: 0.6rem;
+  margin-top: 0.15rem;
+  letter-spacing: 0.08em;
+  text-shadow: none;
+}
+
+.project-label-tags {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: #a09080;
+  margin-top: 0.1rem;
+  letter-spacing: 0.03em;
+}
+
+/* ── Timeline Cards ───────────────────────────────────── */
+
+.timeline-card {
+  text-align: center;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+  background: rgba(10, 8, 6, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid;
+  border-radius: 0.4rem;
+  padding: 0.35rem 0.6rem;
+}
+
+.timeline-card-years {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.timeline-card-era {
+  font-family: var(--font-cinzel), "Cinzel", serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #f5deb3;
+  margin-top: 0.1rem;
+  letter-spacing: 0.06em;
+}
+
+.timeline-card-org {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: #c4813a;
+  margin-top: 0.05rem;
+}
+
+.timeline-card-skill {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.55rem;
+  font-weight: 300;
+  color: #a09080;
+  margin-top: 0.1rem;
+  font-style: italic;
+}
+/* ── Skill Labels ─────────────────────────────────────── */
+
+.skill-cat-label {
+  text-align: center;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+}
+
+.skill-cat-name {
+  font-family: var(--font-cinzel), "Cinzel", serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.skill-node-label {
+  text-align: center;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+}
+
+.skill-node-name {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: #f5deb3;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.04em;
+}
+
+.skill-node-level {
+  font-size: 0.55rem;
+  margin-top: 0.05rem;
+  letter-spacing: 0.1em;
+}
+
+/* ── Holo Labels (War Room) ────────────────────────────── */
+
+.holo-label {
+  text-align: center;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+  background: rgba(10, 20, 30, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid;
+  border-radius: 0.3rem;
+  padding: 0.3rem 0.5rem;
+  max-width: 12rem;
+}
+
+.holo-label-name {
+  font-family: var(--font-cinzel), "Cinzel", serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.holo-label-status {
+  display: inline-block;
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.5rem;
+  font-weight: 600;
+  padding: 0.02rem 0.35rem;
+  border-radius: 0.5rem;
+  margin-top: 0.1rem;
+  letter-spacing: 0.06em;
+}
+
+.holo-status-dev {
+  background: rgba(34, 170, 204, 0.25);
+  color: #22aacc;
+}
+
+.holo-status-active {
+  background: rgba(68, 221, 136, 0.25);
+  color: #44dd88;
+}
+
+.holo-label-desc {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.5rem;
+  font-weight: 300;
+  color: #a0b0c0;
+  margin-top: 0.1rem;
+  white-space: normal;
+  line-height: 1.2;
+}
+
+/* ── Keyboard Focus ─────────────────────────────────────── */
+
+/* Visible focus ring for keyboard users (not mouse) */
+button:focus-visible,
+[role="button"]:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--forge-gold);
+  outline-offset: 2px;
+}
+
+/* ── Reduced Motion ─────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse-glow {
+    animation: none;
+  }
+  .zone-flash-animate {
+    animation: none;
+    opacity: 1;
+  }
 }

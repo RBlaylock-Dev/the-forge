@@ -10,6 +10,7 @@ Always reference these docs before building any ticket:
 
 - `docs/THE-FORGE-HANDOFF.md` — Complete project spec (tech stack, zones, aesthetics, architecture, content data, engineering rules)
 - `docs/THE-FORGE-TICKETS.md` — 24 detailed tickets across 6 phases with acceptance criteria
+- `docs/the-forge-ux-tickets.md` — 18 UX overhaul tickets across 5 phases (navigation, labeling, onboarding, content, polish)
 - `docs/the-forge-v2.html` — Fully functional HTML prototype (open in browser for visual/behavioral reference)
 
 ## Tech Stack
@@ -51,49 +52,87 @@ src/
 | FORGE-002 | TypeScript Types & Interfaces | DONE | `feat/FORGE-002-types-interfaces` |
 | FORGE-003 | Content Data Files | DONE | `feat/FORGE-003-content-data` |
 | FORGE-004 | Zustand Store | DONE | `feat/FORGE-004-zustand-store` |
-| FORGE-005 | Docker + Makefile + Docker Compose | TODO | `chore/FORGE-005-docker-makefile` |
+| FORGE-005 | Docker + Makefile + Docker Compose | DONE | `chore/FORGE-005-docker-makefile` |
 
 ### PHASE 2: Core 3D Engine
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
-| FORGE-006 | R3F Canvas & Scene Shell | TODO | `feat/FORGE-006-canvas-scene-shell` |
-| FORGE-007 | Player Controller — Movement | TODO | `feat/FORGE-007-player-movement` |
-| FORGE-008 | Ember Particle Systems | TODO | `feat/FORGE-008-ember-particles` |
-| FORGE-009 | Path Strips Between Zones | TODO | `feat/FORGE-009-path-strips` |
+| FORGE-006 | R3F Canvas & Scene Shell | DONE | `feat/FORGE-006-canvas-scene-shell` |
+| FORGE-007 | Player Controller — Movement | DONE | `feat/FORGE-007-player-movement` |
+| FORGE-008 | Ember Particle Systems | DONE | `feat/FORGE-008-ember-particles` |
+| FORGE-009 | Path Strips Between Zones | DONE | `feat/FORGE-008-ember-particles` |
 
 ### PHASE 3: Zones
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
-| FORGE-010 | Hearth Zone (Center) | TODO | `feat/FORGE-010-hearth-zone` |
-| FORGE-011 | Skill Tree Zone | TODO | `feat/FORGE-011-skill-tree-zone` |
-| FORGE-012 | Project Vault Zone | TODO | `feat/FORGE-012-project-vault-zone` |
-| FORGE-013 | Timeline Zone | TODO | `feat/FORGE-013-timeline-zone` |
-| FORGE-014 | War Room Zone | TODO | `feat/FORGE-014-war-room-zone` |
+| FORGE-010 | Hearth Zone (Center) | DONE | `feat/FORGE-010-hearth-zone` |
+| FORGE-011 | Skill Tree Zone | DONE | `feat/FORGE-011-skill-tree-zone` |
+| FORGE-012 | Project Vault Zone | DONE | `feat/FORGE-012-project-vault-zone` |
+| FORGE-013 | Timeline Zone | DONE | `feat/FORGE-013-timeline-zone` |
+| FORGE-014 | War Room Zone | DONE | `feat/FORGE-014-war-room-zone` |
 
 ### PHASE 4: HUD & Interaction
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
-| FORGE-015 | Start Overlay | TODO | `feat/FORGE-015-start-overlay` |
-| FORGE-016 | Top Bar & Zone Indicator | TODO | `feat/FORGE-016-top-bar` |
-| FORGE-017 | Zone Detection System | TODO | `feat/FORGE-017-zone-detection` |
-| FORGE-018 | Zone Flash & XP Bar | TODO | `feat/FORGE-018-zone-flash-xp` |
-| FORGE-019 | Interaction System (Raycaster + Prompt) | TODO | `feat/FORGE-019-interaction-system` |
-| FORGE-020 | Detail Panel | TODO | `feat/FORGE-020-detail-panel` |
-| FORGE-021 | Minimap | TODO | `feat/FORGE-021-minimap` |
-| FORGE-022 | Controls HUD & Quick Nav | TODO | `feat/FORGE-022-controls-quicknav` |
-| FORGE-023 | HUD Compositor | TODO | `feat/FORGE-023-hud-compositor` |
+| FORGE-015 | Start Overlay | DONE | `feat/FORGE-015-start-overlay` |
+| FORGE-016 | Top Bar & Zone Indicator | DONE | `feat/FORGE-016-top-bar` |
+| FORGE-017 | Zone Detection System | DONE | `feat/FORGE-017-zone-detection` |
+| FORGE-018 | Zone Flash & XP Bar | DONE | `feat/FORGE-018-zone-flash-xp` |
+| FORGE-019 | Interaction System (Raycaster + Prompt) | DONE | `feat/FORGE-019-interaction-system` |
+| FORGE-020 | Detail Panel | DONE | `feat/FORGE-020-detail-panel` |
+| FORGE-021 | Minimap | DONE | `feat/FORGE-021-minimap` |
+| FORGE-022 | Controls HUD & Quick Nav | DONE | `feat/FORGE-022-controls-quicknav` |
+| FORGE-023 | HUD Compositor | DONE | `feat/FORGE-023-hud-compositor` |
 
 ### PHASE 5: Polish & Performance
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
-| FORGE-024 | Post-Processing & Shader Polish | TODO | `feat/FORGE-024-post-processing` |
-| FORGE-025 | Accessibility & 2D Fallback | TODO | `feat/FORGE-025-accessibility-fallback` |
-| FORGE-026 | Performance Optimization | TODO | `chore/FORGE-026-performance` |
+| FORGE-024 | Post-Processing & Shader Polish | DONE | `feat/FORGE-024-post-processing` |
+| FORGE-025 | Accessibility & 2D Fallback | DONE | `feat/FORGE-025-accessibility-fallback` |
+| FORGE-026 | Performance Optimization | DONE | `chore/FORGE-026-performance` |
 
 ### PHASE 6: Deployment
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
 | FORGE-027 | Vercel Deployment & Domain | TODO | `chore/FORGE-027-deployment` |
+
+### PHASE UX-1: Navigation Overhaul
+| ID | Ticket | Status | Branch |
+|----|--------|--------|--------|
+| UX-001 | Arrow Keys + Click-to-Walk | DONE | `feat/UX-001-navigation-overhaul` |
+| UX-002 | Orbit-Style Camera (Remove Pointer Lock) | DONE | `feat/UX-002-orbit-camera` |
+| UX-003 | Persistent Navigation Bar | DONE | `feat/UX-003-nav-bar` |
+
+### PHASE UX-2: Zone Clarity & Labeling
+| ID | Ticket | Status | Branch |
+|----|--------|--------|--------|
+| UX-004 | Floating Zone Title Signs | DONE | `feat/UX-004-zone-labels` |
+| UX-005 | Project Labels & Tier Badges | DONE | `feat/UX-005-project-labels` |
+| UX-006 | Skill Node Labels & Category Headers | DONE | `feat/UX-006-skill-labels` |
+| UX-007 | Timeline Era Labels & Narrative Cards | DONE | `feat/UX-007-timeline-labels` |
+| UX-008 | War Room Project Status Cards | DONE | `feat/UX-008-warroom-labels` |
+
+### PHASE UX-3: Onboarding & Guided Experience
+| ID | Ticket | Status | Branch |
+|----|--------|--------|--------|
+| UX-009 | Guided Intro Tour (First Visit) | TODO | `feat/UX-009-intro-tour` |
+| UX-010 | Contextual Tooltips & Hover States | TODO | `feat/UX-010-hover-tooltips` |
+| UX-011 | Click-to-Interact (Replace E Key) | TODO | `feat/UX-011-click-interact` |
+
+### PHASE UX-4: Information Architecture & Contact
+| ID | Ticket | Status | Branch |
+|----|--------|--------|--------|
+| UX-012 | Welcome Zone (Hearth) — Bio & Resume | TODO | `feat/UX-012-hearth-bio` |
+| UX-013 | Contact Section / Modal | TODO | `feat/UX-013-contact-modal` |
+| UX-014 | Project Detail Panel — Enhanced | TODO | `feat/UX-014-enhanced-detail` |
+
+### PHASE UX-5: Accessibility, Performance & Polish
+| ID | Ticket | Status | Branch |
+|----|--------|--------|--------|
+| UX-015 | Loading Screen with Progress | TODO | `feat/UX-015-loading-screen` |
+| UX-016 | Responsive Design & Mobile Experience | TODO | `feat/UX-016-responsive-mobile` |
+| UX-017 | Keyboard Accessibility & Screen Reader | TODO | `feat/UX-017-accessibility` |
+| UX-018 | Social Preview & Meta Tags | TODO | `feat/UX-018-social-meta` |
 
 ## Optimized Build Order
 
@@ -109,6 +148,17 @@ Build solo in this sequence to minimize context-switching:
 8. **FORGE-021 → 022 → 023** — Minimap + controls + compositor
 9. **FORGE-024 → 025 → 026** — Polish pass
 10. **FORGE-027** — Ship it
+
+## UX Overhaul Build Order
+
+Build the UX tickets in sessions to minimize context-switching:
+
+1. **UX-001 → UX-002 → UX-003** — Navigation revolution (do all three together — they replace the movement system)
+2. **UX-004 → UX-005 → UX-006 → UX-007 → UX-008** — Label everything (can be parallelized)
+3. **UX-010 → UX-011** — Interaction polish (hover states + click-to-interact)
+4. **UX-015 → UX-009** — First impressions (loading screen + guided tour)
+5. **UX-012 → UX-013 → UX-014** — Content completeness (bio, contact, enhanced details)
+6. **UX-016 → UX-017 → UX-018** — Ship quality (mobile, accessibility, social meta)
 
 ## Engineering Rules
 
@@ -142,7 +192,7 @@ Skill Tree (-22, 0, 0) — HEARTH (0, 0, 0) — Vault (22, 0, 0)
 
 ## Workflow
 
-- **Before each ticket:** Read the ticket's acceptance criteria in `docs/THE-FORGE-TICKETS.md`
+- **Before each ticket:** Read the ticket's acceptance criteria in `docs/THE-FORGE-TICKETS.md` or `docs/the-forge-ux-tickets.md`
 - **During:** Reference `docs/THE-FORGE-HANDOFF.md` for specs and `docs/the-forge-v2.html` for visual behavior
 - **After:** Verify all acceptance criteria checkboxes pass, then update the ticket status in this file from TODO → DONE
 - **Branching:** Create a branch per ticket using the branch name listed above

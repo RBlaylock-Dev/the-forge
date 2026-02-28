@@ -4,7 +4,6 @@ import type { ForgeState, ZoneId, DetailData } from '@/types';
 export const useForgeStore = create<ForgeState>()((set) => ({
   // ── Game State ───────────────────────────────────────────
   isStarted: false,
-  isLocked: false,
 
   // ── Player ───────────────────────────────────────────────
   playerPosition: { x: 0, y: 1.7, z: 0 },
@@ -14,16 +13,21 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   // ── Zones ────────────────────────────────────────────────
   currentZone: null,
   discoveredZones: new Set<ZoneId>(),
+  lastDiscoveredZone: null,
 
   // ── Interaction ──────────────────────────────────────────
   interactTarget: null,
   activeDetail: null,
   showDetail: false,
 
+  // ── Teleport ───────────────────────────────────────────
+  teleportTarget: null,
+
+  // ── Navigation Fly ────────────────────────────────────
+  flyTarget: null,
+
   // ── Actions ──────────────────────────────────────────────
   startGame: () => set({ isStarted: true }),
-
-  setLocked: (locked: boolean) => set({ isLocked: locked }),
 
   updatePlayerPosition: (x: number, y: number, z: number) =>
     set({ playerPosition: { x, y, z } }),
@@ -38,7 +42,7 @@ export const useForgeStore = create<ForgeState>()((set) => ({
       if (state.discoveredZones.has(zone)) return state;
       const next = new Set(state.discoveredZones);
       next.add(zone);
-      return { discoveredZones: next };
+      return { discoveredZones: next, lastDiscoveredZone: zone };
     }),
 
   setInteractTarget: (target) => set({ interactTarget: target }),
@@ -48,6 +52,16 @@ export const useForgeStore = create<ForgeState>()((set) => ({
 
   closeDetailPanel: () =>
     set({ activeDetail: null, showDetail: false, interactTarget: null }),
+
+  teleportTo: (x: number, z: number, yaw: number) =>
+    set({ teleportTarget: { x, z, yaw } }),
+
+  clearTeleport: () => set({ teleportTarget: null }),
+
+  flyToZone: (x: number, z: number, yaw: number) =>
+    set({ flyTarget: { x, z, yaw } }),
+
+  clearFlyTarget: () => set({ flyTarget: null }),
 }));
 
 /** Derived selector: discovery progress as 0–1 ratio */

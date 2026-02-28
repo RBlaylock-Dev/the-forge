@@ -5,7 +5,6 @@ import type { DetailData } from '@/types';
 beforeEach(() => {
   useForgeStore.setState({
     isStarted: false,
-    isLocked: false,
     playerPosition: { x: 0, y: 1.7, z: 0 },
     playerYaw: 0,
     playerPitch: 0,
@@ -22,7 +21,6 @@ describe('useForgeStore', () => {
     it('has correct default values', () => {
       const state = useForgeStore.getState();
       expect(state.isStarted).toBe(false);
-      expect(state.isLocked).toBe(false);
       expect(state.playerPosition).toEqual({ x: 0, y: 1.7, z: 0 });
       expect(state.playerYaw).toBe(0);
       expect(state.playerPitch).toBe(0);
@@ -38,16 +36,6 @@ describe('useForgeStore', () => {
     it('sets isStarted to true', () => {
       useForgeStore.getState().startGame();
       expect(useForgeStore.getState().isStarted).toBe(true);
-    });
-  });
-
-  describe('setLocked', () => {
-    it('sets isLocked to the provided value', () => {
-      useForgeStore.getState().setLocked(true);
-      expect(useForgeStore.getState().isLocked).toBe(true);
-
-      useForgeStore.getState().setLocked(false);
-      expect(useForgeStore.getState().isLocked).toBe(false);
     });
   });
 
@@ -164,6 +152,19 @@ describe('useForgeStore', () => {
       useForgeStore.getState().discoverZone('timeline');
       useForgeStore.getState().discoverZone('war-room');
       expect(selectDiscoveryProgress(useForgeStore.getState())).toBe(1);
+    });
+  });
+
+  describe('flyToZone / clearFlyTarget', () => {
+    it('sets flyTarget with coordinates and yaw', () => {
+      useForgeStore.getState().flyToZone(22, 25, 1.2);
+      expect(useForgeStore.getState().flyTarget).toEqual({ x: 22, z: 25, yaw: 1.2 });
+    });
+
+    it('clears flyTarget', () => {
+      useForgeStore.getState().flyToZone(10, 5, 0);
+      useForgeStore.getState().clearFlyTarget();
+      expect(useForgeStore.getState().flyTarget).toBeNull();
     });
   });
 });
