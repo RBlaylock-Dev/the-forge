@@ -143,7 +143,7 @@ src/
 ### PHASE CORE: Conversion Essentials (Must Ship v1)
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
-| FORGE-028 | Contact Form & Email Delivery | TODO | `feat/FORGE-028-contact-form` |
+| FORGE-028 | Contact Form & Email Delivery | DONE | `feat/FORGE-028-contact-form` |
 | FORGE-029 | Resume Download | DONE | `feat/FORGE-029-resume-download` |
 
 ### PHASE UX-EXT: Expanded Features

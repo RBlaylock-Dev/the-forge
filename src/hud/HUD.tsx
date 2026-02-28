@@ -11,6 +11,8 @@ import { ControlsHUD } from './ControlsHUD';
 import { NavBar } from './NavBar';
 import { ResumeButton } from './ResumeButton';
 import { ResumePreview } from './ResumePreview';
+import { ContactButton } from './ContactButton';
+import { ContactModal } from './ContactModal';
 import { IntroTour } from './IntroTour';
 
 /**
@@ -53,6 +55,7 @@ export function HUD() {
       <Minimap />
       <ControlsHUD />
       <NavBar />
+      <ContactButton />
       <ResumeButton />
 
       {/* ── z-20: Dynamic prompts ────────────────────────────── */}
@@ -67,8 +70,9 @@ export function HUD() {
       {/* ── z-70: Intro tour ───────────────────────────────── */}
       <IntroTour />
 
-      {/* ── z-80: Resume preview ─────────────────────────────── */}
+      {/* ── z-80: Full-screen overlays ──────────────────────────── */}
       <ResumePreview />
+      <ContactModal />
 
       {/* ── z-100: Modal overlays ────────────────────────────── */}
       <StartOverlay />

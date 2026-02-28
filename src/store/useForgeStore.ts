@@ -33,6 +33,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   // ── Resume ──────────────────────────────────────────
   showResume: false,
 
+  // ── Contact ─────────────────────────────────────────
+  showContact: false,
+
   // ── Actions ──────────────────────────────────────────────
   startGame: () => set({ isStarted: true }),
 
@@ -76,6 +79,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
 
   openResume: () => set({ showResume: true }),
   closeResume: () => set({ showResume: false }),
+
+  openContact: () => set({ showContact: true }),
+  closeContact: () => set({ showContact: false }),
 }));
 
 /** Derived selector: discovery progress as 0–1 ratio */
