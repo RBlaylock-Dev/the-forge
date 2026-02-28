@@ -45,7 +45,7 @@ function Hologram({
   holoRef: (el: THREE.Mesh | null) => void;
 }) {
   const angle = (index / ACTIVE_PROJECTS.length) * Math.PI * 2;
-  const r = 1.6;
+  const r = 3.5;
   const px = Math.cos(angle) * r;
   const pz = Math.sin(angle) * r;
   const baseY = 2;
@@ -118,7 +118,7 @@ export const WarRoom = memo(function WarRoom() {
 
       {/* Table top */}
       <mesh position={[0, 1, 0]} material={tableMat}>
-        <cylinderGeometry args={[3, 2.8, 0.15, 20]} />
+        <cylinderGeometry args={[5, 4.8, 0.15, 20]} />
       </mesh>
 
       {/* Table leg */}
@@ -133,13 +133,13 @@ export const WarRoom = memo(function WarRoom() {
         rotation={[-Math.PI / 2, 0, 0]}
         material={holoRingMat}
       >
-        <torusGeometry args={[2.5, 0.02, 8, 48]} />
+        <torusGeometry args={[4.5, 0.02, 8, 48]} />
       </mesh>
 
       {/* Holograms */}
       {ACTIVE_PROJECTS.map((proj, i) => {
         const angle = (i / ACTIVE_PROJECTS.length) * Math.PI * 2;
-        const r = 1.6;
+        const r = 3.5;
         const px = Math.cos(angle) * r;
         const pz = Math.sin(angle) * r;
         return (
@@ -156,8 +156,8 @@ export const WarRoom = memo(function WarRoom() {
               desc={proj.desc}
               status={proj.status}
               color={proj.color}
-              position={[px, 3.2, pz]}
-              worldPosition={[px, 3.2, pz + 24]}
+              position={[px, 3.8, pz]}
+              worldPosition={[px, 3.8, pz + 24]}
             />
           </group>
         );

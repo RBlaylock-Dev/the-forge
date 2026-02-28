@@ -88,6 +88,10 @@ export interface ForgeState {
   // Navigation fly (smooth animation)
   flyTarget: { x: number; z: number; yaw: number } | null;
 
+  // Tour
+  isTourActive: boolean;
+  tourStep: number;
+
   // Actions
   startGame: () => void;
   updatePlayerPosition: (x: number, y: number, z: number) => void;
@@ -101,4 +105,7 @@ export interface ForgeState {
   clearTeleport: () => void;
   flyToZone: (x: number, z: number, yaw: number) => void;
   clearFlyTarget: () => void;
+  startTour: () => void;
+  advanceTour: () => void;
+  endTour: () => void;
 }

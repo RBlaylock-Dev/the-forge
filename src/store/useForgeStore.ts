@@ -26,6 +26,10 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   // ── Navigation Fly ────────────────────────────────────
   flyTarget: null,
 
+  // ── Tour ─────────────────────────────────────────────
+  isTourActive: false,
+  tourStep: 0,
+
   // ── Actions ──────────────────────────────────────────────
   startGame: () => set({ isStarted: true }),
 
@@ -62,6 +66,10 @@ export const useForgeStore = create<ForgeState>()((set) => ({
     set({ flyTarget: { x, z, yaw } }),
 
   clearFlyTarget: () => set({ flyTarget: null }),
+
+  startTour: () => set({ isTourActive: true, tourStep: 0 }),
+  advanceTour: () => set((state) => ({ tourStep: state.tourStep + 1 })),
+  endTour: () => set({ isTourActive: false, tourStep: 0 }),
 }));
 
 /** Derived selector: discovery progress as 0–1 ratio */

@@ -115,7 +115,7 @@ src/
 ### PHASE UX-3: Onboarding & Guided Experience
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
-| UX-009 | Guided Intro Tour (First Visit) | TODO | `feat/UX-009-intro-tour` |
+| UX-009 | Guided Intro Tour (First Visit) | DONE | `feat/UX-009-intro-tour` |
 | UX-010 | Contextual Tooltips & Hover States | TODO | `feat/UX-010-hover-tooltips` |
 | UX-011 | Click-to-Interact (Replace E Key) | TODO | `feat/UX-011-click-interact` |
 

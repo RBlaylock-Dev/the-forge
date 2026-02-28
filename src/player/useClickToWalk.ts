@@ -119,6 +119,7 @@ export function useClickToWalk(
     const onClick = (e: MouseEvent) => {
       if (wasDrag(e)) return;
       if (!useForgeStore.getState().isStarted) return;
+      if (useForgeStore.getState().isTourActive) return;
       if (useForgeStore.getState().showDetail) return;
       if (flyState.current) return;
 
@@ -132,6 +133,7 @@ export function useClickToWalk(
     const onDblClick = (e: MouseEvent) => {
       if (wasDrag(e)) return;
       if (!useForgeStore.getState().isStarted) return;
+      if (useForgeStore.getState().isTourActive) return;
 
       const pt = screenToGround(e.clientX, e.clientY);
       if (!pt) return;

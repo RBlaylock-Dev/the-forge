@@ -93,12 +93,13 @@ function yawFacingCenter(x: number, z: number): number {
  */
 export function NavBar() {
   const isStarted = useForgeStore((s) => s.isStarted);
+  const isTourActive = useForgeStore((s) => s.isTourActive);
   const currentZone = useForgeStore((s) => s.currentZone);
   const flyToZone = useForgeStore((s) => s.flyToZone);
   const closeDetailPanel = useForgeStore((s) => s.closeDetailPanel);
   const showDetail = useForgeStore((s) => s.showDetail);
 
-  if (!isStarted) return null;
+  if (!isStarted || isTourActive) return null;
 
   const handleNav = (zoneId: ZoneId) => {
     if (currentZone === zoneId) return;
