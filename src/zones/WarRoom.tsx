@@ -103,6 +103,7 @@ export const WarRoom = memo(function WarRoom() {
       mesh.position.y = ud.baseY + Math.sin(t * 1.3 + ud.phase) * 0.15;
       mesh.rotation.y = t * 0.7 + ud.phase;
     }
+    
 
     // Rotate holographic ring slowly
     if (ringRef.current) {
@@ -112,7 +113,7 @@ export const WarRoom = memo(function WarRoom() {
 
   return (
     <group position={[0, 0, 24]}>
-      <ZoneLabel title="Currently Building" subtitle="7 active projects" position={[0, 5, 0]} />
+      <ZoneLabel title="Currently Building" subtitle="7 active projects" position={[0, 5, 0]} worldPosition={[0, 5, 24]} />
 
       {/* Table top */}
       <mesh position={[0, 1, 0]} material={tableMat}>

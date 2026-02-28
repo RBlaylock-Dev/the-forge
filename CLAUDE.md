@@ -107,7 +107,7 @@ src/
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
 | UX-004 | Floating Zone Title Signs | DONE | `feat/UX-004-zone-labels` |
-| UX-005 | Project Labels & Tier Badges | TODO | `feat/UX-005-project-labels` |
+| UX-005 | Project Labels & Tier Badges | DONE | `feat/UX-005-project-labels` |
 | UX-006 | Skill Node Labels & Category Headers | TODO | `feat/UX-006-skill-labels` |
 | UX-007 | Timeline Era Labels & Narrative Cards | TODO | `feat/UX-007-timeline-labels` |
 | UX-008 | War Room Project Status Cards | TODO | `feat/UX-008-warroom-labels` |

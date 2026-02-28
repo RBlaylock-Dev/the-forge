@@ -9,22 +9,24 @@ interface ZoneLabelProps {
   title: string;
   subtitle: string;
   position: [number, number, number];
+  worldPosition?: [number, number, number];
 }
 
 const FADE_FAR = 30;
 const FADE_NEAR = 15;
 
-export function ZoneLabel({ title, subtitle, position }: ZoneLabelProps) {
+export function ZoneLabel({ title, subtitle, position, worldPosition }: ZoneLabelProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const isStarted = useForgeStore((s) => s.isStarted);
+  const wp = worldPosition ?? position;
 
   useFrame(() => {
     const el = containerRef.current;
     if (!el) return;
 
     const { playerPosition } = useForgeStore.getState();
-    const dx = playerPosition.x - position[0];
-    const dz = playerPosition.z - position[2];
+    const dx = playerPosition.x - wp[0];
+    const dz = playerPosition.z - wp[2];
     const dist = Math.sqrt(dx * dx + dz * dz);
 
     // Opacity: 0 at FADE_FAR+, 1 at FADE_NEAR-

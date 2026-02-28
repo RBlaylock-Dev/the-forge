@@ -203,7 +203,7 @@ export const Hearth = memo(function Hearth() {
         position={[-3, 1.5, 0]}
       />
 
-      <ZoneLabel title="Robert Blaylock" subtitle="Software Engineer" position={[0, 6, 0]} />
+      <ZoneLabel title="Robert Blaylock" subtitle="Senior Full Stack Software Engineer | 3D Software Engineer | Mentor" position={[0, 6, 0]} />
       <Anvil />
       <FirePit />
       <Pillars />
