@@ -4,7 +4,9 @@ import { memo, useMemo } from 'react';
 import * as THREE from 'three';
 
 const pedestalMat = new THREE.MeshStandardMaterial({
-  color: 0x2a1e14,
+  color: 0x4a3a28,
+  emissive: 0x1a1008,
+  emissiveIntensity: 0.3,
   roughness: 0.5,
   metalness: 0.8,
 });

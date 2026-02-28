@@ -29,16 +29,16 @@ export function PathStrip({ from, to, color }: PathStripProps) {
     const len = dir.length();
     dir.normalize();
     const count = Math.floor(len / 1.5);
-    const target = new THREE.Vector3(to.x, 0.03, to.z);
 
     const items: { position: THREE.Vector3; quaternion: THREE.Quaternion }[] = [];
     for (let i = 0; i < count; i++) {
       const t = i / count;
-      const pos = new THREE.Vector3(
-        from.x + dir.x * len * t,
-        0.03,
-        from.z + dir.z * len * t,
-      );
+      const px = from.x + dir.x * len * t;
+      const pz = from.z + dir.z * len * t;
+      // Match the Ground vertex displacement so paths sit on terrain
+      const groundY = Math.sin(px * 0.2) * Math.cos(pz * 0.2) * 0.4;
+      const pos = new THREE.Vector3(px, groundY + 0.06, pz);
+      const target = new THREE.Vector3(to.x, pos.y, to.z);
       // Compute rotation to face the target
       const dummy = new THREE.Object3D();
       dummy.position.copy(pos);

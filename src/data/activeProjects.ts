@@ -22,7 +22,25 @@ export const ACTIVE_PROJECTS: ActiveProject[] = [
   {
     name: 'RB Digital',
     desc: 'Full-service web development agency',
-    color: 0xdd6644,
+    color: 0xee5533,
     status: 'Active',
   },
+  {
+    name: 'The Forge',
+    desc: 'Personal portfolio website',
+    color: 0xc4813a,
+    status: 'In Development',
+  },
+  {
+    name: 'HRPR',
+    desc: 'HRPR is the face of Armada Core and a conversational AI',
+    color: 0x9955dd,
+    status: 'In Development',
+  },
+  {
+    name: 'Escape The Odds',
+    desc: 'A client website for a non-profit organization for second chance individuals or those with a criminal background',
+    color: 0x44aadd,
+    status: 'In Development',
+  }
 ];

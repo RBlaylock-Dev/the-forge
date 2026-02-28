@@ -4,6 +4,7 @@ import { memo, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { SKILL_DATA } from '@/data/skills';
+import { ZoneLabel } from '@/objects/ZoneLabel';
 import type { DetailData } from '@/types';
 
 // ── Materials ───────────────────────────────────────────────
@@ -16,16 +17,21 @@ const trunkMat = new THREE.MeshStandardMaterial({
 });
 
 const platformMat = new THREE.MeshStandardMaterial({
-  color: 0x1a2a22,
+  color: 0x2a3a30,
+  emissive: 0x0a1008,
+  emissiveIntensity: 0.2,
   roughness: 0.5,
   metalness: 0.7,
 });
 
 // ── Category layout ─────────────────────────────────────────
+// Three trees in a circle, opening faces +X (path from Hearth).
+// Offset by 90° so no tree sits directly behind the trunk from the entrance.
+const TREE_RADIUS = 5;
 const CATEGORY_LAYOUT = [
-  { angle: 0, height: 5.5 },
-  { angle: 2.1, height: 4.8 },
-  { angle: 4.2, height: 4.2 },
+  { angle: Math.PI / 2, height: 5.5 },           // 90° — N
+  { angle: (7 * Math.PI) / 6, height: 4.8 },     // 210° — SW
+  { angle: (11 * Math.PI) / 6, height: 4.2 },    // 330° — SE
 ];
 
 // ── Connector helper ────────────────────────────────────────
@@ -80,8 +86,8 @@ function CategoryNode({
   nodesRef: React.MutableRefObject<THREE.Mesh[]>;
 }) {
   const layout = CATEGORY_LAYOUT[catIndex];
-  const bx = Math.cos(layout.angle) * 2;
-  const bz = Math.sin(layout.angle) * 2;
+  const bx = Math.cos(layout.angle) * TREE_RADIUS;
+  const bz = Math.sin(layout.angle) * TREE_RADIUS;
 
   const catMat = useMemo(
     () =>
@@ -104,8 +110,8 @@ function CategoryNode({
 
   const subNodes = useMemo(() => {
     return category.skills.map((skill, si) => {
-      const subAngle = layout.angle + (si - category.skills.length / 2) * 0.4;
-      const subR = 3 + si * 0.3;
+      const subAngle = layout.angle + (si - category.skills.length / 2) * 0.35;
+      const subR = TREE_RADIUS + 1.5 + si * 0.3;
       const sx = Math.cos(subAngle) * subR;
       const sz = Math.sin(subAngle) * subR;
       const sy = layout.height - 0.5 + si * 0.3;
@@ -133,7 +139,7 @@ function CategoryNode({
     <group>
       {/* Branch line from trunk to category */}
       <mesh position={[bx * 0.5, layout.height - 1, bz * 0.5]} material={trunkMat}>
-        <cylinderGeometry args={[0.06, 0.1, 3, 4]} />
+        <cylinderGeometry args={[0.06, 0.1, TREE_RADIUS + 1, 4]} />
       </mesh>
 
       {/* Category node (interactable) */}
@@ -198,9 +204,11 @@ export const SkillTree = memo(function SkillTree() {
 
   return (
     <group position={[-22, 0, 0]}>
+      <ZoneLabel title="Skills & Expertise" subtitle="Technologies I work with" position={[0, 8, 0]} />
+
       {/* Platform */}
       <mesh position={[0, 0.15, 0]} material={platformMat}>
-        <cylinderGeometry args={[4, 4.5, 0.3, 16]} />
+        <cylinderGeometry args={[6, 6.5, 0.3, 16]} />
       </mesh>
 
       {/* Trunk */}

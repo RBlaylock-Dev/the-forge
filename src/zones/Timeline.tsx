@@ -5,6 +5,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { TIMELINE_DATA } from '@/data/timeline';
 import type { DetailData } from '@/types';
+import { ZoneLabel } from '@/objects/ZoneLabel';
 
 // ── Materials ───────────────────────────────────────────────
 const pathMat = new THREE.MeshStandardMaterial({
@@ -141,6 +142,8 @@ export const Timeline = memo(function Timeline() {
 
   return (
     <group position={[0, 0, -24]}>
+      <ZoneLabel title="Career Journey" subtitle="From leadership to engineering" position={[0, 5, 0]} />
+
       {/* Path segments */}
       {TIMELINE_DATA.slice(0, -1).map((_, i) => (
         <PathSegment key={i} fromIndex={i} />
