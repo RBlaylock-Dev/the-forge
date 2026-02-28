@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import { TIMELINE_DATA } from '@/data/timeline';
 import type { DetailData } from '@/types';
 import { ZoneLabel } from '@/objects/ZoneLabel';
+import { TimelineCard } from '@/objects/TimelineCard';
 
 // ── Materials ───────────────────────────────────────────────
 const pathMat = new THREE.MeshStandardMaterial({
@@ -60,6 +61,8 @@ function EraMarker({
 }) {
   const { x, z } = getEraPosition(index);
   const baseY = 2.2;
+  const cardSide = index % 2 === 0 ? 'left' : 'right';
+  const cardZOffset = cardSide === 'left' ? -2.2 : 2.2;
 
   const markerMat = useMemo(
     () =>
@@ -91,6 +94,18 @@ function EraMarker({
 
   return (
     <group>
+      {/* Timeline card */}
+      <TimelineCard
+        era={era.era}
+        org={era.org}
+        years={era.years}
+        skill={era.skill}
+        color={era.color}
+        position={[x, 3.5, z + cardZOffset]}
+        worldPosition={[x, 3.5, z + cardZOffset - 24]}
+        side={cardSide}
+      />
+
       {/* Floating marker (interactable) */}
       <mesh
         ref={markerRef}

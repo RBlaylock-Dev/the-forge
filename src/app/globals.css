@@ -180,6 +180,52 @@ body {
   letter-spacing: 0.03em;
 }
 
+/* ── Timeline Cards ───────────────────────────────────── */
+
+.timeline-card {
+  text-align: center;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+  background: rgba(10, 8, 6, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid;
+  border-radius: 0.4rem;
+  padding: 0.35rem 0.6rem;
+}
+
+.timeline-card-years {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.timeline-card-era {
+  font-family: var(--font-cinzel), "Cinzel", serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #f5deb3;
+  margin-top: 0.1rem;
+  letter-spacing: 0.06em;
+}
+
+.timeline-card-org {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: #c4813a;
+  margin-top: 0.05rem;
+}
+
+.timeline-card-skill {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.55rem;
+  font-weight: 300;
+  color: #a09080;
+  margin-top: 0.1rem;
+  font-style: italic;
+}
+
 /* ── Keyboard Focus ─────────────────────────────────────── */
 
 /* Visible focus ring for keyboard users (not mouse) */
