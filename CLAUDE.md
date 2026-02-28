@@ -100,7 +100,7 @@ src/
 ### PHASE 6: Deployment
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
-| FORGE-027 | Vercel Deployment & Domain | TODO | `chore/FORGE-027-deployment` |
+| FORGE-027 | Vercel Deployment & Domain | DONE | `chore/FORGE-027-deployment` |
 
 ### PHASE UX-1: Navigation Overhaul
 | ID | Ticket | Status | Branch |
@@ -122,14 +122,14 @@ src/
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
 | UX-009 | Guided Intro Tour (First Visit) | DONE | `feat/UX-009-intro-tour` |
-| UX-010 | Contextual Tooltips & Hover States | TODO | `feat/UX-010-hover-tooltips` |
+| UX-010 | Contextual Tooltips & Hover States | DONE | `feat/UX-010-hover-tooltips` |
 | UX-011 | Click-to-Interact (Replace E Key) | TODO | `feat/UX-011-click-interact` |
 
 ### PHASE UX-4: Information Architecture & Contact
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
 | UX-012 | Welcome Zone (Hearth) — Bio & Resume | TODO | `feat/UX-012-hearth-bio` |
-| UX-013 | Contact Section / Modal | TODO | `feat/UX-013-contact-modal` |
+| UX-013 | Contact Section / Modal | DONE | `feat/FORGE-028-contact-form` |
 | UX-014 | Project Detail Panel — Enhanced | TODO | `feat/UX-014-enhanced-detail` |
 
 ### PHASE UX-5: Accessibility, Performance & Polish

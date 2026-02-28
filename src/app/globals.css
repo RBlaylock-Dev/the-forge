@@ -375,6 +375,36 @@ body {
   border-color: rgba(232, 165, 75, 0.5);
 }
 
+/* ── Cursor Tooltip ────────────────────────────────────── */
+
+.cursor-tooltip {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #e8a54b;
+  background: rgba(10, 8, 6, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(196, 129, 58, 0.3);
+  border-radius: 0.3rem;
+  padding: 0.25rem 0.6rem;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.cursor-tooltip-visible {
+  animation: tooltip-fade-in 0.2s ease forwards;
+}
+
+@keyframes tooltip-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* ── Keyboard Focus ─────────────────────────────────────── */
 
 /* Visible focus ring for keyboard users (not mouse) */
