@@ -6,10 +6,15 @@ import { useForgeStore } from '@/store/useForgeStore';
 export function StartOverlay() {
   const isStarted = useForgeStore((s) => s.isStarted);
   const startGame = useForgeStore((s) => s.startGame);
+  const startTour = useForgeStore((s) => s.startTour);
 
   const handleClick = useCallback(() => {
     startGame();
-  }, [startGame]);
+    // Start tour on first visit
+    if (typeof window !== 'undefined' && !localStorage.getItem('forge-tour-done')) {
+      startTour();
+    }
+  }, [startGame, startTour]);
 
   return (
     <div

@@ -9,6 +9,7 @@ import { DetailPanel } from './DetailPanel';
 import { Minimap } from './Minimap';
 import { ControlsHUD } from './ControlsHUD';
 import { NavBar } from './NavBar';
+import { IntroTour } from './IntroTour';
 
 /**
  * HUD — single compositor component that renders all overlay elements.
@@ -21,6 +22,7 @@ import { NavBar } from './NavBar';
  *   z-20:  Dynamic prompts (InteractPrompt)
  *   z-50:  Notifications (ZoneFlash)
  *   z-60:  DetailPanel (slide-in panel)
+ *   z-70:  IntroTour (first-visit flythrough)
  *   z-100: Modal overlays (StartOverlay)
  *
  * The wrapper div has pointer-events: none so clicks pass through
@@ -57,6 +59,9 @@ export function HUD() {
 
       {/* ── z-60: Detail panel ───────────────────────────────── */}
       <DetailPanel />
+
+      {/* ── z-70: Intro tour ───────────────────────────────── */}
+      <IntroTour />
 
       {/* ── z-100: Modal overlays ────────────────────────────── */}
       <StartOverlay />

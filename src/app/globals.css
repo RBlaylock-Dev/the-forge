@@ -313,6 +313,68 @@ body {
   line-height: 1.2;
 }
 
+/* ── Intro Tour ───────────────────────────────────────── */
+
+.tour-text {
+  text-align: center;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  background: rgba(10, 8, 6, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(196, 129, 58, 0.3);
+  border-radius: 0.6rem;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.tour-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.tour-message {
+  font-family: var(--font-cinzel), "Cinzel", serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #e8a54b;
+  text-shadow: 0 0 12px rgba(232, 165, 75, 0.5);
+  letter-spacing: 0.06em;
+}
+
+.tour-progress {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: #a09080;
+  letter-spacing: 0.1em;
+}
+
+.tour-skip-btn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #a09080;
+  background: rgba(10, 8, 6, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(160, 144, 128, 0.3);
+  border-radius: 0.4rem;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  letter-spacing: 0.05em;
+}
+
+.tour-skip-btn:hover {
+  color: #e8a54b;
+  border-color: rgba(232, 165, 75, 0.5);
+}
+
 /* ── Keyboard Focus ─────────────────────────────────────── */
 
 /* Visible focus ring for keyboard users (not mouse) */
