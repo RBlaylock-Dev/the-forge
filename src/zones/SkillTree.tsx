@@ -5,6 +5,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { SKILL_DATA } from '@/data/skills';
 import { ZoneLabel } from '@/objects/ZoneLabel';
+import { CategoryLabel, SkillNodeLabel } from '@/objects/SkillLabel';
 import type { DetailData } from '@/types';
 
 // ── Materials ───────────────────────────────────────────────
@@ -142,6 +143,14 @@ function CategoryNode({
         <cylinderGeometry args={[0.06, 0.1, TREE_RADIUS + 1, 4]} />
       </mesh>
 
+      {/* Category header label */}
+      <CategoryLabel
+        name={category.name}
+        color={category.color}
+        position={[bx, layout.height + 0.8, bz]}
+        worldPosition={[bx - 22, layout.height + 0.8, bz]}
+      />
+
       {/* Category node (interactable) */}
       <mesh
         ref={(el) => {
@@ -174,6 +183,13 @@ function CategoryNode({
           >
             <icosahedronGeometry args={[sn.size, 0]} />
           </mesh>
+          <SkillNodeLabel
+            name={category.skills[si].name}
+            level={category.skills[si].level}
+            color={category.color}
+            position={[sn.sx, sn.sy + 0.35, sn.sz]}
+            worldPosition={[sn.sx - 22, sn.sy + 0.35, sn.sz]}
+          />
           <Connector
             from={catPos}
             to={new THREE.Vector3(sn.sx, sn.sy, sn.sz)}

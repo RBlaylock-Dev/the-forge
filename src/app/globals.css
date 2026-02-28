@@ -180,6 +180,42 @@ body {
   letter-spacing: 0.03em;
 }
 
+/* ── Skill Labels ─────────────────────────────────────── */
+
+.skill-cat-label {
+  text-align: center;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+}
+
+.skill-cat-name {
+  font-family: var(--font-cinzel), "Cinzel", serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.skill-node-label {
+  text-align: center;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+}
+
+.skill-node-name {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: #f5deb3;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.04em;
+}
+
+.skill-node-level {
+  font-size: 0.55rem;
+  margin-top: 0.05rem;
+  letter-spacing: 0.1em;
+}
+
 /* ── Keyboard Focus ─────────────────────────────────────── */
 
 /* Visible focus ring for keyboard users (not mouse) */
