@@ -261,6 +261,58 @@ body {
   letter-spacing: 0.1em;
 }
 
+/* ── Holo Labels (War Room) ────────────────────────────── */
+
+.holo-label {
+  text-align: center;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+  background: rgba(10, 20, 30, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid;
+  border-radius: 0.3rem;
+  padding: 0.3rem 0.5rem;
+  max-width: 12rem;
+}
+
+.holo-label-name {
+  font-family: var(--font-cinzel), "Cinzel", serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.holo-label-status {
+  display: inline-block;
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.5rem;
+  font-weight: 600;
+  padding: 0.02rem 0.35rem;
+  border-radius: 0.5rem;
+  margin-top: 0.1rem;
+  letter-spacing: 0.06em;
+}
+
+.holo-status-dev {
+  background: rgba(34, 170, 204, 0.25);
+  color: #22aacc;
+}
+
+.holo-status-active {
+  background: rgba(68, 221, 136, 0.25);
+  color: #44dd88;
+}
+
+.holo-label-desc {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.5rem;
+  font-weight: 300;
+  color: #a0b0c0;
+  margin-top: 0.1rem;
+  white-space: normal;
+  line-height: 1.2;
+}
+
 /* ── Keyboard Focus ─────────────────────────────────────── */
 
 /* Visible focus ring for keyboard users (not mouse) */

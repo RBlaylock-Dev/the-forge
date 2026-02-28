@@ -110,7 +110,7 @@ src/
 | UX-005 | Project Labels & Tier Badges | DONE | `feat/UX-005-project-labels` |
 | UX-006 | Skill Node Labels & Category Headers | DONE | `feat/UX-006-skill-labels` |
 | UX-007 | Timeline Era Labels & Narrative Cards | DONE | `feat/UX-007-timeline-labels` |
-| UX-008 | War Room Project Status Cards | TODO | `feat/UX-008-warroom-labels` |
+| UX-008 | War Room Project Status Cards | DONE | `feat/UX-008-warroom-labels` |
 
 ### PHASE UX-3: Onboarding & Guided Experience
 | ID | Ticket | Status | Branch |

@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import { ACTIVE_PROJECTS } from '@/data/activeProjects';
 import type { DetailData } from '@/types';
 import { ZoneLabel } from '@/objects/ZoneLabel';
+import { HoloLabel } from '@/objects/HoloLabel';
 
 // ── Materials ───────────────────────────────────────────────
 const tableMat = new THREE.MeshStandardMaterial({
@@ -136,16 +137,31 @@ export const WarRoom = memo(function WarRoom() {
       </mesh>
 
       {/* Holograms */}
-      {ACTIVE_PROJECTS.map((proj, i) => (
-        <Hologram
-          key={proj.name}
-          project={proj}
-          index={i}
-          holoRef={(el) => {
-            holosRef.current[i] = el;
-          }}
-        />
-      ))}
+      {ACTIVE_PROJECTS.map((proj, i) => {
+        const angle = (i / ACTIVE_PROJECTS.length) * Math.PI * 2;
+        const r = 1.6;
+        const px = Math.cos(angle) * r;
+        const pz = Math.sin(angle) * r;
+        return (
+          <group key={proj.name}>
+            <Hologram
+              project={proj}
+              index={i}
+              holoRef={(el) => {
+                holosRef.current[i] = el;
+              }}
+            />
+            <HoloLabel
+              name={proj.name}
+              desc={proj.desc}
+              status={proj.status}
+              color={proj.color}
+              position={[px, 3.2, pz]}
+              worldPosition={[px, 3.2, pz + 24]}
+            />
+          </group>
+        );
+      })}
     </group>
   );
 });
