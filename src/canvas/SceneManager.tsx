@@ -16,7 +16,7 @@ import { PathStrip } from '@/objects/PathStrip';
 function Fog() {
   const { scene } = useThree();
   useMemo(() => {
-    scene.fog = new THREE.FogExp2(0x0a0806, 0.018);
+    scene.fog = new THREE.FogExp2(0x0a0806, 0.014);
   }, [scene]);
   return null;
 }
@@ -42,6 +42,8 @@ function Ground() {
     >
       <meshStandardMaterial
         color={0x1a1210}
+        emissive={0x0a0806}
+        emissiveIntensity={0.25}
         roughness={0.95}
         metalness={0.1}
       />
@@ -55,7 +57,7 @@ export function SceneManager() {
       <Fog />
 
       {/* Ambient */}
-      <ambientLight color={0x1a0e06} intensity={0.35} />
+      <ambientLight color={0x2a1a10} intensity={0.9} />
 
       {/* Fill light A */}
       <pointLight

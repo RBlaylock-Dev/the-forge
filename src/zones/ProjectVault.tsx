@@ -7,10 +7,13 @@ import { PROJECTS } from '@/data/projects';
 import { TIER_COLORS } from '@/data/theme';
 import { Pedestal } from '@/objects/Pedestal';
 import type { ArtifactShape, DetailData } from '@/types';
+import { ZoneLabel } from '@/objects/ZoneLabel';
 
 // ── Platform material ───────────────────────────────────────
 const platformMat = new THREE.MeshStandardMaterial({
-  color: 0x1a1510,
+  color: 0x2a2018,
+  emissive: 0x0a0806,
+  emissiveIntensity: 0.2,
   roughness: 0.5,
   metalness: 0.7,
 });
@@ -100,6 +103,8 @@ export const ProjectVault = memo(function ProjectVault() {
 
   return (
     <group position={[22, 0, 0]}>
+      <ZoneLabel title="Projects" subtitle="12 shipped projects" position={[0, 6, 0]} />
+
       {/* Platform */}
       <mesh position={[0, 0.1, 0]} material={platformMat}>
         <cylinderGeometry args={[10, 10.5, 0.2, 24]} />

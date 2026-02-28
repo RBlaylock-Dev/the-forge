@@ -3,16 +3,21 @@
 import { memo, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { ZoneLabel } from '@/objects/ZoneLabel';
 
 // ── Materials (shared across meshes) ────────────────────────
 const darkMetal = new THREE.MeshStandardMaterial({
-  color: 0x2a2018,
+  color: 0x4a3d30,
+  emissive: 0x1a1008,
+  emissiveIntensity: 0.3,
   roughness: 0.6,
   metalness: 0.8,
 });
 
 const brightMetal = new THREE.MeshStandardMaterial({
-  color: 0x3a3028,
+  color: 0x504038,
+  emissive: 0x1a1008,
+  emissiveIntensity: 0.2,
   roughness: 0.4,
   metalness: 0.9,
 });
@@ -108,7 +113,8 @@ function Pillars() {
   const pillars = useMemo(() => {
     const items: { x: number; z: number }[] = [];
     for (let i = 0; i < 6; i++) {
-      const angle = (i / 6) * Math.PI * 2;
+      // Offset by 15° so pillars fall between all four zone paths
+      const angle = (i / 6) * Math.PI * 2 + Math.PI / 12;
       items.push({
         x: Math.cos(angle) * 6,
         z: Math.sin(angle) * 6,
@@ -197,6 +203,7 @@ export const Hearth = memo(function Hearth() {
         position={[-3, 1.5, 0]}
       />
 
+      <ZoneLabel title="Robert Blaylock" subtitle="Software Engineer" position={[0, 6, 0]} />
       <Anvil />
       <FirePit />
       <Pillars />
