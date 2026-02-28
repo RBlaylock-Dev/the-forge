@@ -30,6 +30,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   isTourActive: false,
   tourStep: 0,
 
+  // ── Resume ──────────────────────────────────────────
+  showResume: false,
+
   // ── Actions ──────────────────────────────────────────────
   startGame: () => set({ isStarted: true }),
 
@@ -70,6 +73,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   startTour: () => set({ isTourActive: true, tourStep: 0 }),
   advanceTour: () => set((state) => ({ tourStep: state.tourStep + 1 })),
   endTour: () => set({ isTourActive: false, tourStep: 0 }),
+
+  openResume: () => set({ showResume: true }),
+  closeResume: () => set({ showResume: false }),
 }));
 
 /** Derived selector: discovery progress as 0–1 ratio */

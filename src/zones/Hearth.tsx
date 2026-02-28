@@ -4,6 +4,7 @@ import { memo, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { ZoneLabel } from '@/objects/ZoneLabel';
+import { ResumeScroll } from '@/objects/ResumeScroll';
 
 // ── Materials (shared across meshes) ────────────────────────
 const darkMetal = new THREE.MeshStandardMaterial({
@@ -207,6 +208,7 @@ export const Hearth = memo(function Hearth() {
       <Anvil />
       <FirePit />
       <Pillars />
+      <ResumeScroll />
     </group>
   );
 });
