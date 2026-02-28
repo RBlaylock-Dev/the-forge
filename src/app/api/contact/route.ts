@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
     const timestamp = new Date().toISOString();
 
     await resend.emails.send({
-      from: 'The Forge <onboarding@resend.dev>',
+      from: 'The Forge <forge@rblaylock.dev>',
       to: [toEmail],
       subject: `[The Forge] ${subject} from ${name}`,
       html: `
