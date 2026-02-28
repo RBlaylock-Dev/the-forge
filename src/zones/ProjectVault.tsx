@@ -8,6 +8,7 @@ import { TIER_COLORS } from '@/data/theme';
 import { Pedestal } from '@/objects/Pedestal';
 import type { ArtifactShape, DetailData } from '@/types';
 import { ZoneLabel } from '@/objects/ZoneLabel';
+import { ProjectLabel } from '@/objects/ProjectLabel';
 
 // ── Platform material ───────────────────────────────────────
 const platformMat = new THREE.MeshStandardMaterial({
@@ -103,7 +104,7 @@ export const ProjectVault = memo(function ProjectVault() {
 
   return (
     <group position={[22, 0, 0]}>
-      <ZoneLabel title="Projects" subtitle="12 shipped projects" position={[0, 6, 0]} />
+      <ZoneLabel title="Projects" subtitle="12 shipped projects" position={[0, 6, 0]} worldPosition={[22, 6, 0]} />
 
       {/* Platform */}
       <mesh position={[0, 0.1, 0]} material={platformMat}>
@@ -123,6 +124,14 @@ export const ProjectVault = memo(function ProjectVault() {
               artifactRef={(el) => {
                 artifactsRef.current[i] = el;
               }}
+            />
+            <ProjectLabel
+              name={proj.name}
+              tier={proj.tier}
+              tags={proj.tags}
+              color={proj.color}
+              position={[x, 3.5, z]}
+              worldPosition={[x + 22, 3.5, z]}
             />
           </group>
         );

@@ -142,7 +142,7 @@ export const Timeline = memo(function Timeline() {
 
   return (
     <group position={[0, 0, -24]}>
-      <ZoneLabel title="Career Journey" subtitle="From leadership to engineering" position={[0, 5, 0]} />
+      <ZoneLabel title="Career Journey" subtitle="From leadership to engineering" position={[0, 5, 0]} worldPosition={[0, 5, -24]} />
 
       {/* Path segments */}
       {TIMELINE_DATA.slice(0, -1).map((_, i) => (

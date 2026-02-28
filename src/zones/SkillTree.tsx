@@ -204,7 +204,7 @@ export const SkillTree = memo(function SkillTree() {
 
   return (
     <group position={[-22, 0, 0]}>
-      <ZoneLabel title="Skills & Expertise" subtitle="Technologies I work with" position={[0, 8, 0]} />
+      <ZoneLabel title="Skills & Expertise" subtitle="Technologies I work with" position={[0, 8, 0]} worldPosition={[-22, 8, 0]} />
 
       {/* Platform */}
       <mesh position={[0, 0.15, 0]} material={platformMat}>
