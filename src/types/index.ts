@@ -92,6 +92,9 @@ export interface ForgeState {
   isTourActive: boolean;
   tourStep: number;
 
+  // Resume
+  showResume: boolean;
+
   // Actions
   startGame: () => void;
   updatePlayerPosition: (x: number, y: number, z: number) => void;
@@ -108,4 +111,6 @@ export interface ForgeState {
   startTour: () => void;
   advanceTour: () => void;
   endTour: () => void;
+  openResume: () => void;
+  closeResume: () => void;
 }
