@@ -14,6 +14,7 @@ import { ResumePreview } from './ResumePreview';
 import { ContactButton } from './ContactButton';
 import { ContactModal } from './ContactModal';
 import { IntroTour } from './IntroTour';
+import { CursorTooltip } from './CursorTooltip';
 
 /**
  * HUD — single compositor component that renders all overlay elements.
@@ -60,6 +61,7 @@ export function HUD() {
 
       {/* ── z-20: Dynamic prompts ────────────────────────────── */}
       <InteractPrompt />
+      <CursorTooltip />
 
       {/* ── z-50: Notifications ──────────────────────────────── */}
       <ZoneFlash />

@@ -7,11 +7,14 @@ import { useForgeStore } from '@/store/useForgeStore';
 
 const MAX_DISTANCE = 6;
 const GLOW_DISTANCE = 5;
+const HOVER_SCALE = 1.05;
+const SCALE_LERP = 0.1;
 
 // ── Reusable objects (avoid per-frame allocations) ──────────
 const raycaster = new THREE.Raycaster();
 const center = new THREE.Vector2(0, 0);
 const _worldPos = new THREE.Vector3();
+const _targetScale = new THREE.Vector3();
 
 /**
  * Interaction hook — raycasts from camera center to detect
@@ -98,8 +101,12 @@ export function useInteraction() {
 
     const canvas = gl.domElement;
 
-    if (hit && hit.object.userData.interactable) {
-      const ud = hit.object.userData;
+    const hitMesh = hit && hit.object.userData.interactable
+      ? (hit.object as THREE.Mesh)
+      : null;
+
+    if (hitMesh) {
+      const ud = hitMesh.userData;
       const name = ud.name as string;
       if (name !== prevTarget.current) {
         prevTarget.current = name;
@@ -118,6 +125,21 @@ export function useInteraction() {
       if (canvas.style.cursor === 'pointer') {
         canvas.style.cursor = 'grab';
       }
+    }
+
+    // ── Hover scale — lerp interactables toward target scale ──
+    for (let i = 0; i < interactables.length; i++) {
+      const mesh = interactables[i];
+
+      // Store base scale on first encounter
+      if (mesh.userData.baseScale === undefined) {
+        mesh.userData.baseScale = mesh.scale.x;
+      }
+
+      const base = mesh.userData.baseScale as number;
+      const target = mesh === hitMesh ? base * HOVER_SCALE : base;
+      _targetScale.set(target, target, target);
+      mesh.scale.lerp(_targetScale, SCALE_LERP);
     }
   }, [camera, scene, gl, setInteractTarget]);
 
