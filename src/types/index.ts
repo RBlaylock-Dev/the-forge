@@ -95,6 +95,9 @@ export interface ForgeState {
   // Resume
   showResume: boolean;
 
+  // Contact
+  showContact: boolean;
+
   // Actions
   startGame: () => void;
   updatePlayerPosition: (x: number, y: number, z: number) => void;
@@ -113,4 +116,6 @@ export interface ForgeState {
   endTour: () => void;
   openResume: () => void;
   closeResume: () => void;
+  openContact: () => void;
+  closeContact: () => void;
 }
