@@ -4,6 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import { ACESFilmicToneMapping, PCFSoftShadowMap } from 'three';
 import { SceneManager } from './SceneManager';
 import { PostProcessing } from './PostProcessing';
+import { ProgressTracker } from './ProgressTracker';
 
 export function ForgeCanvas() {
   return (
@@ -18,6 +19,7 @@ export function ForgeCanvas() {
         }}
         dpr={[1, 2]}
       >
+        <ProgressTracker />
         <SceneManager />
         <PostProcessing />
       </Canvas>
