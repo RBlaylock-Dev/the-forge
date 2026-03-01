@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useRef, useCallback } from 'react';
 import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useForgeStore } from '@/store/useForgeStore';
@@ -18,8 +18,8 @@ const _targetScale = new THREE.Vector3();
 
 /**
  * Interaction hook — raycasts from camera center to detect
- * interactable objects, adjusts proximity glow, and handles
- * the E key to open the detail panel.
+ * interactable objects and adjusts proximity glow + hover scale.
+ * Click-to-interact is handled by onClick on individual meshes.
  *
  * Performance: caches the interactable mesh list and rebuilds
  * it only when the scene children change. Reuses a single
@@ -32,21 +32,6 @@ export function useInteraction() {
   const lastChildCount = useRef(0);
 
   const setInteractTarget = useForgeStore((s) => s.setInteractTarget);
-  const showDetailPanel = useForgeStore((s) => s.showDetailPanel);
-
-  // ── E key handler ─────────────────────────────────────────
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.code !== 'KeyE') return;
-      const { interactTarget } = useForgeStore.getState();
-      if (interactTarget) {
-        showDetailPanel(interactTarget.userData);
-      }
-    };
-
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [showDetailPanel]);
 
   // ── Per-frame raycast + proximity glow ────────────────────
   const update = useCallback(() => {

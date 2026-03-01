@@ -4,10 +4,8 @@ import { StartOverlay } from './StartOverlay';
 import { TopBar } from './TopBar';
 import { XPBar } from './XPBar';
 import { ZoneFlash } from './ZoneFlash';
-import { InteractPrompt } from './InteractPrompt';
 import { DetailPanel } from './DetailPanel';
 import { Minimap } from './Minimap';
-import { ControlsHUD } from './ControlsHUD';
 import { NavBar } from './NavBar';
 import { ResumeButton } from './ResumeButton';
 import { ResumePreview } from './ResumePreview';
@@ -22,9 +20,9 @@ import { CursorTooltip } from './CursorTooltip';
  *
  *   z-2:   CSS vignette overlay (cinematic edge darkening)
  *   z-3:   CSS scanlines overlay (subtle CRT effect)
- *   z-10:  Static overlays (TopBar, XPBar, Minimap, ControlsHUD, ResumeButton)
+ *   z-10:  Static overlays (TopBar, XPBar, Minimap, ResumeButton, ContactButton)
  *   z-10:  NavBar (interactive, pointer-events: auto)
- *   z-20:  Dynamic prompts (InteractPrompt)
+ *   z-20:  Dynamic prompts (CursorTooltip)
  *   z-50:  Notifications (ZoneFlash)
  *   z-60:  DetailPanel (slide-in panel)
  *   z-70:  IntroTour (first-visit flythrough)
@@ -54,13 +52,11 @@ export function HUD() {
       <TopBar />
       <XPBar />
       <Minimap />
-      <ControlsHUD />
       <NavBar />
       <ContactButton />
       <ResumeButton />
 
       {/* ── z-20: Dynamic prompts ────────────────────────────── */}
-      <InteractPrompt />
       <CursorTooltip />
 
       {/* ── z-50: Notifications ──────────────────────────────── */}

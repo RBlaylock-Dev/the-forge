@@ -74,7 +74,7 @@ export const ResumeScroll = memo(function ResumeScroll() {
   };
 
   return (
-    <group position={[-1, 0, -2]}>
+    <group position={[3, 0, -3]}>
       {/* Display stand */}
       <mesh position={[0, 0.5, 0]} material={standMat}>
         <cylinderGeometry args={[0.25, 0.35, 1, 8]} />

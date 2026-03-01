@@ -82,7 +82,7 @@ export const ContactAnvil = memo(function ContactAnvil() {
   };
 
   return (
-    <group position={[2, 0, -1]}>
+    <group position={[-3, 0, -3]}>
       {/* Pedestal */}
       <mesh position={[0, 0.45, 0]} material={pedestalMat}>
         <cylinderGeometry args={[0.3, 0.4, 0.9, 8]} />

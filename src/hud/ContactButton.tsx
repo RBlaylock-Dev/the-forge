@@ -20,7 +20,7 @@ export function ContactButton() {
       className="font-rajdhani"
       style={{
         position: 'fixed',
-        bottom: 116,
+        bottom: 208,
         right: 16,
         zIndex: 10,
         display: 'flex',
