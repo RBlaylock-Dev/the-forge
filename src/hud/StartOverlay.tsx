@@ -23,7 +23,7 @@ export function StartOverlay() {
       const p = Math.round(loadProgress.value);
       setProgress(p);
 
-      if (p >= 100 && !loadProgress.active) {
+      if (!loadProgress.active) {
         setLoaded(true);
         return;
       }
@@ -75,6 +75,17 @@ export function StartOverlay() {
         outline: 'none',
       }}
     >
+      <img
+        src="/forge-logo-transparent.svg"
+        alt="The Forge logo"
+        style={{
+          width: 'clamp(120px, 25vw, 200px)',
+          height: 'auto',
+          marginBottom: 16,
+          filter: 'drop-shadow(0 0 30px rgba(232,165,75,0.3))',
+        }}
+      />
+
       <h1
         className="font-cinzel"
         style={{

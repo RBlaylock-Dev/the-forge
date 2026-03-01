@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="fireT" x1="0.5" y1="1" x2="0.5" y2="0">
+      <stop offset="0%" stop-color="#c4813a"/>
+      <stop offset="45%" stop-color="#e8a54b"/>
+      <stop offset="80%" stop-color="#ff6b1a"/>
+      <stop offset="100%" stop-color="#ffaa44"/>
+    </linearGradient>
+    <linearGradient id="anvilT" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#5a4a36"/>
+      <stop offset="100%" stop-color="#3a2e20"/>
+    </linearGradient>
+    <filter id="glow" x="-15%" y="-15%" width="130%" height="130%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Flame with glow -->
+  <g filter="url(#glow)">
+    <!-- Center flame -->
+    <path d="
+      M 256 32
+      C 256 32, 185 145, 196 200
+      C 203 235, 228 260, 256 268
+      C 284 260, 309 235, 316 200
+      C 327 145, 256 32, 256 32
+      Z
+    " fill="url(#fireT)"/>
+
+    <!-- Left small flame -->
+    <path d="
+      M 208 110
+      C 208 110, 175 165, 184 200
+      C 189 220, 204 238, 220 248
+      C 224 242, 222 225, 218 210
+      C 212 180, 208 110, 208 110
+      Z
+    " fill="url(#fireT)" opacity="0.7"/>
+
+    <!-- Right small flame -->
+    <path d="
+      M 304 110
+      C 304 110, 337 165, 328 200
+      C 323 220, 308 238, 292 248
+      C 288 242, 290 225, 294 210
+      C 300 180, 304 110, 304 110
+      Z
+    " fill="url(#fireT)" opacity="0.7"/>
+
+    <!-- Core -->
+    <path d="
+      M 256 120
+      C 256 120, 232 180, 238 210
+      C 242 230, 250 245, 256 250
+      C 262 245, 270 230, 274 210
+      C 280 180, 256 120, 256 120
+      Z
+    " fill="#ffdd77" opacity="0.5"/>
+  </g>
+
+  <!-- Anvil -->
+  <g>
+    <!-- Top face -->
+    <path d="
+      M 120 295
+      L 392 295
+      L 380 270
+      C 374 262, 350 252, 320 252
+      L 192 252
+      C 162 252, 138 262, 132 270
+      Z
+    " fill="url(#anvilT)" stroke="#c4813a" stroke-width="2" stroke-opacity="0.35"/>
+
+    <!-- Horn -->
+    <path d="
+      M 392 295
+      L 436 280
+      C 444 277, 446 282, 442 287
+      L 400 300
+      Z
+    " fill="#3a2e20" stroke="#c4813a" stroke-width="1.5" stroke-opacity="0.25"/>
+
+    <!-- Body -->
+    <path d="
+      M 148 295
+      L 364 295
+      L 360 335
+      L 152 335
+      Z
+    " fill="#2a1e14" stroke="#c4813a" stroke-width="1.5" stroke-opacity="0.2"/>
+
+    <!-- Waist -->
+    <rect x="184" y="335" width="144" height="35" rx="2" fill="#221a10"
+          stroke="#c4813a" stroke-width="1" stroke-opacity="0.15"/>
+
+    <!-- Base -->
+    <path d="
+      M 140 370
+      L 372 370
+      L 380 410
+      L 380 425
+      C 380 430, 375 435, 370 435
+      L 142 435
+      C 137 435, 132 430, 132 425
+      L 132 410
+      Z
+    " fill="url(#anvilT)" stroke="#c4813a" stroke-width="2" stroke-opacity="0.3"/>
+
+    <!-- Top face shine -->
+    <line x1="145" y1="264" x2="368" y2="264" stroke="#c4813a" stroke-width="1.5" opacity="0.2"/>
+  </g>
+
+  <!-- Embers -->
+  <circle cx="198" cy="155" r="4" fill="#ff6b1a" opacity="0.7"/>
+  <circle cx="316" cy="140" r="3.5" fill="#e8a54b" opacity="0.6"/>
+  <circle cx="240" cy="100" r="3" fill="#ffaa44" opacity="0.65"/>
+  <circle cx="280" cy="85" r="2.5" fill="#ff6b1a" opacity="0.5"/>
+  <circle cx="180" cy="180" r="2.5" fill="#e8a54b" opacity="0.5"/>
+  <circle cx="330" cy="168" r="2" fill="#ff6b1a" opacity="0.45"/>
+
+  <!-- RB monogram -->
+  <text x="222" y="325" font-family="Georgia, 'Times New Roman', serif" font-weight="800"
+        font-size="36" fill="#c4813a" opacity="0.4" letter-spacing="8">RB</text>
+
+</svg>
