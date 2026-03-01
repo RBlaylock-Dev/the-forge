@@ -14,7 +14,7 @@ export function XPBar() {
       style={{
         position: 'fixed',
         top: 52,
-        right: 28,
+        right: 'clamp(12px, 3vw, 28px)',
         zIndex: 10,
         display: 'flex',
         alignItems: 'center',
@@ -37,7 +37,7 @@ export function XPBar() {
 
       <div
         style={{
-          width: 120,
+          width: 'clamp(80px, 15vw, 120px)',
           height: 6,
           borderRadius: 3,
           background: 'rgba(196,129,58,0.15)',

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
+import { isMobile } from '@/utils/mobile';
 
 /**
  * PostProcessing — cinematic effects layer for the forge scene.
@@ -10,12 +11,12 @@ import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
  * - Vignette: darkened edges for dramatic framing
  *
  * Respects `prefers-reduced-motion` — renders Vignette-only when
- * the user prefers reduced motion (no bloom animation). If perf
- * issues are detected, the component can be conditionally disabled
- * from the parent ForgeCanvas.
+ * the user prefers reduced motion (no bloom animation).
+ * Disables bloom on mobile for performance.
  */
 export function PostProcessing() {
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [mobile] = useState(() => isMobile());
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -26,8 +27,8 @@ export function PostProcessing() {
     return () => mq.removeEventListener('change', onChange);
   }, []);
 
-  // When reduced motion is preferred, skip Bloom entirely
-  if (reducedMotion) {
+  // Skip bloom on mobile or reduced-motion
+  if (reducedMotion || mobile) {
     return (
       <EffectComposer multisampling={0}>
         <Vignette offset={0.3} darkness={0.5} />

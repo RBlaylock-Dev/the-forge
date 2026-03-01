@@ -113,6 +113,37 @@ body {
   .nav-label {
     display: none;
   }
+
+  .zone-label-title {
+    font-size: 1rem !important;
+  }
+
+  .zone-label-subtitle {
+    font-size: 0.65rem !important;
+  }
+
+  .bio-card {
+    transform: scale(0.8);
+    transform-origin: center center;
+  }
+
+  .project-label-name {
+    font-size: 0.65rem !important;
+  }
+
+  .timeline-card {
+    padding: 6px 10px !important;
+  }
+
+  .timeline-card-era {
+    font-size: 0.7rem !important;
+  }
+
+  .timeline-card-org,
+  .timeline-card-skill,
+  .timeline-card-years {
+    font-size: 0.55rem !important;
+  }
 }
 
 /* ── Zone Labels ───────────────────────────────────────── */
