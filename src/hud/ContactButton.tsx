@@ -1,6 +1,7 @@
 'use client';
 
 import { useForgeStore } from '@/store/useForgeStore';
+import { useIsMobile } from '@/utils/mobile';
 
 /**
  * ContactButton — Persistent floating button in the HUD.
@@ -10,6 +11,7 @@ export function ContactButton() {
   const isStarted = useForgeStore((s) => s.isStarted);
   const isTourActive = useForgeStore((s) => s.isTourActive);
   const openContact = useForgeStore((s) => s.openContact);
+  const mobile = useIsMobile();
 
   if (!isStarted || isTourActive) return null;
 
@@ -20,8 +22,9 @@ export function ContactButton() {
       className="font-rajdhani"
       style={{
         position: 'fixed',
-        bottom: 208,
-        right: 16,
+        bottom: mobile ? 80 : 208,
+        right: mobile ? undefined : 16,
+        left: mobile ? 16 : undefined,
         zIndex: 10,
         display: 'flex',
         alignItems: 'center',

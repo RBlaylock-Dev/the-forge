@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useCallback } from 'react';
 import { useForgeStore } from '@/store/useForgeStore';
+import { useIsMobile } from '@/utils/mobile';
 import { ZONE_DEFS } from '@/data/zones';
 import type { ZoneId } from '@/types';
 
@@ -44,6 +45,7 @@ function worldToMinimap(worldX: number, worldZ: number): [number, number] {
  * via requestAnimationFrame for smooth real-time updates.
  */
 export function Minimap() {
+  const mobile = useIsMobile();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animFrameRef = useRef<number>(0);
 
@@ -135,9 +137,12 @@ export function Minimap() {
 
   // Start/stop the render loop
   useEffect(() => {
+    if (mobile) return;
     animFrameRef.current = requestAnimationFrame(draw);
     return () => cancelAnimationFrame(animFrameRef.current);
-  }, [draw]);
+  }, [draw, mobile]);
+
+  if (mobile) return null;
 
   return (
     <div

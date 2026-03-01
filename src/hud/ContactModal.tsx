@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useForgeStore } from '@/store/useForgeStore';
+import { useIsMobile } from '@/utils/mobile';
 
 const SUBJECT_OPTIONS = [
   'Hiring Inquiry',
@@ -106,6 +107,7 @@ const errorStyle: React.CSSProperties = {
 export function ContactModal() {
   const showContact = useForgeStore((s) => s.showContact);
   const closeContact = useForgeStore((s) => s.closeContact);
+  const mobile = useIsMobile();
 
   const [formData, setFormData] = useState<FormData>(INITIAL_FORM);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -218,7 +220,18 @@ export function ContactModal() {
 
       {/* Modal */}
       <div
-        style={{
+        style={mobile ? {
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          maxWidth: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          background: '#1a1511',
+          border: 'none',
+          borderRadius: 0,
+          overflow: 'hidden',
+        } : {
           position: 'relative',
           width: '90%',
           maxWidth: 520,
