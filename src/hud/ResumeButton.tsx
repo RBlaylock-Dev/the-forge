@@ -20,7 +20,7 @@ export function ResumeButton() {
       className="font-rajdhani"
       style={{
         position: 'fixed',
-        bottom: 76,
+        bottom: 168,
         right: 16,
         zIndex: 10,
         display: 'flex',

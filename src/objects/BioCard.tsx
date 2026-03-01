@@ -13,7 +13,7 @@ interface BioCardProps {
 const FADE_FAR = 30;
 const FADE_NEAR = 15;
 
-const LINKEDIN_URL = 'https://www.linkedin.com/in/robertblaylock-dev/';
+const LINKEDIN_URL = 'https://www.linkedin.com/in/rblaylock286/';
 const GITHUB_URL = 'https://github.com/RBlaylock-Dev';
 
 /**
