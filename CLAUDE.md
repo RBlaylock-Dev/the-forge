@@ -135,7 +135,7 @@ src/
 ### PHASE UX-5: Accessibility, Performance & Polish
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
-| UX-015 | Loading Screen with Progress | TODO | `feat/UX-015-loading-screen` |
+| UX-015 | Loading Screen with Progress | DONE | `feat/UX-015-loading-screen` |
 | UX-016 | Responsive Design & Mobile Experience | TODO | `feat/UX-016-responsive-mobile` |
 | UX-017 | Keyboard Accessibility & Screen Reader | TODO | `feat/UX-017-accessibility` |
 | UX-018 | Social Preview & Meta Tags | TODO | `feat/UX-018-social-meta` |
