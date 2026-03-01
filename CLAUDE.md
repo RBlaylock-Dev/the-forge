@@ -128,7 +128,7 @@ src/
 ### PHASE UX-4: Information Architecture & Contact
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
-| UX-012 | Welcome Zone (Hearth) — Bio & Resume | TODO | `feat/UX-012-hearth-bio` |
+| UX-012 | Welcome Zone (Hearth) — Bio & Resume | DONE | `feat/UX-012-hearth-bio` |
 | UX-013 | Contact Section / Modal | DONE | `feat/FORGE-028-contact-form` |
 | UX-014 | Project Detail Panel — Enhanced | TODO | `feat/UX-014-enhanced-detail` |
 
