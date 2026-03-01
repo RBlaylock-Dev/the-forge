@@ -375,6 +375,112 @@ body {
   border-color: rgba(232, 165, 75, 0.5);
 }
 
+/* ── Bio Card ─────────────────────────────────────────── */
+
+.bio-card {
+  text-align: center;
+  transition: opacity 0.3s ease;
+  background: rgba(10, 8, 6, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(196, 129, 58, 0.3);
+  border-radius: 0.6rem;
+  padding: 1rem 1.5rem;
+  max-width: 22rem;
+}
+
+.bio-card-name {
+  font-family: var(--font-cinzel), "Cinzel", serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #e8a54b;
+  text-shadow: 0 0 12px rgba(232, 165, 75, 0.6), 0 0 24px rgba(196, 129, 58, 0.3);
+  letter-spacing: 0.1em;
+}
+
+.bio-card-title {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #c4813a;
+  text-shadow: 0 0 8px rgba(196, 129, 58, 0.3);
+  margin-top: 0.2rem;
+  letter-spacing: 0.04em;
+}
+
+.bio-card-location {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: #a09080;
+  margin-top: 0.15rem;
+  letter-spacing: 0.06em;
+}
+
+.bio-card-tagline {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: #f5deb3;
+  margin-top: 0.5rem;
+  line-height: 1.3;
+  white-space: normal;
+}
+
+.bio-card-stats {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: #e8a54b;
+  margin-top: 0.4rem;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.bio-card-actions {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
+  pointer-events: auto;
+}
+
+.bio-card-btn {
+  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.bio-card-btn-primary {
+  background: rgba(196, 129, 58, 0.2);
+  border: 1px solid rgba(196, 129, 58, 0.4);
+  color: #e8a54b;
+}
+
+.bio-card-btn-primary:hover {
+  background: rgba(196, 129, 58, 0.35);
+  border-color: rgba(232, 165, 75, 0.6);
+  box-shadow: 0 0 8px rgba(196, 129, 58, 0.3);
+}
+
+.bio-card-btn-link {
+  background: transparent;
+  border: 1px solid rgba(160, 144, 128, 0.25);
+  color: #a09080;
+}
+
+.bio-card-btn-link:hover {
+  color: #f5deb3;
+  border-color: rgba(245, 222, 179, 0.4);
+}
+
 /* ── Cursor Tooltip ────────────────────────────────────── */
 
 .cursor-tooltip {
