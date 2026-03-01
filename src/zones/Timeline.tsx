@@ -7,6 +7,7 @@ import { TIMELINE_DATA } from '@/data/timeline';
 import type { DetailData } from '@/types';
 import { ZoneLabel } from '@/objects/ZoneLabel';
 import { TimelineCard } from '@/objects/TimelineCard';
+import { useForgeStore } from '@/store/useForgeStore';
 
 // ── Materials ───────────────────────────────────────────────
 const pathMat = new THREE.MeshStandardMaterial({
@@ -117,6 +118,10 @@ function EraMarker({
           detailData,
           baseY,
           phase: index * 1.2,
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          useForgeStore.getState().showDetailPanel(detailData);
         }}
       >
         <octahedronGeometry args={[0.4, 0]} />

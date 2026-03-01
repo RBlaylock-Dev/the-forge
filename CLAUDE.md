@@ -123,7 +123,7 @@ src/
 |----|--------|--------|--------|
 | UX-009 | Guided Intro Tour (First Visit) | DONE | `feat/UX-009-intro-tour` |
 | UX-010 | Contextual Tooltips & Hover States | DONE | `feat/UX-010-hover-tooltips` |
-| UX-011 | Click-to-Interact (Replace E Key) | TODO | `feat/UX-011-click-interact` |
+| UX-011 | Click-to-Interact (Replace E Key) | DONE | `feat/UX-011-click-interact` |
 
 ### PHASE UX-4: Information Architecture & Contact
 | ID | Ticket | Status | Branch |

@@ -7,6 +7,7 @@ import { ACTIVE_PROJECTS } from '@/data/activeProjects';
 import type { DetailData } from '@/types';
 import { ZoneLabel } from '@/objects/ZoneLabel';
 import { HoloLabel } from '@/objects/HoloLabel';
+import { useForgeStore } from '@/store/useForgeStore';
 
 // ── Materials ───────────────────────────────────────────────
 const tableMat = new THREE.MeshStandardMaterial({
@@ -83,6 +84,10 @@ function Hologram({
         detailData,
         baseY,
         phase: index * 1.5,
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        useForgeStore.getState().showDetailPanel(detailData);
       }}
     />
   );

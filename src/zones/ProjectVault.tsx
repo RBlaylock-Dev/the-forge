@@ -9,6 +9,7 @@ import { Pedestal } from '@/objects/Pedestal';
 import type { ArtifactShape, DetailData } from '@/types';
 import { ZoneLabel } from '@/objects/ZoneLabel';
 import { ProjectLabel } from '@/objects/ProjectLabel';
+import { useForgeStore } from '@/store/useForgeStore';
 
 // ── Platform material ───────────────────────────────────────
 const platformMat = new THREE.MeshStandardMaterial({
@@ -82,6 +83,10 @@ function Artifact({
         detailData,
         baseY,
         phase: index * 0.7,
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        useForgeStore.getState().showDetailPanel(detailData);
       }}
     />
   );
