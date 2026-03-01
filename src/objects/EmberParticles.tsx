@@ -3,13 +3,16 @@
 import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { isMobile } from '@/utils/mobile';
 
-const COUNT = 500;
+const FULL_COUNT = 500;
 const SPREAD = 60;
 const Y_MAX = 18;
 
 export function EmberParticles() {
   const pointsRef = useRef<THREE.Points>(null);
+
+  const COUNT = useMemo(() => isMobile() ? Math.floor(FULL_COUNT / 2) : FULL_COUNT, []);
 
   const { positions, speeds } = useMemo(() => {
     const pos = new Float32Array(COUNT * 3);
@@ -21,7 +24,7 @@ export function EmberParticles() {
       spd[i] = Math.random() * 0.5 + 0.15;
     }
     return { positions: pos, speeds: spd };
-  }, []);
+  }, [COUNT]);
 
   useFrame(({ clock }) => {
     if (!pointsRef.current) return;

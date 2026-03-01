@@ -4,11 +4,15 @@ import { StartOverlay } from './StartOverlay';
 import { TopBar } from './TopBar';
 import { XPBar } from './XPBar';
 import { ZoneFlash } from './ZoneFlash';
-import { InteractPrompt } from './InteractPrompt';
 import { DetailPanel } from './DetailPanel';
 import { Minimap } from './Minimap';
-import { ControlsHUD } from './ControlsHUD';
 import { NavBar } from './NavBar';
+import { ResumeButton } from './ResumeButton';
+import { ResumePreview } from './ResumePreview';
+import { ContactButton } from './ContactButton';
+import { ContactModal } from './ContactModal';
+import { IntroTour } from './IntroTour';
+import { CursorTooltip } from './CursorTooltip';
 
 /**
  * HUD — single compositor component that renders all overlay elements.
@@ -16,11 +20,13 @@ import { NavBar } from './NavBar';
  *
  *   z-2:   CSS vignette overlay (cinematic edge darkening)
  *   z-3:   CSS scanlines overlay (subtle CRT effect)
- *   z-10:  Static overlays (TopBar, XPBar, Minimap, ControlsHUD)
+ *   z-10:  Static overlays (TopBar, XPBar, Minimap, ResumeButton, ContactButton)
  *   z-10:  NavBar (interactive, pointer-events: auto)
- *   z-20:  Dynamic prompts (InteractPrompt)
+ *   z-20:  Dynamic prompts (CursorTooltip)
  *   z-50:  Notifications (ZoneFlash)
  *   z-60:  DetailPanel (slide-in panel)
+ *   z-70:  IntroTour (first-visit flythrough)
+ *   z-80:  ResumePreview (full-screen overlay)
  *   z-100: Modal overlays (StartOverlay)
  *
  * The wrapper div has pointer-events: none so clicks pass through
@@ -46,17 +52,25 @@ export function HUD() {
       <TopBar />
       <XPBar />
       <Minimap />
-      <ControlsHUD />
       <NavBar />
+      <ContactButton />
+      <ResumeButton />
 
       {/* ── z-20: Dynamic prompts ────────────────────────────── */}
-      <InteractPrompt />
+      <CursorTooltip />
 
       {/* ── z-50: Notifications ──────────────────────────────── */}
       <ZoneFlash />
 
       {/* ── z-60: Detail panel ───────────────────────────────── */}
       <DetailPanel />
+
+      {/* ── z-70: Intro tour ───────────────────────────────── */}
+      <IntroTour />
+
+      {/* ── z-80: Full-screen overlays ──────────────────────────── */}
+      <ResumePreview />
+      <ContactModal />
 
       {/* ── z-100: Modal overlays ────────────────────────────── */}
       <StartOverlay />

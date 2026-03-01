@@ -7,6 +7,7 @@ import { SKILL_DATA } from '@/data/skills';
 import { ZoneLabel } from '@/objects/ZoneLabel';
 import { CategoryLabel, SkillNodeLabel } from '@/objects/SkillLabel';
 import type { DetailData } from '@/types';
+import { useForgeStore } from '@/store/useForgeStore';
 
 // ── Materials ───────────────────────────────────────────────
 const trunkMat = new THREE.MeshStandardMaterial({
@@ -165,6 +166,10 @@ function CategoryNode({
           detailData,
           baseY: layout.height,
           phase: catIndex * 1.5,
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          useForgeStore.getState().showDetailPanel(detailData);
         }}
       >
         <icosahedronGeometry args={[0.4, 1]} />

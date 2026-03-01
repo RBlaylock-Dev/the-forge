@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useForgeStore } from '@/store/useForgeStore';
+import { useIsMobile } from '@/utils/mobile';
 import type { Project, SkillCategory, TimelineEra, ActiveProject, ProjectTier } from '@/types';
 
 const TIER_HEX: Record<ProjectTier, string> = {
@@ -184,6 +185,7 @@ export function DetailPanel() {
   const activeDetail = useForgeStore((s) => s.activeDetail);
   const showDetail = useForgeStore((s) => s.showDetail);
   const closeDetailPanel = useForgeStore((s) => s.closeDetailPanel);
+  const mobile = useIsMobile();
 
   // ESC to close
   useEffect(() => {
@@ -201,7 +203,23 @@ export function DetailPanel() {
       role="dialog"
       aria-label="Detail panel"
       className="font-rajdhani"
-      style={{
+      style={mobile ? {
+        position: 'fixed',
+        left: 0,
+        right: 0,
+        bottom: 0,
+        height: '70vh',
+        zIndex: 60,
+        background: 'rgba(10,8,6,0.95)',
+        backdropFilter: 'blur(12px)',
+        borderTop: '1px solid rgba(196,129,58,0.2)',
+        padding: '24px 20px',
+        overflowY: 'auto',
+        transform: showDetail ? 'translateY(0)' : 'translateY(100%)',
+        transition: 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
+        pointerEvents: showDetail ? 'auto' : 'none',
+        borderRadius: '16px 16px 0 0',
+      } : {
         position: 'fixed',
         top: 0,
         right: 0,

@@ -12,7 +12,7 @@ const BOUND = 45;
 const PLAYER_Y = 1.7;
 
 // ── Orbit camera constants ───────────────────────────────────
-export const DEFAULT_PITCH = -0.3; // ~17° downward
+export const DEFAULT_PITCH = -0.15; // ~8.5° downward — shows Hearth + BioCard on start
 const MIN_ZOOM = 0;
 const MAX_ZOOM = 15;
 const ZOOM_SPEED = 1.5;
@@ -26,7 +26,7 @@ export function useMovement() {
   const pitch = useRef(DEFAULT_PITCH);
 
   // ── Orbit camera refs ──────────────────────────────────────
-  const zoom = useRef(0);
+  const zoom = useRef(10);
   const isDragging = useRef(false);
   const playerPos = useRef(new THREE.Vector3(0, PLAYER_Y, 0));
 
@@ -74,7 +74,7 @@ export function useMovement() {
 
       yaw.current -= dx * DRAG_SENSITIVITY;
       pitch.current -= dy * DRAG_SENSITIVITY;
-      pitch.current = Math.max(-PITCH_LIMIT, Math.min(PITCH_LIMIT, pitch.current));
+      pitch.current = Math.max(DEFAULT_PITCH, Math.min(PITCH_LIMIT, pitch.current));
     };
 
     const onMouseUp = () => {
@@ -115,7 +115,7 @@ export function useMovement() {
         lastMouse.y = e.touches[0].clientY;
         yaw.current -= dx * DRAG_SENSITIVITY;
         pitch.current -= dy * DRAG_SENSITIVITY;
-        pitch.current = Math.max(-PITCH_LIMIT, Math.min(PITCH_LIMIT, pitch.current));
+        pitch.current = Math.max(DEFAULT_PITCH, Math.min(PITCH_LIMIT, pitch.current));
       } else if (touchCount === 2 && e.touches.length === 2) {
         const dx = e.touches[1].clientX - e.touches[0].clientX;
         const dy = e.touches[1].clientY - e.touches[0].clientY;
@@ -201,10 +201,10 @@ export function useMovement() {
       const zoomDist = zoom.current;
 
       if (zoomDist > 0.1) {
-        // Pull-back: camera behind and above player
-        const offsetX = Math.sin(yaw.current) * zoomDist;
-        const offsetZ = Math.cos(yaw.current) * zoomDist;
-        const offsetY = zoomDist * 0.5;
+        // Pull-back: camera behind and above player, with pitch
+        const offsetX = Math.sin(yaw.current) * Math.cos(pitch.current) * zoomDist;
+        const offsetZ = Math.cos(yaw.current) * Math.cos(pitch.current) * zoomDist;
+        const offsetY = -Math.sin(pitch.current) * zoomDist;
 
         camera.position.set(pp.x + offsetX, PLAYER_Y + offsetY, pp.z + offsetZ);
         camera.lookAt(pp.x, PLAYER_Y, pp.z);

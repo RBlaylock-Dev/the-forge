@@ -26,6 +26,16 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   // ── Navigation Fly ────────────────────────────────────
   flyTarget: null,
 
+  // ── Tour ─────────────────────────────────────────────
+  isTourActive: false,
+  tourStep: 0,
+
+  // ── Resume ──────────────────────────────────────────
+  showResume: false,
+
+  // ── Contact ─────────────────────────────────────────
+  showContact: false,
+
   // ── Actions ──────────────────────────────────────────────
   startGame: () => set({ isStarted: true }),
 
@@ -62,6 +72,16 @@ export const useForgeStore = create<ForgeState>()((set) => ({
     set({ flyTarget: { x, z, yaw } }),
 
   clearFlyTarget: () => set({ flyTarget: null }),
+
+  startTour: () => set({ isTourActive: true, tourStep: 0 }),
+  advanceTour: () => set((state) => ({ tourStep: state.tourStep + 1 })),
+  endTour: () => set({ isTourActive: false, tourStep: 0 }),
+
+  openResume: () => set({ showResume: true }),
+  closeResume: () => set({ showResume: false }),
+
+  openContact: () => set({ showContact: true }),
+  closeContact: () => set({ showContact: false }),
 }));
 
 /** Derived selector: discovery progress as 0–1 ratio */

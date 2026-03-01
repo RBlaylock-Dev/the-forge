@@ -3,7 +3,9 @@
 import { memo, useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { ZoneLabel } from '@/objects/ZoneLabel';
+import { BioCard } from '@/objects/BioCard';
+import { ResumeScroll } from '@/objects/ResumeScroll';
+import { ContactAnvil } from '@/objects/ContactAnvil';
 
 // ── Materials (shared across meshes) ────────────────────────
 const darkMetal = new THREE.MeshStandardMaterial({
@@ -203,10 +205,12 @@ export const Hearth = memo(function Hearth() {
         position={[-3, 1.5, 0]}
       />
 
-      <ZoneLabel title="Robert Blaylock" subtitle="Senior Full Stack Software Engineer | 3D Software Engineer | Mentor" position={[0, 6, 0]} />
+      <BioCard position={[0, 5, 0]} />
       <Anvil />
       <FirePit />
       <Pillars />
+      <ResumeScroll />
+      <ContactAnvil />
     </group>
   );
 });

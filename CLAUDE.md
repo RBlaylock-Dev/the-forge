@@ -10,7 +10,13 @@ Always reference these docs before building any ticket:
 
 - `docs/THE-FORGE-HANDOFF.md` — Complete project spec (tech stack, zones, aesthetics, architecture, content data, engineering rules)
 - `docs/THE-FORGE-TICKETS.md` — 24 detailed tickets across 6 phases with acceptance criteria
-- `docs/the-forge-ux-tickets.md` — 18 UX overhaul tickets across 5 phases (navigation, labeling, onboarding, content, polish)
+- `docs/THE-FORGE-UX-TICKETS.md` — 18 UX overhaul tickets across 5 phases (navigation, labeling, onboarding, content, polish)
+- `docs/FORGE-CONTACT-RESUME-TICKETS.md` — FORGE-028 (Contact Form) + FORGE-029 (Resume Download) — critical v1 conversion features
+- `docs/UX-019-SKILL-TREE-EXPANDED.md` — Expanded Skill Tree with 70+ skills, tiered reveal pattern, full data structure
+- `docs/robert-blaylock-skills.md` — Master skills inventory (5 categories, 20+ subcategories, 70+ skills)
+- `docs/THE-FORGE-ENGAGEMENT-STRATEGY.md` — Engagement hooks roadmap (Phases A-E: first impression, pull forward, depth, easter eggs, conversion)
+- `docs/THE-FORGE-FUTURE-FEATURES.md` — 25 future feature ideas across 3 tiers (F-001 to F-025)
+- `docs/THE-FORGE-FUTURE-TICKETS.md` — Full ticket specs for all future features
 - `docs/the-forge-v2.html` — Fully functional HTML prototype (open in browser for visual/behavioral reference)
 
 ## Tech Stack
@@ -94,7 +100,7 @@ src/
 ### PHASE 6: Deployment
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
-| FORGE-027 | Vercel Deployment & Domain | TODO | `chore/FORGE-027-deployment` |
+| FORGE-027 | Vercel Deployment & Domain | DONE | `chore/FORGE-027-deployment` |
 
 ### PHASE UX-1: Navigation Overhaul
 | ID | Ticket | Status | Branch |
@@ -115,24 +121,83 @@ src/
 ### PHASE UX-3: Onboarding & Guided Experience
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
-| UX-009 | Guided Intro Tour (First Visit) | TODO | `feat/UX-009-intro-tour` |
-| UX-010 | Contextual Tooltips & Hover States | TODO | `feat/UX-010-hover-tooltips` |
-| UX-011 | Click-to-Interact (Replace E Key) | TODO | `feat/UX-011-click-interact` |
+| UX-009 | Guided Intro Tour (First Visit) | DONE | `feat/UX-009-intro-tour` |
+| UX-010 | Contextual Tooltips & Hover States | DONE | `feat/UX-010-hover-tooltips` |
+| UX-011 | Click-to-Interact (Replace E Key) | DONE | `feat/UX-011-click-interact` |
 
 ### PHASE UX-4: Information Architecture & Contact
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
-| UX-012 | Welcome Zone (Hearth) — Bio & Resume | TODO | `feat/UX-012-hearth-bio` |
-| UX-013 | Contact Section / Modal | TODO | `feat/UX-013-contact-modal` |
+| UX-012 | Welcome Zone (Hearth) — Bio & Resume | DONE | `feat/UX-012-hearth-bio` |
+| UX-013 | Contact Section / Modal | DONE | `feat/FORGE-028-contact-form` |
 | UX-014 | Project Detail Panel — Enhanced | TODO | `feat/UX-014-enhanced-detail` |
 
 ### PHASE UX-5: Accessibility, Performance & Polish
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
-| UX-015 | Loading Screen with Progress | TODO | `feat/UX-015-loading-screen` |
-| UX-016 | Responsive Design & Mobile Experience | TODO | `feat/UX-016-responsive-mobile` |
+| UX-015 | Loading Screen with Progress | DONE | `feat/UX-015-loading-screen` |
+| UX-016 | Responsive Design & Mobile Experience | DONE | `feat/UX-016-responsive-mobile` |
 | UX-017 | Keyboard Accessibility & Screen Reader | TODO | `feat/UX-017-accessibility` |
 | UX-018 | Social Preview & Meta Tags | TODO | `feat/UX-018-social-meta` |
+
+### PHASE CORE: Conversion Essentials (Must Ship v1)
+| ID | Ticket | Status | Branch |
+|----|--------|--------|--------|
+| FORGE-028 | Contact Form & Email Delivery | DONE | `feat/FORGE-028-contact-form` |
+| FORGE-029 | Resume Download | DONE | `feat/FORGE-029-resume-download` |
+
+### PHASE UX-EXT: Expanded Features
+| ID | Ticket | Status | Branch |
+|----|--------|--------|--------|
+| UX-019 | Skill Tree — Expanded Inventory (70+ skills) | TODO | `feat/UX-019-skill-tree-expanded` |
+
+### PHASE ENGAGEMENT: Hooks & Polish (from Engagement Strategy)
+| ID | Ticket | Status | Branch |
+|----|--------|--------|--------|
+| UX-020 | Cinematic Cold Open | TODO | `feat/UX-020-cinematic-cold-open` |
+| UX-021 | Forge Codex (Discovery Tracker) | TODO | `feat/UX-021-forge-codex` |
+| UX-022 | Contextual CTAs | TODO | `feat/UX-022-contextual-ctas` |
+| UX-023 | Breadcrumb Particles | TODO | `feat/UX-023-breadcrumb-particles` |
+| UX-024 | Ambient Soundscape | TODO | `feat/UX-024-ambient-sound` |
+| UX-025 | Zone Unlock Cinematics | TODO | `feat/UX-025-zone-unlock` |
+| UX-026 | Screenshot Mode | TODO | `feat/UX-026-screenshot-mode` |
+| UX-027 | Resume as Forge Artifact | TODO | `feat/UX-027-resume-artifact` |
+| UX-028 | Project Live Previews | TODO | `feat/UX-028-project-previews` |
+| UX-029 | Dynamic Time-of-Day Lighting | TODO | `feat/UX-029-time-of-day` |
+| UX-030 | Skill Constellations | TODO | `feat/UX-030-skill-constellations` |
+| UX-031 | Hidden Forge (Secret Zone) | TODO | `feat/UX-031-hidden-forge` |
+| UX-032 | Forge Events (Ambient Surprises) | TODO | `feat/UX-032-forge-events` |
+| UX-033 | Konami Code Easter Egg | TODO | `feat/UX-033-konami-code` |
+| UX-034 | Visitor Counter / Social Proof | TODO | `feat/UX-034-visitor-counter` |
+
+### PHASE FUTURE: Future Features (Post-Launch)
+| ID | Ticket | Status | Branch |
+|----|--------|--------|--------|
+| F-001 | AI Forge Assistant (Portfolio Guide) | TODO | `feat/F-001-ai-forge-assistant` |
+| F-002 | Live Code Playground | TODO | `feat/F-002-code-playground` |
+| F-003 | Multiplayer Forge (Co-Presence) | TODO | `feat/F-003-multiplayer` |
+| F-004 | Project Forge Replay | TODO | `feat/F-004-forge-replay` |
+| F-005 | Testimonials Forge Wall | TODO | `feat/F-005-testimonials` |
+| F-006 | Weather System | TODO | `feat/F-006-weather` |
+| F-007 | Achievement System & Badges | TODO | `feat/F-007-achievements` |
+| F-008 | Blog Forge (Content Zone) | TODO | `feat/F-008-blog-forge` |
+| F-009 | Seasonal Forge Themes | TODO | `feat/F-009-seasonal-themes` |
+| F-010 | Interactive Resume Builder | TODO | `feat/F-010-resume-builder` |
+| F-011 | Forge Radio (Soundtrack) | TODO | `feat/F-011-forge-radio` |
+| F-012 | Visitor Heatmap (Admin Dashboard) | TODO | `feat/F-012-visitor-heatmap` |
+| F-013 | AR Mode | TODO | `feat/F-013-ar-mode` |
+| F-014 | Voice Navigation | TODO | `feat/F-014-voice-nav` |
+| F-015 | Forge Guestbook | TODO | `feat/F-015-guestbook` |
+| F-016 | Mini-Game: Forge the Code | TODO | `feat/F-016-forge-game` |
+| F-017 | Custom Cursor Forge Tool | TODO | `feat/F-017-custom-cursors` |
+| F-018 | Project Comparison Mode | TODO | `feat/F-018-project-comparison` |
+| F-019 | Collaborative Whiteboard | TODO | `feat/F-019-whiteboard` |
+| F-020 | Accessibility Audio Tour | TODO | `feat/F-020-audio-tour` |
+| F-021 | The Forge API | TODO | `feat/F-021-forge-api` |
+| F-022 | GitHub Activity Heatmap | TODO | `feat/F-022-github-heatmap` |
+| F-023 | Forge Changelog | TODO | `feat/F-023-changelog` |
+| F-024 | Spotify Integration | TODO | `feat/F-024-spotify` |
+| F-025 | Forge Lore Pages | TODO | `feat/F-025-lore-pages` |
 
 ## Optimized Build Order
 

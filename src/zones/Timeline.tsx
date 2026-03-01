@@ -7,6 +7,7 @@ import { TIMELINE_DATA } from '@/data/timeline';
 import type { DetailData } from '@/types';
 import { ZoneLabel } from '@/objects/ZoneLabel';
 import { TimelineCard } from '@/objects/TimelineCard';
+import { useForgeStore } from '@/store/useForgeStore';
 
 // ── Materials ───────────────────────────────────────────────
 const pathMat = new THREE.MeshStandardMaterial({
@@ -62,7 +63,6 @@ function EraMarker({
   const { x, z } = getEraPosition(index);
   const baseY = 2.2;
   const cardSide = index % 2 === 0 ? 'left' : 'right';
-  const cardZOffset = cardSide === 'left' ? -2.2 : 2.2;
 
   const markerMat = useMemo(
     () =>
@@ -101,8 +101,8 @@ function EraMarker({
         years={era.years}
         skill={era.skill}
         color={era.color}
-        position={[x, 3.5, z + cardZOffset]}
-        worldPosition={[x, 3.5, z + cardZOffset - 24]}
+        position={[x, 3.5, z]}
+        worldPosition={[x, 3.5, z - 24]}
         side={cardSide}
       />
 
@@ -118,6 +118,10 @@ function EraMarker({
           detailData,
           baseY,
           phase: index * 1.2,
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          useForgeStore.getState().showDetailPanel(detailData);
         }}
       >
         <octahedronGeometry args={[0.4, 0]} />

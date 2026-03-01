@@ -23,7 +23,7 @@ export function TopBar() {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: '18px 28px',
+        padding: 'clamp(12px, 2vw, 18px) clamp(16px, 4vw, 28px)',
         background:
           'linear-gradient(180deg, rgba(10,8,6,0.92) 0%, transparent 100%)',
         pointerEvents: 'none',
@@ -34,7 +34,7 @@ export function TopBar() {
         className="font-cinzel"
         style={{
           fontWeight: 900,
-          fontSize: 16,
+          fontSize: 'clamp(12px, 3vw, 16px)',
           letterSpacing: '5px',
           color: '#c4813a',
           textTransform: 'uppercase',
@@ -49,7 +49,7 @@ export function TopBar() {
       <div
         className="font-cinzel"
         style={{
-          fontSize: 13,
+          fontSize: 'clamp(10px, 2.5vw, 13px)',
           letterSpacing: '4px',
           textTransform: 'uppercase',
           color: isActive ? '#e8a54b' : '#5a4a3a',
