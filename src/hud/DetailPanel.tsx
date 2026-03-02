@@ -3,7 +3,8 @@
 import { useEffect } from 'react';
 import { useForgeStore } from '@/store/useForgeStore';
 import { useIsMobile } from '@/utils/mobile';
-import type { Project, SkillCategory, TimelineEra, ActiveProject, ProjectTier } from '@/types';
+import { PROFICIENCY_LEVELS } from '@/data/skills';
+import type { Project, SkillSubcategory, SkillCategoryConfig, TimelineEra, ActiveProject, ProjectTier } from '@/types';
 
 const TIER_HEX: Record<ProjectTier, string> = {
   LEGENDARY: '#ff6600',
@@ -145,40 +146,72 @@ function ProjectDetail({ data }: { data: Project }) {
   );
 }
 
-function SkillCategoryDetail({ data }: { data: SkillCategory }) {
-  const colorHex = `#${data.color.toString(16).padStart(6, '0')}`;
+function SkillSubcategoryDetail({ subcategory, category }: { subcategory: SkillSubcategory; category: SkillCategoryConfig }) {
   return (
     <>
       <h2 className="font-cinzel" style={{ fontSize: 22, fontWeight: 700, color: '#f5deb3', margin: 0, marginBottom: 4 }}>
-        {data.name}
+        {subcategory.label}
       </h2>
       <div
         className="font-rajdhani"
-        style={{ fontSize: 11, letterSpacing: '2px', textTransform: 'uppercase', color: colorHex, marginBottom: 20 }}
+        style={{ fontSize: 11, letterSpacing: '2px', textTransform: 'uppercase', color: category.color, marginBottom: 20 }}
       >
-        Skill Branch
+        Part of {category.label}
       </div>
 
       <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-        {data.skills.map((skill) => (
-          <li
-            key={skill.name}
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '6px 0',
-              borderBottom: '1px solid rgba(196,129,58,0.1)',
-            }}
-          >
-            <span style={{ fontSize: 13, color: '#c4b99a' }}>{skill.name}</span>
-            <span style={{ fontSize: 12, letterSpacing: '2px', color: colorHex }}>
-              {'⚒'.repeat(skill.level)}
-              <span style={{ opacity: 0.2 }}>{'⚒'.repeat(5 - skill.level)}</span>
-            </span>
-          </li>
-        ))}
+        {subcategory.skills.map((skill) => {
+          const prof = PROFICIENCY_LEVELS[skill.proficiency];
+          return (
+            <li
+              key={skill.id}
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '8px 0',
+                borderBottom: '1px solid rgba(196,129,58,0.1)',
+              }}
+            >
+              <span style={{ fontSize: 13, color: '#c4b99a' }}>{skill.name}</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div style={{ display: 'flex', gap: 3 }}>
+                  {[1, 2, 3, 4].map((dot) => (
+                    <span
+                      key={dot}
+                      style={{
+                        width: 7,
+                        height: 7,
+                        borderRadius: '50%',
+                        background: dot <= prof.dots ? prof.color : 'rgba(196,129,58,0.15)',
+                        display: 'inline-block',
+                      }}
+                    />
+                  ))}
+                </div>
+                <span style={{ fontSize: 9, color: prof.color, letterSpacing: '1px', textTransform: 'uppercase', minWidth: 60, textAlign: 'right' }}>
+                  {prof.label}
+                </span>
+              </div>
+            </li>
+          );
+        })}
       </ul>
+
+      <div
+        className="font-rajdhani"
+        style={{
+          fontSize: 11,
+          letterSpacing: '1.5px',
+          color: '#4a3d30',
+          textTransform: 'uppercase',
+          marginTop: 20,
+          paddingTop: 12,
+          borderTop: '1px solid rgba(196,129,58,0.1)',
+        }}
+      >
+        {subcategory.skills.length} skills &middot; Part of {category.label}
+      </div>
     </>
   );
 }
@@ -311,7 +344,7 @@ export function DetailPanel() {
       {/* Content */}
       <div style={{ marginTop: 24 }}>
         {activeDetail?.type === 'project' && <ProjectDetail data={activeDetail.data} />}
-        {activeDetail?.type === 'skill-category' && <SkillCategoryDetail data={activeDetail.data} />}
+        {activeDetail?.type === 'skill-subcategory' && <SkillSubcategoryDetail subcategory={activeDetail.data.subcategory} category={activeDetail.data.category} />}
         {activeDetail?.type === 'timeline-era' && <TimelineEraDetail data={activeDetail.data} />}
         {activeDetail?.type === 'active-project' && <ActiveProjectDetail data={activeDetail.data} />}
       </div>

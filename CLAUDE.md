@@ -149,7 +149,7 @@ src/
 ### PHASE UX-EXT: Expanded Features
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
-| UX-019 | Skill Tree — Expanded Inventory (70+ skills) | TODO | `feat/UX-019-skill-tree-expanded` |
+| UX-019 | Skill Tree — Expanded Inventory (70+ skills) | DONE | `feat/UX-019-skill-tree-expanded` |
 
 ### PHASE ENGAGEMENT: Hooks & Polish (from Engagement Strategy)
 | ID | Ticket | Status | Branch |

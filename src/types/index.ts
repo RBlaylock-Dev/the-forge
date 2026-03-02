@@ -21,15 +21,34 @@ export interface Project {
   role?: string;
 }
 
+// ── Skill System (Expanded) ──────────────────────────────────
+
+export type SkillProficiency = 'expert' | 'advanced' | 'intermediate' | 'exploring';
+
+export type SkillCategoryId = 'frontend' | 'backend' | 'devops' | 'workspace' | 'strategic';
+
 export interface Skill {
+  id: string;
   name: string;
-  level: number; // 1-5
+  category: SkillCategoryId;
+  subcategory: string;
+  proficiency: SkillProficiency;
+  relatedProjects?: string[];
 }
 
-export interface SkillCategory {
-  name: string;
-  color: number;
+export interface SkillSubcategory {
+  id: string;
+  label: string;
   skills: Skill[];
+}
+
+export interface SkillCategoryConfig {
+  id: SkillCategoryId;
+  label: string;
+  icon: string;
+  color: string;
+  position: [number, number, number];
+  subcategories: SkillSubcategory[];
 }
 
 export interface TimelineEra {
@@ -59,7 +78,7 @@ export interface ZoneDef {
 
 export type DetailData =
   | { type: 'project'; data: Project }
-  | { type: 'skill-category'; data: SkillCategory }
+  | { type: 'skill-subcategory'; data: { subcategory: SkillSubcategory; category: SkillCategoryConfig } }
   | { type: 'timeline-era'; data: TimelineEra }
   | { type: 'active-project'; data: ActiveProject };
 
@@ -100,6 +119,9 @@ export interface ForgeState {
   // Contact
   showContact: boolean;
 
+  // Skill Tree
+  expandedSkillCategory: string | null;
+
   // Actions
   startGame: () => void;
   updatePlayerPosition: (x: number, y: number, z: number) => void;
@@ -120,4 +142,6 @@ export interface ForgeState {
   closeResume: () => void;
   openContact: () => void;
   closeContact: () => void;
+  expandCategory: (id: string) => void;
+  collapseCategory: () => void;
 }

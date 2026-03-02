@@ -1,7 +1,7 @@
 'use client';
 
 import { PROJECTS } from '@/data/projects';
-import { SKILL_DATA } from '@/data/skills';
+import { SKILL_CATEGORIES, PROFICIENCY_LEVELS } from '@/data/skills';
 import { TIMELINE_DATA } from '@/data/timeline';
 import { ACTIVE_PROJECTS } from '@/data/activeProjects';
 import type { ProjectTier } from '@/types';
@@ -148,46 +148,52 @@ export function Fallback2D() {
             Skills
           </h2>
           <div style={{ display: 'grid', gap: 24, gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
-            {SKILL_DATA.map((category) => {
-              const colorHex = `#${category.color.toString(16).padStart(6, '0')}`;
-              return (
-                <div
-                  key={category.name}
-                  style={{
-                    background: 'rgba(26,18,8,0.6)',
-                    border: '1px solid rgba(196,129,58,0.15)',
-                    borderRadius: 6,
-                    padding: '16px 20px',
-                  }}
-                >
-                  <h3 style={{ fontSize: 16, fontWeight: 600, color: colorHex, marginBottom: 12 }}>
-                    {category.name}
-                  </h3>
-                  <ul style={{ listStyle: 'none', padding: 0 }}>
-                    {category.skills.map((skill) => (
-                      <li
-                        key={skill.name}
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          padding: '4px 0',
-                          fontSize: 13,
-                          color: '#c4b99a',
-                          borderBottom: '1px solid rgba(196,129,58,0.08)',
-                        }}
-                      >
-                        <span>{skill.name}</span>
-                        <span style={{ color: colorHex, letterSpacing: '2px' }}>
-                          {'★'.repeat(skill.level)}
-                          <span style={{ opacity: 0.2 }}>{'★'.repeat(5 - skill.level)}</span>
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              );
-            })}
+            {SKILL_CATEGORIES.map((category) => (
+              <div
+                key={category.id}
+                style={{
+                  background: 'rgba(26,18,8,0.6)',
+                  border: '1px solid rgba(196,129,58,0.15)',
+                  borderRadius: 6,
+                  padding: '16px 20px',
+                }}
+              >
+                <h3 style={{ fontSize: 16, fontWeight: 600, color: category.color, marginBottom: 12 }}>
+                  {category.label}
+                </h3>
+                {category.subcategories.map((sub) => (
+                  <div key={sub.id} style={{ marginBottom: 12 }}>
+                    <div style={{ fontSize: 11, fontWeight: 600, color: category.color, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 4 }}>
+                      {sub.label}
+                    </div>
+                    <ul style={{ listStyle: 'none', padding: 0 }}>
+                      {sub.skills.map((skill) => {
+                        const prof = PROFICIENCY_LEVELS[skill.proficiency];
+                        return (
+                          <li
+                            key={skill.id}
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              padding: '4px 0',
+                              fontSize: 13,
+                              color: '#c4b99a',
+                              borderBottom: '1px solid rgba(196,129,58,0.08)',
+                            }}
+                          >
+                            <span>{skill.name}</span>
+                            <span style={{ fontSize: 10, color: prof.color, letterSpacing: '1px' }}>
+                              {prof.label}
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            ))}
           </div>
         </section>
 
