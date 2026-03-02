@@ -11,6 +11,7 @@ import { Timeline } from '@/zones/Timeline';
 import { WarRoom } from '@/zones/WarRoom';
 import { EmberParticles } from '@/objects/EmberParticles';
 import { ForgeEmbers } from '@/objects/ForgeEmbers';
+import { BreadcrumbParticles } from '@/objects/BreadcrumbParticles';
 import { PathStrip } from '@/objects/PathStrip';
 
 function Fog() {
@@ -119,6 +120,7 @@ export function SceneManager() {
       {/* Particles */}
       <EmberParticles />
       <ForgeEmbers />
+      <BreadcrumbParticles />
 
       {/* Zones */}
       <Hearth />
