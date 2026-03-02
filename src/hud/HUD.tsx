@@ -16,6 +16,7 @@ import { CinematicOverlay } from './CinematicOverlay';
 import { CursorTooltip } from './CursorTooltip';
 import { CodexButton } from './CodexButton';
 import { CodexOverlay } from './CodexOverlay';
+import { ContextualCTA } from './ContextualCTA';
 
 /**
  * HUD — single compositor component that renders all overlay elements.
@@ -59,6 +60,7 @@ export function HUD() {
       <ContactButton />
       <ResumeButton />
       <CodexButton />
+      <ContextualCTA />
 
       {/* ── z-20: Dynamic prompts ────────────────────────────── */}
       <CursorTooltip />

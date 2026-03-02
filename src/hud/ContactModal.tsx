@@ -109,6 +109,8 @@ export function ContactModal() {
   const closeContact = useForgeStore((s) => s.closeContact);
   const mobile = useIsMobile();
 
+  const contactSubject = useForgeStore((s) => s.contactSubject);
+
   const [formData, setFormData] = useState<FormData>(INITIAL_FORM);
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<Set<string>>(new Set());
@@ -127,6 +129,13 @@ export function ContactModal() {
       setSubmitError('');
     }, 300);
   }, [closeContact]);
+
+  // Pre-fill subject from contextual CTA
+  useEffect(() => {
+    if (showContact && contactSubject) {
+      setFormData((prev) => ({ ...prev, subject: contactSubject }));
+    }
+  }, [showContact, contactSubject]);
 
   // Escape key
   useEffect(() => {
