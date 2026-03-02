@@ -1,4 +1,4 @@
-import { useForgeStore, selectDiscoveryProgress } from '@/store/useForgeStore';
+import { useForgeStore, selectDiscoveryProgress, selectCodexProgress } from '@/store/useForgeStore';
 import type { DetailData } from '@/types';
 
 // Reset store between tests
@@ -13,6 +13,11 @@ beforeEach(() => {
     interactTarget: null,
     activeDetail: null,
     showDetail: false,
+    discoveredProjects: new Set(),
+    discoveredSubcategories: new Set(),
+    discoveredEras: new Set(),
+    discoveredActiveProjects: new Set(),
+    showCodex: false,
   });
 });
 
@@ -134,24 +139,33 @@ describe('useForgeStore', () => {
     });
   });
 
-  describe('selectDiscoveryProgress', () => {
-    it('returns 0 when no zones discovered', () => {
-      expect(selectDiscoveryProgress(useForgeStore.getState())).toBe(0);
+  describe('selectCodexProgress', () => {
+    // Total items: 5 zones + 12 projects + 21 subcategories + 5 eras + 7 active = 50
+    const TOTAL = 50;
+
+    it('returns 0 when nothing discovered', () => {
+      expect(selectCodexProgress(useForgeStore.getState())).toBe(0);
     });
 
-    it('returns correct ratio', () => {
+    it('returns correct ratio for zones only', () => {
       useForgeStore.getState().discoverZone('hearth');
       useForgeStore.getState().discoverZone('vault');
-      expect(selectDiscoveryProgress(useForgeStore.getState())).toBe(2 / 5);
+      expect(selectCodexProgress(useForgeStore.getState())).toBe(2 / TOTAL);
     });
 
-    it('returns 1 when all 5 zones discovered', () => {
+    it('selectDiscoveryProgress is an alias for selectCodexProgress', () => {
       useForgeStore.getState().discoverZone('hearth');
-      useForgeStore.getState().discoverZone('skill-tree');
-      useForgeStore.getState().discoverZone('vault');
-      useForgeStore.getState().discoverZone('timeline');
-      useForgeStore.getState().discoverZone('war-room');
-      expect(selectDiscoveryProgress(useForgeStore.getState())).toBe(1);
+      const state = useForgeStore.getState();
+      expect(selectDiscoveryProgress(state)).toBe(selectCodexProgress(state));
+    });
+
+    it('auto-discovers projects when opening detail panel', () => {
+      const detail: DetailData = {
+        type: 'project',
+        data: { name: 'TestProject', desc: '', tags: [], tier: 'RARE', color: 0, shape: 'box' },
+      };
+      useForgeStore.getState().showDetailPanel(detail);
+      expect(useForgeStore.getState().discoveredProjects.has('TestProject')).toBe(true);
     });
   });
 

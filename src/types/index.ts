@@ -125,6 +125,13 @@ export interface ForgeState {
   // Cinematic
   isCinematicActive: boolean;
 
+  // Codex (Discovery Tracker)
+  discoveredProjects: Set<string>;
+  discoveredSubcategories: Set<string>;
+  discoveredEras: Set<string>;
+  discoveredActiveProjects: Set<string>;
+  showCodex: boolean;
+
   // Actions
   startGame: () => void;
   updatePlayerPosition: (x: number, y: number, z: number) => void;
@@ -149,4 +156,6 @@ export interface ForgeState {
   collapseCategory: () => void;
   startCinematic: () => void;
   endCinematic: () => void;
+  openCodex: () => void;
+  closeCodex: () => void;
 }
