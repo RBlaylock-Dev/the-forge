@@ -12,6 +12,7 @@ const WALK_SPEED = 6;
 const ARRIVE_THRESHOLD = 0.5;
 const FLY_DURATION = 1.5;
 const BOUND = 45;
+const WALK_RADIUS = 28; // Max click-to-walk distance from world center
 const PLAYER_Y = 1.7;
 const DRAG_THRESHOLD = 5; // px — ignore clicks that moved more than this
 
@@ -36,7 +37,7 @@ export function useClickToWalk(
   zoomRef: React.MutableRefObject<number>,
   playerPosRef: React.MutableRefObject<THREE.Vector3>,
 ) {
-  const { camera, gl } = useThree();
+  const { camera, gl, scene } = useThree();
   const walkTarget = useRef<THREE.Vector3 | null>(null);
   const flyState = useRef<FlyState | null>(null);
   const raycaster = useRef(new THREE.Raycaster());
@@ -123,8 +124,30 @@ export function useClickToWalk(
       if (useForgeStore.getState().showDetail) return;
       if (flyState.current) return;
 
+      // Check if click hit an interactable object — don't walk if so
+      const rect = canvas.getBoundingClientRect();
+      const mx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      const my = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.current.setFromCamera(new THREE.Vector2(mx, my), camera);
+      const hits = raycaster.current.intersectObjects(scene.children, true);
+      for (const hit of hits) {
+        let obj: THREE.Object3D | null = hit.object;
+        while (obj) {
+          if (obj.userData?.interactable) return;
+          obj = obj.parent;
+        }
+      }
+
       const pt = screenToGround(e.clientX, e.clientY);
       if (!pt) return;
+
+      // Clamp walk target to circular playable area
+      const dist = Math.sqrt(pt.x * pt.x + pt.z * pt.z);
+      if (dist > WALK_RADIUS) {
+        const scale = WALK_RADIUS / dist;
+        pt.x *= scale;
+        pt.z *= scale;
+      }
 
       walkTarget.current = pt.clone();
       flyState.current = null;
@@ -167,7 +190,7 @@ export function useClickToWalk(
       canvas.removeEventListener('click', onClick);
       canvas.removeEventListener('dblclick', onDblClick);
     };
-  }, [camera, gl, screenToGround, findZoneNear, yawToward, yawRef, playerPosRef, wasDrag]);
+  }, [camera, gl, scene, screenToGround, findZoneNear, yawToward, yawRef, playerPosRef, wasDrag]);
 
   // ── Per-frame update ────────────────────────────────────
   const update = useCallback(

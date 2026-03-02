@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Fire gradient -->
+    <linearGradient id="fireGrad" x1="0.5" y1="1" x2="0.5" y2="0">
+      <stop offset="0%" stop-color="#c4813a"/>
+      <stop offset="40%" stop-color="#e8a54b"/>
+      <stop offset="75%" stop-color="#ff6b1a"/>
+      <stop offset="100%" stop-color="#ffaa44"/>
+    </linearGradient>
+    <!-- Anvil metal gradient -->
+    <linearGradient id="anvilGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#4a3a2a"/>
+      <stop offset="50%" stop-color="#3a2e20"/>
+      <stop offset="100%" stop-color="#2a1e14"/>
+    </linearGradient>
+    <!-- Ember glow -->
+    <radialGradient id="glowGrad" cx="0.5" cy="0.35" r="0.45">
+      <stop offset="0%" stop-color="#ff6b1a" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#ff6b1a" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Subtle outer glow filter -->
+    <filter id="fireGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background circle (optional - remove for transparent) -->
+  <circle cx="256" cy="256" r="248" fill="#0a0806"/>
+  <circle cx="256" cy="256" r="248" fill="url(#glowGrad)"/>
+
+  <!-- Outer ring -->
+  <circle cx="256" cy="256" r="240" fill="none" stroke="#c4813a" stroke-width="3" opacity="0.3"/>
+
+  <!-- FLAME — Three-tongued forge fire -->
+  <g filter="url(#fireGlow)">
+    <!-- Center flame (tallest) -->
+    <path d="
+      M 256 80
+      C 256 80, 224 140, 228 175
+      C 230 195, 240 210, 248 218
+      C 250 220, 252 224, 256 226
+      C 260 224, 262 220, 264 218
+      C 272 210, 282 195, 284 175
+      C 288 140, 256 80, 256 80
+      Z
+    " fill="url(#fireGrad)"/>
+
+    <!-- Left flame -->
+    <path d="
+      M 216 130
+      C 216 130, 195 170, 200 195
+      C 203 210, 212 222, 222 228
+      C 228 232, 234 230, 238 226
+      C 236 215, 230 200, 228 190
+      C 224 170, 216 130, 216 130
+      Z
+    " fill="url(#fireGrad)" opacity="0.8"/>
+
+    <!-- Right flame -->
+    <path d="
+      M 296 130
+      C 296 130, 317 170, 312 195
+      C 309 210, 300 222, 290 228
+      C 284 232, 278 230, 274 226
+      C 276 215, 282 200, 284 190
+      C 288 170, 296 130, 296 130
+      Z
+    " fill="url(#fireGrad)" opacity="0.8"/>
+
+    <!-- Inner bright core -->
+    <path d="
+      M 256 150
+      C 256 150, 244 180, 246 198
+      C 247 208, 252 216, 256 220
+      C 260 216, 265 208, 266 198
+      C 268 180, 256 150, 256 150
+      Z
+    " fill="#ffcc66" opacity="0.7"/>
+  </g>
+
+  <!-- ANVIL — Bold, clean silhouette -->
+  <g>
+    <!-- Anvil face (top) -->
+    <path d="
+      M 148 280
+      L 364 280
+      L 356 260
+      C 356 260, 340 248, 316 248
+      L 196 248
+      C 172 248, 156 260, 156 260
+      Z
+    " fill="url(#anvilGrad)" stroke="#c4813a" stroke-width="2" stroke-opacity="0.4"/>
+
+    <!-- Anvil horn (right) -->
+    <path d="
+      M 364 280
+      L 400 268
+      C 408 265, 412 268, 410 274
+      L 380 284
+      L 364 288
+      Z
+    " fill="url(#anvilGrad)" stroke="#c4813a" stroke-width="1.5" stroke-opacity="0.3"/>
+
+    <!-- Anvil body -->
+    <path d="
+      M 168 280
+      L 344 280
+      L 344 310
+      L 336 320
+      L 176 320
+      L 168 310
+      Z
+    " fill="#2a1e14" stroke="#c4813a" stroke-width="1.5" stroke-opacity="0.3"/>
+
+    <!-- Anvil waist -->
+    <path d="
+      M 192 320
+      L 320 320
+      L 316 350
+      L 196 350
+      Z
+    " fill="#221a10" stroke="#c4813a" stroke-width="1" stroke-opacity="0.2"/>
+
+    <!-- Anvil base (wide) -->
+    <path d="
+      M 164 350
+      L 348 350
+      L 356 380
+      L 356 395
+      L 156 395
+      L 156 380
+      Z
+    " fill="#2a1e14" stroke="#c4813a" stroke-width="1.5" stroke-opacity="0.3"/>
+
+    <!-- Anvil highlight line on face -->
+    <line x1="170" y1="258" x2="342" y2="258" stroke="#c4813a" stroke-width="1" opacity="0.25"/>
+  </g>
+
+  <!-- Subtle ember sparks -->
+  <circle cx="210" cy="160" r="3" fill="#ff6b1a" opacity="0.6"/>
+  <circle cx="300" cy="145" r="2.5" fill="#e8a54b" opacity="0.5"/>
+  <circle cx="236" cy="120" r="2" fill="#ffaa44" opacity="0.7"/>
+  <circle cx="278" cy="108" r="1.8" fill="#ff6b1a" opacity="0.5"/>
+  <circle cx="250" cy="100" r="1.5" fill="#e8a54b" opacity="0.4"/>
+  <circle cx="190" cy="180" r="2" fill="#ff6b1a" opacity="0.4"/>
+  <circle cx="320" cy="170" r="1.8" fill="#e8a54b" opacity="0.45"/>
+
+  <!-- "RB" monogram subtly on anvil face -->
+  <text x="232" y="305" font-family="Georgia, 'Cinzel', serif" font-weight="700"
+        font-size="34" fill="#c4813a" opacity="0.35" letter-spacing="6">RB</text>
+
+</svg>

@@ -17,6 +17,31 @@ const TIER_HEX: Record<ProjectTier, string> = {
 function ProjectDetail({ data }: { data: Project }) {
   return (
     <>
+      {data.screenshot && (
+        <div
+          style={{
+            width: '100%',
+            height: 180,
+            borderRadius: 8,
+            overflow: 'hidden',
+            marginBottom: 20,
+            border: '1px solid rgba(196,129,58,0.15)',
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={data.screenshot}
+            alt={`${data.name} screenshot`}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              display: 'block',
+            }}
+          />
+        </div>
+      )}
+
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
         <h2 className="font-cinzel" style={{ fontSize: 22, fontWeight: 700, color: '#f5deb3', margin: 0 }}>
           {data.name}
@@ -36,6 +61,27 @@ function ProjectDetail({ data }: { data: Project }) {
           {data.tier}
         </span>
       </div>
+
+      {data.role && (
+        <div style={{ marginBottom: 16 }}>
+          <div
+            className="font-rajdhani"
+            style={{
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: '2px',
+              textTransform: 'uppercase',
+              color: '#c4813a',
+              marginBottom: 6,
+            }}
+          >
+            My Role
+          </div>
+          <p style={{ fontSize: 13, lineHeight: 1.6, color: '#c4b99a', margin: 0 }}>
+            {data.role}
+          </p>
+        </div>
+      )}
 
       <p style={{ fontSize: 14, lineHeight: 1.6, color: '#c4b99a', marginBottom: 16 }}>
         {data.desc}
@@ -224,7 +270,7 @@ export function DetailPanel() {
         top: 0,
         right: 0,
         bottom: 0,
-        width: 360,
+        width: 440,
         maxWidth: '90vw',
         zIndex: 60,
         background: 'rgba(10,8,6,0.92)',

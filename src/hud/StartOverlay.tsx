@@ -75,6 +75,7 @@ export function StartOverlay() {
         outline: 'none',
       }}
     >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/forge-logo-transparent.svg"
         alt="The Forge logo"

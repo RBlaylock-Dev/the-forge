@@ -9,6 +9,8 @@ export const PROJECTS: Project[] = [
     color: 0xff6600,
     liveUrl: 'https://3d.derksenbuildings.com/neworder',
     shape: 'box',
+    screenshot: '/projects/3d-configurator.jpg',
+    role: 'Led full-stack development of the 3D configurator, building the entire Three.js rendering pipeline and Vue.js interface from the ground up.',
   },
   {
     name: 'ShareXR Platform',
@@ -18,6 +20,8 @@ export const PROJECTS: Project[] = [
     color: 0xcc4400,
     liveUrl: 'https://sharexr.app',
     shape: 'ico',
+    screenshot: '/projects/ShareXR.png',
+    role: 'Built immersive 3D training environments using Three.js with Strapi CMS and Firebase for real-time data sync.',
   },
   {
     name: 'UpCurve',
@@ -27,6 +31,8 @@ export const PROJECTS: Project[] = [
     color: 0xee8833,
     liveUrl: 'https://upcurve.life',
     shape: 'octa',
+    screenshot: '/projects/Upcurve.png',
+    role: 'Developed the full-stack donation platform with Next.js, integrating Stripe payments and Supabase backend.',
   },
   {
     name: 'Redeemly',
@@ -36,6 +42,8 @@ export const PROJECTS: Project[] = [
     color: 0xbb6644,
     liveUrl: 'https://redeemly-startup.vercel.app',
     shape: 'torus',
+    screenshot: '/projects/Redeemly.png',
+    role: 'Architected and built the social platform with real-time chat, community features, and ministry management tools.',
   },
   {
     name: 'Stor-It',
@@ -45,6 +53,8 @@ export const PROJECTS: Project[] = [
     color: 0xddaa44,
     liveUrl: 'https://stor-it-alpha.vercel.app',
     shape: 'cone',
+    screenshot: '/projects/Stor-it.png',
+    role: 'Built the cloud storage platform including file upload system, OTP authentication flow, and dashboard UI.',
   },
   {
     name: 'Portal Scene',
@@ -54,6 +64,8 @@ export const PROJECTS: Project[] = [
     color: 0xaa44ff,
     liveUrl: 'https://portal-scene-r3-f.vercel.app',
     shape: 'ico',
+    screenshot: '/projects/portal-scene.png',
+    role: 'Designed and coded custom GLSL shaders for portal effects, glow rendering, and procedural geometry.',
   },
   {
     name: 'Earth Shaders',
@@ -63,6 +75,8 @@ export const PROJECTS: Project[] = [
     color: 0x4488cc,
     liveUrl: 'https://earth-shaders-kappa.vercel.app',
     shape: 'sphere',
+    screenshot: '/projects/earth-shaders.png',
+    role: 'Wrote all custom GLSL shaders for realistic Earth rendering including atmospheric scattering and day/night cycle.',
   },
   {
     name: 'Marble Race Game',
@@ -72,6 +86,8 @@ export const PROJECTS: Project[] = [
     color: 0xff5522,
     liveUrl: 'https://marble-game-delta.vercel.app',
     shape: 'sphere',
+    screenshot: '/projects/marble-race.png',
+    role: 'Built the complete game with physics engine integration, obstacle course generation, and timer system.',
   },
   {
     name: 'Galaxy Generator',
@@ -81,6 +97,8 @@ export const PROJECTS: Project[] = [
     color: 0x9944dd,
     liveUrl: 'https://galaxy-generator-iota-liard.vercel.app',
     shape: 'octa',
+    screenshot: '/projects/galaxy-generator.png',
+    role: 'Created the procedural galaxy system with customizable parameters and optimized particle rendering.',
   },
   {
     name: 'Rooftop Ministries',
@@ -90,6 +108,8 @@ export const PROJECTS: Project[] = [
     color: 0x88aa44,
     liveUrl: 'https://www.rooftopministries.org',
     shape: 'box',
+    screenshot: '/projects/rooftop-ministries.png',
+    role: 'Built the full website with custom branding, configured domain/DNS, and set up professional email.',
   },
   {
     name: 'Fireworks Display',
@@ -99,6 +119,8 @@ export const PROJECTS: Project[] = [
     color: 0xff4466,
     liveUrl: 'https://fireworks-delta-fawn.vercel.app',
     shape: 'cone',
+    screenshot: '/projects/fireworks.png',
+    role: 'Developed the interactive particle system with customizable explosion parameters and performance optimization.',
   },
   {
     name: 'Haunted House',
@@ -108,5 +130,7 @@ export const PROJECTS: Project[] = [
     color: 0x668844,
     liveUrl: 'https://haunted-house-3-js-tau.vercel.app',
     shape: 'box',
+    screenshot: '/projects/haunted-house.png',
+    role: 'Built the complete 3D scene with atmospheric fog, dynamic lighting, shadow mapping, and camera controls.',
   },
 ];

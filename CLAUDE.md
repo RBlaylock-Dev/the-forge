@@ -130,7 +130,7 @@ src/
 |----|--------|--------|--------|
 | UX-012 | Welcome Zone (Hearth) — Bio & Resume | DONE | `feat/UX-012-hearth-bio` |
 | UX-013 | Contact Section / Modal | DONE | `feat/FORGE-028-contact-form` |
-| UX-014 | Project Detail Panel — Enhanced | TODO | `feat/UX-014-enhanced-detail` |
+| UX-014 | Project Detail Panel — Enhanced | DONE | `feat/UX-014-enhanced-detail` |
 
 ### PHASE UX-5: Accessibility, Performance & Polish
 | ID | Ticket | Status | Branch |
@@ -138,7 +138,7 @@ src/
 | UX-015 | Loading Screen with Progress | DONE | `feat/UX-015-loading-screen` |
 | UX-016 | Responsive Design & Mobile Experience | DONE | `feat/UX-016-responsive-mobile` |
 | UX-017 | Keyboard Accessibility & Screen Reader | TODO | `feat/UX-017-accessibility` |
-| UX-018 | Social Preview & Meta Tags | TODO | `feat/UX-018-social-meta` |
+| UX-018 | Social Preview & Meta Tags | DONE | `feat/UX-018-social-meta` |
 
 ### PHASE CORE: Conversion Essentials (Must Ship v1)
 | ID | Ticket | Status | Branch |
