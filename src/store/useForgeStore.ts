@@ -90,6 +90,7 @@ export const useForgeStore = create<ForgeState>()((set) => ({
 
   // ── Contact ─────────────────────────────────────────
   showContact: false,
+  contactSubject: null,
 
   // ── Skill Tree ─────────────────────────────────────
   expandedSkillCategory: null,
@@ -189,7 +190,7 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   closeResume: () => set({ showResume: false }),
 
   openContact: () => set({ showContact: true }),
-  closeContact: () => set({ showContact: false }),
+  closeContact: () => set({ showContact: false, contactSubject: null }),
 
   expandCategory: (id: string) => set({ expandedSkillCategory: id }),
   collapseCategory: () => set({ expandedSkillCategory: null }),

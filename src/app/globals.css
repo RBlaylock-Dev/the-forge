@@ -587,6 +587,32 @@ body {
   }
 }
 
+/* ── Contextual CTA ────────────────────────────────────── */
+
+@keyframes contextual-cta-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes contextual-cta-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(196,129,58,0.2), 0 0 40px rgba(196,129,58,0.08);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(232,165,75,0.35), 0 0 50px rgba(196,129,58,0.15);
+  }
+}
+
+.contextual-cta-glow {
+  animation: contextual-cta-in 0.6s ease both, contextual-cta-pulse 3s ease-in-out 1s infinite;
+}
+
 /* ── Keyboard Focus ─────────────────────────────────────── */
 
 /* Visible focus ring for keyboard users (not mouse) */

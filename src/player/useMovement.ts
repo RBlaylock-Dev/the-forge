@@ -209,7 +209,8 @@ export function useMovement() {
         const offsetZ = Math.cos(yaw.current) * Math.cos(pitch.current) * zoomDist;
         const offsetY = -Math.sin(pitch.current) * zoomDist;
 
-        camera.position.set(pp.x + offsetX, PLAYER_Y + offsetY, pp.z + offsetZ);
+        const camY = Math.max(0.5, PLAYER_Y + offsetY);
+        camera.position.set(pp.x + offsetX, camY, pp.z + offsetZ);
         camera.lookAt(pp.x, PLAYER_Y, pp.z);
       } else {
         // First-person: camera at player position

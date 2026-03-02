@@ -118,6 +118,7 @@ export interface ForgeState {
 
   // Contact
   showContact: boolean;
+  contactSubject: string | null;
 
   // Skill Tree
   expandedSkillCategory: string | null;
