@@ -36,6 +36,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   // ── Contact ─────────────────────────────────────────
   showContact: false,
 
+  // ── Skill Tree ─────────────────────────────────────
+  expandedSkillCategory: null,
+
   // ── Actions ──────────────────────────────────────────────
   startGame: () => set({ isStarted: true }),
 
@@ -82,6 +85,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
 
   openContact: () => set({ showContact: true }),
   closeContact: () => set({ showContact: false }),
+
+  expandCategory: (id: string) => set({ expandedSkillCategory: id }),
+  collapseCategory: () => set({ expandedSkillCategory: null }),
 }));
 
 /** Derived selector: discovery progress as 0–1 ratio */
