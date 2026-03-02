@@ -1,10 +1,10 @@
 'use client';
 
 import { useForgeStore } from '@/store/useForgeStore';
-import { selectDiscoveryProgress } from '@/store/useForgeStore';
+import { selectCodexProgress } from '@/store/useForgeStore';
 
 export function XPBar() {
-  const progress = useForgeStore(selectDiscoveryProgress);
+  const progress = useForgeStore(selectCodexProgress);
   const isStarted = useForgeStore((s) => s.isStarted);
 
   if (!isStarted) return null;

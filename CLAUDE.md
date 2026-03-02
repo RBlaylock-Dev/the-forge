@@ -155,7 +155,7 @@ src/
 | ID | Ticket | Status | Branch |
 |----|--------|--------|--------|
 | UX-020 | Cinematic Cold Open | DONE | `feat/UX-020-cinematic-cold-open` |
-| UX-021 | Forge Codex (Discovery Tracker) | TODO | `feat/UX-021-forge-codex` |
+| UX-021 | Forge Codex (Discovery Tracker) | DONE | `feat/UX-021-forge-codex` |
 | UX-022 | Contextual CTAs | TODO | `feat/UX-022-contextual-ctas` |
 | UX-023 | Breadcrumb Particles | TODO | `feat/UX-023-breadcrumb-particles` |
 | UX-024 | Ambient Soundscape | TODO | `feat/UX-024-ambient-sound` |

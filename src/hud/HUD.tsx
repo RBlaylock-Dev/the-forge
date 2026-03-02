@@ -14,6 +14,8 @@ import { ContactModal } from './ContactModal';
 import { IntroTour } from './IntroTour';
 import { CinematicOverlay } from './CinematicOverlay';
 import { CursorTooltip } from './CursorTooltip';
+import { CodexButton } from './CodexButton';
+import { CodexOverlay } from './CodexOverlay';
 
 /**
  * HUD — single compositor component that renders all overlay elements.
@@ -56,6 +58,7 @@ export function HUD() {
       <NavBar />
       <ContactButton />
       <ResumeButton />
+      <CodexButton />
 
       {/* ── z-20: Dynamic prompts ────────────────────────────── */}
       <CursorTooltip />
@@ -72,6 +75,9 @@ export function HUD() {
       {/* ── z-80: Full-screen overlays ──────────────────────────── */}
       <ResumePreview />
       <ContactModal />
+
+      {/* ── z-75: Codex overlay ───────────────────────────────── */}
+      <CodexOverlay />
 
       {/* ── z-90: Cinematic cold open ────────────────────────── */}
       <CinematicOverlay />
