@@ -7,7 +7,7 @@ import { loadProgress } from '@/canvas/ProgressTracker';
 export function StartOverlay() {
   const isStarted = useForgeStore((s) => s.isStarted);
   const startGame = useForgeStore((s) => s.startGame);
-  const startTour = useForgeStore((s) => s.startTour);
+  const startCinematic = useForgeStore((s) => s.startCinematic);
 
   const [progress, setProgress] = useState(0);
   const [loaded, setLoaded] = useState(false);
@@ -42,10 +42,8 @@ export function StartOverlay() {
   const handleClick = useCallback(() => {
     if (!loaded) return;
     startGame();
-    if (typeof window !== 'undefined' && !localStorage.getItem('forge-tour-done')) {
-      startTour();
-    }
-  }, [loaded, startGame, startTour]);
+    startCinematic();
+  }, [loaded, startGame, startCinematic]);
 
   return (
     <div

@@ -12,6 +12,7 @@ import { ResumePreview } from './ResumePreview';
 import { ContactButton } from './ContactButton';
 import { ContactModal } from './ContactModal';
 import { IntroTour } from './IntroTour';
+import { CinematicOverlay } from './CinematicOverlay';
 import { CursorTooltip } from './CursorTooltip';
 
 /**
@@ -71,6 +72,9 @@ export function HUD() {
       {/* ── z-80: Full-screen overlays ──────────────────────────── */}
       <ResumePreview />
       <ContactModal />
+
+      {/* ── z-90: Cinematic cold open ────────────────────────── */}
+      <CinematicOverlay />
 
       {/* ── z-100: Modal overlays ────────────────────────────── */}
       <StartOverlay />

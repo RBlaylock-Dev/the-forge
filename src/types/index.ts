@@ -122,6 +122,9 @@ export interface ForgeState {
   // Skill Tree
   expandedSkillCategory: string | null;
 
+  // Cinematic
+  isCinematicActive: boolean;
+
   // Actions
   startGame: () => void;
   updatePlayerPosition: (x: number, y: number, z: number) => void;
@@ -144,4 +147,6 @@ export interface ForgeState {
   closeContact: () => void;
   expandCategory: (id: string) => void;
   collapseCategory: () => void;
+  startCinematic: () => void;
+  endCinematic: () => void;
 }

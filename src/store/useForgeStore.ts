@@ -39,6 +39,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   // ── Skill Tree ─────────────────────────────────────
   expandedSkillCategory: null,
 
+  // ── Cinematic ─────────────────────────────────────
+  isCinematicActive: false,
+
   // ── Actions ──────────────────────────────────────────────
   startGame: () => set({ isStarted: true }),
 
@@ -88,6 +91,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
 
   expandCategory: (id: string) => set({ expandedSkillCategory: id }),
   collapseCategory: () => set({ expandedSkillCategory: null }),
+
+  startCinematic: () => set({ isCinematicActive: true }),
+  endCinematic: () => set({ isCinematicActive: false }),
 }));
 
 /** Derived selector: discovery progress as 0–1 ratio */
