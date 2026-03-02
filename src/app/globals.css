@@ -561,6 +561,32 @@ body {
   }
 }
 
+/* ── Cinematic Cold Open ───────────────────────────────── */
+
+@keyframes cinematic-title-in {
+  from {
+    opacity: 0;
+    letter-spacing: 20px;
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    letter-spacing: 8px;
+    filter: blur(0px);
+  }
+}
+
+@keyframes cinematic-subtitle-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ── Keyboard Focus ─────────────────────────────────────── */
 
 /* Visible focus ring for keyboard users (not mouse) */
