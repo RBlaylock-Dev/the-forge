@@ -17,6 +17,8 @@ export interface Project {
   liveUrl?: string;
   codeUrl?: string;
   shape: ArtifactShape;
+  screenshot?: string;
+  role?: string;
 }
 
 export interface Skill {
