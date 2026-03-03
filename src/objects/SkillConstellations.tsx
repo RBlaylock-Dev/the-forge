@@ -18,40 +18,42 @@ function hashId(id: string): number {
 
 // ── Constellation star positions (hand-placed for shape) ───────
 // These override the random hash positions so lines trace real shapes.
+// Shapes oriented in the YZ plane so they face the player approaching from the Hearth.
+// Y = up/down on screen, Z = left/right on screen, X = depth (per constellation).
 const CONSTELLATION_POSITIONS: Record<string, [number, number, number]> = {
-  // ── The Renderer — Diamond ◆ (front-left quadrant) ──
-  'threejs':      [-5,   14,  2],    // top
-  'webgl':        [-3,   12,  2],    // right
-  '3d-config':    [-5,   10,  2],    // bottom
-  '3d-refactor':  [-7,   12,  2],    // left
-  'asset-viewer': [-5,   12,  2],    // center
+  // ── The Renderer — Diamond ◆ ──
+  'threejs':      [-4,  14,   2],    // top
+  'webgl':        [-4,  12,   0],    // right
+  '3d-config':    [-4,  10,   2],    // bottom
+  '3d-refactor':  [-4,  12,   4],    // left
+  'asset-viewer': [-4,  12,   2],    // center
 
-  // ── The Full Stack — Sword ⚔ (front-right quadrant) ──
-  'react':       [4,   9.5, 3],     // pommel (bottom)
-  'nextjs':      [3,   11,  3],     // crossguard left
-  'typescript':  [5,   11,  3],     // crossguard right
-  'nodejs':      [4,   13,  3],     // blade middle
-  'postgresql':  [4,   15,  3],     // blade tip (top)
+  // ── The Full Stack — Sword ⚔ ──
+  'react':       [3,   9.5,  -2],    // pommel (bottom)
+  'nextjs':      [3,   11,   -3],    // crossguard right
+  'typescript':  [3,   11,   -1],    // crossguard left
+  'nodejs':      [3,   13,   -2],    // blade middle
+  'postgresql':  [3,   15,   -2],    // blade tip (top)
 
-  // ── The Architect — Arch ∩ (back-center) ──
-  'scalable-arch':    [-1.5, 10,   -4],  // left foot
-  'modular-refactor': [-1.5, 13.5, -4],  // left shoulder
-  'saas-structure':   [1.5,  13.5, -4],  // right shoulder
-  'security-dev':     [1.5,  10,   -4],  // right foot
+  // ── The Architect — Arch ∩ ──
+  'scalable-arch':    [0,  10,    1.5],  // left foot
+  'modular-refactor': [0,  13.5,  1.5],  // left shoulder
+  'saas-structure':   [0,  13.5, -1.5],  // right shoulder
+  'security-dev':     [0,  10,   -1.5],  // right foot
 
-  // ── The Builder — Hammer 🔨 (back-left quadrant) ──
-  'docker':           [-6,   9.5,  -1],  // handle bottom
-  'git':              [-6,   12,   -1],  // handle top (junction)
-  'prod-builds':      [-7.5, 13.5, -1],  // head left
-  'feature-branches': [-6,   14.5, -1],  // head top
-  'perf-refactor':    [-4.5, 13.5, -1],  // head right
+  // ── The Builder — Hammer 🔨 ──
+  'docker':           [-6,  9.5,  -1],   // handle bottom
+  'git':              [-6,  12,   -1],   // handle top (junction)
+  'prod-builds':      [-6,  13.5,  0.5], // head left
+  'feature-branches': [-6,  14.5, -1],   // head top
+  'perf-refactor':    [-6,  13.5, -2.5], // head right
 
-  // ── The Leader — Crown ♛ (back-right quadrant) ──
-  'mentoring':       [3,   12,    -3],   // left base
-  'code-review':     [4,   14.5,  -3],   // left peak
-  'sprint-planning': [5,   12.5,  -3],   // center valley
-  'user-stories':    [6,   14.5,  -3],   // right peak
-  'tech-docs':       [7,   12,    -3],   // right base
+  // ── The Leader — Crown ♛ ──
+  'mentoring':       [5,  12,    2],     // left base
+  'code-review':     [5,  14.5,  1],     // left peak
+  'sprint-planning': [5,  12.5,  0],     // center valley
+  'user-stories':    [5,  14.5, -1],     // right peak
+  'tech-docs':       [5,  12,   -2],     // right base
 };
 
 // ── Star position generation ──────────────────────────────────
@@ -227,7 +229,7 @@ export function SkillConstellations() {
     <group>
       {/* Star points */}
       {visibleStars.length > 0 && (
-        <points ref={pointsRef}>
+        <points ref={pointsRef} key={visibleStars.length}>
           <bufferGeometry>
             <bufferAttribute attach="attributes-position" array={positions} count={visibleStars.length} itemSize={3} />
             <bufferAttribute attach="attributes-color" array={colors} count={visibleStars.length} itemSize={3} />
