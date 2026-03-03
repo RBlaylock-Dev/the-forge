@@ -16,14 +16,14 @@ interface ProjectLabelProps {
   worldPosition: [number, number, number];
 }
 
-const FADE_FAR = 20;
-const FADE_NEAR = 10;
+const FADE_FAR = 30;
+const FADE_NEAR = 20;
 
 function hexFromNumber(c: number) {
   return '#' + c.toString(16).padStart(6, '0');
 }
 
-export function ProjectLabel({ name, tier, tags, color, position, worldPosition }: ProjectLabelProps) {
+export function ProjectLabel({ name, tier, color, position, worldPosition }: ProjectLabelProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useFrame(() => {
@@ -41,16 +41,12 @@ export function ProjectLabel({ name, tier, tags, color, position, worldPosition 
 
   const tierColor = hexFromNumber(TIER_COLORS[tier]);
   const nameColor = hexFromNumber(color);
-  const topTags = tags.slice(0, 2);
 
   return (
     <Html center position={position} style={{ pointerEvents: 'none' }}>
       <div ref={containerRef} className="project-label" style={{ opacity: 0 }}>
         <div className="project-label-name" style={{ color: nameColor }}>{name}</div>
         <div className="project-label-badge" style={{ backgroundColor: tierColor }}>{tier}</div>
-        {topTags.length > 0 && (
-          <div className="project-label-tags">{topTags.join(' · ')}</div>
-        )}
       </div>
     </Html>
   );

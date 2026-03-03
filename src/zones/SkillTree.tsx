@@ -4,6 +4,7 @@ import { memo, useEffect } from 'react';
 import { SKILL_CATEGORIES } from '@/data/skills';
 import { ZoneLabel } from '@/objects/ZoneLabel';
 import { CategoryPedestal } from '@/objects/CategoryPedestal';
+import { SkillConstellations } from '@/objects/SkillConstellations';
 import { useForgeStore } from '@/store/useForgeStore';
 import * as THREE from 'three';
 
@@ -44,6 +45,9 @@ export const SkillTree = memo(function SkillTree() {
       {SKILL_CATEGORIES.map((cat) => (
         <CategoryPedestal key={cat.id} category={cat} />
       ))}
+
+      {/* Constellation lines (unlock as subcategories are discovered) */}
+      <SkillConstellations />
     </group>
   );
 });

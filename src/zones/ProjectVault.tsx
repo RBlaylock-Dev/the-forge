@@ -5,7 +5,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { PROJECTS } from '@/data/projects';
 import { TIER_COLORS } from '@/data/theme';
-import { Pedestal } from '@/objects/Pedestal';
+import { Pedestal, type PedestalSize } from '@/objects/Pedestal';
 import type { ArtifactShape, DetailData } from '@/types';
 import { ZoneLabel } from '@/objects/ZoneLabel';
 import { ProjectLabel } from '@/objects/ProjectLabel';
@@ -30,13 +30,35 @@ const SHAPE_GEOMETRIES: Record<ArtifactShape, THREE.BufferGeometry> = {
   sphere: new THREE.SphereGeometry(0.3, 12, 12),
 };
 
-// ── Layout ──────────────────────────────────────────────────
-function getProjectLayout(index: number, total: number) {
-  const angle = (index / total) * Math.PI * 2 + 0.3;
-  const radius = 3 + (index % 3) * 2.5;
+// ── 3-Row Amphitheater Layout ───────────────────────────────
+// 3 rows of 4 projects in a 100° arc. Fewer items per row = no overlap.
+// Each row is further out and elevated so nothing hides.
+const ITEMS_PER_ROW = 4;
+const ARC_DEG = 100;
+const ARC_RAD = (ARC_DEG * Math.PI) / 180;
+const HALF_ARC = ARC_RAD / 2;
+const STEP = ARC_RAD / (ITEMS_PER_ROW - 1);
+
+const ROWS: { radius: number; baseY: number; pedestal: PedestalSize }[] = [
+  { radius: 5, baseY: 2.0, pedestal: 'short' },
+  { radius: 8, baseY: 3.5, pedestal: 'medium' },
+  { radius: 11, baseY: 5.0, pedestal: 'tall' },
+];
+
+const LABEL_OFFSET_Y = 1.2;
+
+function getLayout(index: number) {
+  const row = Math.floor(index / ITEMS_PER_ROW);
+  const col = index % ITEMS_PER_ROW;
+  const { radius, baseY, pedestal } = ROWS[row];
+  const angle = -HALF_ARC + col * STEP;
+
   return {
     x: Math.cos(angle) * radius,
     z: Math.sin(angle) * radius,
+    baseY,
+    labelY: baseY + LABEL_OFFSET_Y,
+    pedestal,
   };
 }
 
@@ -44,15 +66,16 @@ function getProjectLayout(index: number, total: number) {
 function Artifact({
   project,
   index,
+  position,
+  baseY,
   artifactRef,
 }: {
   project: (typeof PROJECTS)[number];
   index: number;
+  position: [number, number, number];
+  baseY: number;
   artifactRef: (el: THREE.Mesh | null) => void;
 }) {
-  const { x, z } = getProjectLayout(index, PROJECTS.length);
-  const baseY = 2.3;
-
   const material = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
@@ -73,7 +96,7 @@ function Artifact({
   return (
     <mesh
       ref={artifactRef}
-      position={[x, baseY, z]}
+      position={position}
       geometry={SHAPE_GEOMETRIES[project.shape]}
       material={material}
       userData={{
@@ -109,23 +132,25 @@ export const ProjectVault = memo(function ProjectVault() {
 
   return (
     <group position={[22, 0, 0]}>
-      <ZoneLabel title="Projects" subtitle="12 shipped projects" position={[0, 6, 0]} worldPosition={[22, 6, 0]} />
+      <ZoneLabel title="Projects" subtitle="12 shipped projects" position={[0, 8, 0]} worldPosition={[22, 8, 0]} />
 
       {/* Platform */}
       <mesh position={[0, 0.1, 0]} material={platformMat}>
-        <cylinderGeometry args={[10, 10.5, 0.2, 24]} />
+        <cylinderGeometry args={[12, 12.5, 0.2, 24]} />
       </mesh>
 
-      {/* Projects */}
+      {/* Projects — 3 tiered rows of 4 */}
       {PROJECTS.map((proj, i) => {
-        const { x, z } = getProjectLayout(i, PROJECTS.length);
+        const layout = getLayout(i);
         const tierColor = TIER_COLORS[proj.tier];
         return (
           <group key={proj.name}>
-            <Pedestal position={[x, 0, z]} tierColor={tierColor} />
+            <Pedestal position={[layout.x, 0, layout.z]} tierColor={tierColor} size={layout.pedestal} />
             <Artifact
               project={proj}
               index={i}
+              position={[layout.x, layout.baseY, layout.z]}
+              baseY={layout.baseY}
               artifactRef={(el) => {
                 artifactsRef.current[i] = el;
               }}
@@ -135,8 +160,8 @@ export const ProjectVault = memo(function ProjectVault() {
               tier={proj.tier}
               tags={proj.tags}
               color={proj.color}
-              position={[x, 3.5, z]}
-              worldPosition={[x + 22, 3.5, z]}
+              position={[layout.x, layout.labelY, layout.z]}
+              worldPosition={[layout.x + 22, layout.labelY, layout.z]}
             />
           </group>
         );

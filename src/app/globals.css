@@ -179,36 +179,31 @@ body {
   text-align: center;
   white-space: nowrap;
   transition: opacity 0.3s ease;
+  padding: 0.3rem 0.6rem 0.25rem;
+  background: rgba(10, 8, 6, 0.7);
+  border: 1px solid rgba(196, 129, 58, 0.15);
+  border-radius: 0.4rem;
 }
 
 .project-label-name {
   font-family: var(--font-cinzel), "Cinzel", serif;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  text-shadow: 0 0 8px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5);
-  letter-spacing: 0.06em;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
+  letter-spacing: 0.05em;
 }
 
 .project-label-badge {
   display: inline-block;
   font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
-  font-size: 0.55rem;
+  font-size: 0.45rem;
   font-weight: 600;
   color: #fff;
-  padding: 0.05rem 0.4rem;
-  border-radius: 0.6rem;
-  margin-top: 0.15rem;
+  padding: 0.02rem 0.35rem;
+  border-radius: 0.5rem;
+  margin-top: 0.2rem;
   letter-spacing: 0.08em;
   text-shadow: none;
-}
-
-.project-label-tags {
-  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
-  font-size: 0.6rem;
-  font-weight: 400;
-  color: #a09080;
-  margin-top: 0.1rem;
-  letter-spacing: 0.03em;
 }
 
 /* ── Timeline Cards ───────────────────────────────────── */

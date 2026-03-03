@@ -5,7 +5,8 @@ import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useForgeStore } from '@/store/useForgeStore';
 
-const SPEED = 6;
+const SPEED = 1;
+const TURN_SPEED = 1;
 const FRICTION = 0.85;
 const PITCH_LIMIT = 1.2;
 const BOUND = 45;
@@ -183,11 +184,14 @@ export function useMovement() {
       const forward = new THREE.Vector3(-Math.sin(yaw.current), 0, -Math.cos(yaw.current));
       const right = new THREE.Vector3(Math.cos(yaw.current), 0, -Math.sin(yaw.current));
 
-      // Apply input
+      // Arrow left/right rotate camera, WASD + arrow up/down move
+      if (k['ArrowLeft']) yaw.current += TURN_SPEED * dt;
+      if (k['ArrowRight']) yaw.current -= TURN_SPEED * dt;
+
       if (k['KeyW'] || k['ArrowUp']) vel.add(forward.clone().multiplyScalar(SPEED * dt));
       if (k['KeyS'] || k['ArrowDown']) vel.add(forward.clone().multiplyScalar(-SPEED * dt));
-      if (k['KeyA'] || k['ArrowLeft']) vel.add(right.clone().multiplyScalar(-SPEED * dt));
-      if (k['KeyD'] || k['ArrowRight']) vel.add(right.clone().multiplyScalar(SPEED * dt));
+      if (k['KeyA']) vel.add(right.clone().multiplyScalar(-SPEED * dt));
+      if (k['KeyD']) vel.add(right.clone().multiplyScalar(SPEED * dt));
 
       // Friction
       vel.multiplyScalar(FRICTION);
