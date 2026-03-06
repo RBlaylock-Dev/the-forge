@@ -121,6 +121,7 @@ export function useClickToWalk(
       if (wasDrag(e)) return;
       if (!useForgeStore.getState().isStarted) return;
       if (useForgeStore.getState().isCinematicActive) return;
+      if (useForgeStore.getState().isZoneUnlockActive) return;
       if (useForgeStore.getState().isTourActive) return;
       if (useForgeStore.getState().showDetail) return;
       if (flyState.current) return;

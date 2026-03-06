@@ -159,7 +159,7 @@ src/
 | UX-022 | Contextual CTAs | DONE | `feat/UX-022-contextual-ctas` |
 | UX-023 | Breadcrumb Particles | DONE | `feat/UX-023-breadcrumb-particles` |
 | UX-024 | Ambient Soundscape | TODO | `feat/UX-024-ambient-sound` |
-| UX-025 | Zone Unlock Cinematics | TODO | `feat/UX-025-zone-unlock` |
+| UX-025 | Zone Unlock Cinematics | DONE | `feat/UX-025-zone-unlock` |
 | UX-026 | Screenshot Mode | TODO | `feat/UX-026-screenshot-mode` |
 | UX-027 | Resume as Forge Artifact | TODO | `feat/UX-027-resume-artifact` |
 | UX-028 | Project Live Previews | TODO | `feat/UX-028-project-previews` |
@@ -169,6 +169,7 @@ src/
 | UX-032 | Forge Events (Ambient Surprises) | TODO | `feat/UX-032-forge-events` |
 | UX-033 | Konami Code Easter Egg | TODO | `feat/UX-033-konami-code` |
 | UX-034 | Visitor Counter / Social Proof | TODO | `feat/UX-034-visitor-counter` |
+| UX-035 | Zone Entry Transition Effect | TODO | `feat/UX-035-zone-entry-transition` |
 
 ### PHASE FUTURE: Future Features (Post-Launch)
 | ID | Ticket | Status | Branch |

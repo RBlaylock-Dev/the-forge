@@ -158,8 +158,9 @@ export function useMovement() {
   // ── Per-frame update ────────────────────────────────────────
   const update = useCallback(
     (delta: number) => {
-      // ── Skip during cinematic ────────────────────────────
-      if (useForgeStore.getState().isCinematicActive) return;
+      // ── Skip during cinematic or zone unlock ──────────────
+      const state = useForgeStore.getState();
+      if (state.isCinematicActive || state.isZoneUnlockActive) return;
 
       // ── Check for teleport request ──────────────────────
       const { teleportTarget, clearTeleport } = useForgeStore.getState();

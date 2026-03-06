@@ -98,6 +98,10 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   // ── Cinematic ─────────────────────────────────────
   isCinematicActive: false,
 
+  // ── Zone Unlock Cinematic ───────────────────────
+  isZoneUnlockActive: false,
+  zoneUnlockTarget: null,
+
   // ── Codex (Discovery Tracker) ─────────────────────
   discoveredProjects: hydrated.discoveredProjects,
   discoveredSubcategories: hydrated.discoveredSubcategories,
@@ -197,6 +201,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
 
   startCinematic: () => set({ isCinematicActive: true }),
   endCinematic: () => set({ isCinematicActive: false }),
+
+  startZoneUnlock: (zone: ZoneId) => set({ isZoneUnlockActive: true, zoneUnlockTarget: zone }),
+  endZoneUnlock: () => set({ isZoneUnlockActive: false, zoneUnlockTarget: null }),
 
   openCodex: () => set({ showCodex: true }),
   closeCodex: () => set({ showCodex: false }),

@@ -6,17 +6,20 @@ import { ZONE_DEFS } from '@/data/zones';
 
 export function ZoneFlash() {
   const lastDiscoveredZone = useForgeStore((s) => s.lastDiscoveredZone);
+  const isZoneUnlockActive = useForgeStore((s) => s.isZoneUnlockActive);
   const [visible, setVisible] = useState(false);
   const [zoneName, setZoneName] = useState('');
 
   useEffect(() => {
     if (!lastDiscoveredZone) return;
+    // Don't show ZoneFlash if the zone unlock cinematic is handling it
+    if (isZoneUnlockActive) return;
     setZoneName(ZONE_DEFS[lastDiscoveredZone].name);
     setVisible(true);
 
     const timer = setTimeout(() => setVisible(false), 2000);
     return () => clearTimeout(timer);
-  }, [lastDiscoveredZone]);
+  }, [lastDiscoveredZone, isZoneUnlockActive]);
 
   if (!visible) return null;
 
