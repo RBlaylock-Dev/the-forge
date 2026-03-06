@@ -582,6 +582,43 @@ body {
   }
 }
 
+/* ── Zone Unlock Cinematic ─────────────────────────────── */
+
+@keyframes zone-unlock-title-in {
+  0% {
+    opacity: 0;
+    letter-spacing: 16px;
+    filter: blur(6px);
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    letter-spacing: 6px;
+    filter: blur(0px);
+    transform: scale(1);
+  }
+}
+
+@keyframes zone-unlock-subtitle-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 0.8;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zone-unlock-line-expand {
+  from {
+    width: 0;
+  }
+  to {
+    width: 120px;
+  }
+}
+
 /* ── Contextual CTA ────────────────────────────────────── */
 
 @keyframes contextual-cta-in {

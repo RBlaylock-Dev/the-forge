@@ -12,6 +12,7 @@ export function useZoneDetection() {
 
   const setCurrentZone = useForgeStore((s) => s.setCurrentZone);
   const discoverZone = useForgeStore((s) => s.discoverZone);
+  const startZoneUnlock = useForgeStore((s) => s.startZoneUnlock);
 
   return function detect(px: number, pz: number) {
     let closest: ZoneId | null = null;
@@ -32,7 +33,20 @@ export function useZoneDetection() {
       lastZone.current = closest;
       setCurrentZone(closest);
       if (closest !== null) {
+        const {
+          discoveredZones,
+          isCinematicActive,
+          isTourActive,
+          isZoneUnlockActive,
+        } = useForgeStore.getState();
+        const alreadyDiscovered = discoveredZones.has(closest);
         discoverZone(closest);
+
+        // Trigger zone unlock cinematic on first entry
+        // Skip if: already discovered, cold open active, tour active, or another unlock playing
+        if (!alreadyDiscovered && !isCinematicActive && !isTourActive && !isZoneUnlockActive) {
+          startZoneUnlock(closest);
+        }
       }
     }
   };

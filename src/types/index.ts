@@ -126,6 +126,10 @@ export interface ForgeState {
   // Cinematic
   isCinematicActive: boolean;
 
+  // Zone Unlock Cinematic
+  isZoneUnlockActive: boolean;
+  zoneUnlockTarget: ZoneId | null;
+
   // Codex (Discovery Tracker)
   discoveredProjects: Set<string>;
   discoveredSubcategories: Set<string>;
@@ -157,6 +161,8 @@ export interface ForgeState {
   collapseCategory: () => void;
   startCinematic: () => void;
   endCinematic: () => void;
+  startZoneUnlock: (zone: ZoneId) => void;
+  endZoneUnlock: () => void;
   openCodex: () => void;
   closeCodex: () => void;
 }

@@ -17,6 +17,7 @@ import { CursorTooltip } from './CursorTooltip';
 import { CodexButton } from './CodexButton';
 import { CodexOverlay } from './CodexOverlay';
 import { ContextualCTA } from './ContextualCTA';
+import { ZoneUnlockCinematic } from './ZoneUnlockCinematic';
 
 /**
  * HUD — single compositor component that renders all overlay elements.
@@ -70,6 +71,9 @@ export function HUD() {
 
       {/* ── z-60: Detail panel ───────────────────────────────── */}
       <DetailPanel />
+
+      {/* ── z-65: Zone unlock cinematic ────────────────────────── */}
+      <ZoneUnlockCinematic />
 
       {/* ── z-70: Intro tour ───────────────────────────────── */}
       <IntroTour />
