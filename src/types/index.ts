@@ -19,6 +19,7 @@ export interface Project {
   shape: ArtifactShape;
   screenshot?: string;
   role?: string;
+  previewable?: boolean;
 }
 
 // ── Skill System (Expanded) ──────────────────────────────────

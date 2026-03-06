@@ -162,7 +162,7 @@ src/
 | UX-025 | Zone Unlock Cinematics | DONE | `feat/UX-025-zone-unlock` |
 | UX-026 | Screenshot Mode | TODO | `feat/UX-026-screenshot-mode` |
 | UX-027 | Resume as Forge Artifact | TODO | `feat/UX-027-resume-artifact` |
-| UX-028 | Project Live Previews | TODO | `feat/UX-028-project-previews` |
+| UX-028 | Project Live Previews | DONE | `feat/UX-028-project-previews` |
 | UX-029 | Dynamic Time-of-Day Lighting | DONE | `feat/UX-029-time-of-day` |
 | UX-030 | Skill Constellations | DONE | `feat/UX-030-skill-constellations` |
 | UX-031 | Hidden Forge (Secret Zone) | TODO | `feat/UX-031-hidden-forge` |
