@@ -44,6 +44,7 @@ export const PROJECTS: Project[] = [
     shape: 'torus',
     screenshot: '/projects/Redeemly.png',
     role: 'Architected and built the social platform with real-time chat, community features, and ministry management tools.',
+    previewable: true,
   },
   {
     name: 'Stor-It',
@@ -55,6 +56,7 @@ export const PROJECTS: Project[] = [
     shape: 'cone',
     screenshot: '/projects/Stor-it.png',
     role: 'Built the cloud storage platform including file upload system, OTP authentication flow, and dashboard UI.',
+    previewable: true,
   },
   {
     name: 'Portal Scene',
@@ -66,6 +68,7 @@ export const PROJECTS: Project[] = [
     shape: 'ico',
     screenshot: '/projects/portal-scene.png',
     role: 'Designed and coded custom GLSL shaders for portal effects, glow rendering, and procedural geometry.',
+    previewable: true,
   },
   {
     name: 'Earth Shaders',
@@ -77,6 +80,7 @@ export const PROJECTS: Project[] = [
     shape: 'sphere',
     screenshot: '/projects/earth-shaders.png',
     role: 'Wrote all custom GLSL shaders for realistic Earth rendering including atmospheric scattering and day/night cycle.',
+    previewable: true,
   },
   {
     name: 'Marble Race Game',
@@ -88,6 +92,7 @@ export const PROJECTS: Project[] = [
     shape: 'sphere',
     screenshot: '/projects/marble-race.png',
     role: 'Built the complete game with physics engine integration, obstacle course generation, and timer system.',
+    previewable: true,
   },
   {
     name: 'Galaxy Generator',
@@ -99,6 +104,7 @@ export const PROJECTS: Project[] = [
     shape: 'octa',
     screenshot: '/projects/galaxy-generator.png',
     role: 'Created the procedural galaxy system with customizable parameters and optimized particle rendering.',
+    previewable: true,
   },
   {
     name: 'Rooftop Ministries',
@@ -121,6 +127,7 @@ export const PROJECTS: Project[] = [
     shape: 'cone',
     screenshot: '/projects/fireworks.png',
     role: 'Developed the interactive particle system with customizable explosion parameters and performance optimization.',
+    previewable: true,
   },
   {
     name: 'Haunted House',
@@ -132,5 +139,6 @@ export const PROJECTS: Project[] = [
     shape: 'box',
     screenshot: '/projects/haunted-house.png',
     role: 'Built the complete 3D scene with atmospheric fog, dynamic lighting, shadow mapping, and camera controls.',
+    previewable: true,
   },
 ];

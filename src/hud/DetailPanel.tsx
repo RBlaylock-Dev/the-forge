@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForgeStore } from '@/store/useForgeStore';
 import { useIsMobile } from '@/utils/mobile';
 import { PROFICIENCY_LEVELS } from '@/data/skills';
@@ -16,32 +16,127 @@ const TIER_HEX: Record<ProjectTier, string> = {
 // ── Sub-renderers ───────────────────────────────────────────
 
 function ProjectDetail({ data }: { data: Project }) {
+  const [showPreview, setShowPreview] = useState(false);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+
+  // Reset preview state when project changes
+  useEffect(() => {
+    setShowPreview(false);
+    setIframeLoaded(false);
+  }, [data.name]);
+
   return (
     <>
-      {data.screenshot && (
+      {/* Screenshot / Live Preview area */}
+      {(data.screenshot || (data.previewable && data.liveUrl)) && (
         <div
           style={{
             width: '100%',
-            height: 180,
+            height: showPreview ? 300 : 180,
             borderRadius: 8,
             overflow: 'hidden',
-            marginBottom: 20,
+            marginBottom: 12,
             border: '1px solid rgba(196,129,58,0.15)',
+            position: 'relative',
+            transition: 'height 0.3s ease',
+            background: '#0a0806',
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={data.screenshot}
-            alt={`${data.name} screenshot`}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              display: 'block',
-            }}
-          />
+          {showPreview && data.liveUrl ? (
+            <>
+              {/* Loading indicator */}
+              {!iframeLoaded && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: 8,
+                  }}
+                >
+                  <div
+                    className="font-rajdhani"
+                    style={{
+                      fontSize: 12,
+                      color: '#c4813a',
+                      letterSpacing: '2px',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    Loading preview...
+                  </div>
+                  <div className="loading-bar" style={{ width: 100 }}>
+                    <div
+                      className="loading-bar-fill"
+                      style={{ width: '60%', animation: 'pulse-glow 1.5s ease-in-out infinite' }}
+                    />
+                  </div>
+                </div>
+              )}
+              <iframe
+                src={data.liveUrl}
+                title={`${data.name} live preview`}
+                sandbox="allow-scripts allow-same-origin allow-forms"
+                onLoad={() => setIframeLoaded(true)}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  border: 'none',
+                  display: 'block',
+                  opacity: iframeLoaded ? 1 : 0,
+                  transition: 'opacity 0.3s ease',
+                }}
+              />
+            </>
+          ) : data.screenshot ? (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img
+              src={data.screenshot}
+              alt={`${data.name} screenshot`}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+              }}
+            />
+          ) : null}
         </div>
       )}
+
+      {/* Preview toggle button */}
+      {data.previewable && data.liveUrl && (
+        <button
+          onClick={() => {
+            setShowPreview(!showPreview);
+            if (showPreview) setIframeLoaded(false);
+          }}
+          className="font-rajdhani"
+          style={{
+            fontSize: 11,
+            fontWeight: 600,
+            letterSpacing: '1.5px',
+            textTransform: 'uppercase',
+            color: showPreview ? '#c4813a' : '#e8a54b',
+            background: showPreview ? 'rgba(196,129,58,0.08)' : 'rgba(196,129,58,0.15)',
+            border: `1px solid ${showPreview ? 'rgba(196,129,58,0.2)' : 'rgba(232,165,75,0.3)'}`,
+            borderRadius: 4,
+            padding: '5px 12px',
+            cursor: 'pointer',
+            pointerEvents: 'auto',
+            marginBottom: 16,
+            transition: 'all 0.2s ease',
+          }}
+        >
+          {showPreview ? 'Show Screenshot' : 'Live Preview'}
+        </button>
+      )}
+
+      {/* Spacer when no preview toggle */}
+      {(!data.previewable || !data.liveUrl) && <div style={{ marginBottom: 4 }} />}
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
         <h2 className="font-cinzel" style={{ fontSize: 22, fontWeight: 700, color: '#f5deb3', margin: 0 }}>
