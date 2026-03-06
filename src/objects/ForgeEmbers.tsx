@@ -8,8 +8,26 @@ const COUNT = 150;
 const SPREAD = 5;
 const Y_MAX = 6;
 
+function createEmberTexture(): THREE.Texture {
+  const size = 32;
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d')!;
+  const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+  gradient.addColorStop(0, 'rgba(255,255,255,1)');
+  gradient.addColorStop(0.4, 'rgba(255,255,255,0.8)');
+  gradient.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, size, size);
+  const tex = new THREE.CanvasTexture(canvas);
+  return tex;
+}
+
 export function ForgeEmbers() {
   const pointsRef = useRef<THREE.Points>(null);
+
+  const emberTexture = useMemo(() => createEmberTexture(), []);
 
   const { positions, speeds } = useMemo(() => {
     const pos = new Float32Array(COUNT * 3);
@@ -56,6 +74,7 @@ export function ForgeEmbers() {
       <pointsMaterial
         color={0xff4400}
         size={0.05}
+        map={emberTexture}
         transparent
         opacity={0.7}
         blending={THREE.AdditiveBlending}

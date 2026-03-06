@@ -619,6 +619,20 @@ body {
   }
 }
 
+/* ── Zone Entry Transition ─────────────────────────────── */
+
+@keyframes zone-entry-pulse {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 /* ── Contextual CTA ────────────────────────────────────── */
 
 @keyframes contextual-cta-in {

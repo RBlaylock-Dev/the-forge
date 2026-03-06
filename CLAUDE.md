@@ -169,7 +169,7 @@ src/
 | UX-032 | Forge Events (Ambient Surprises) | TODO | `feat/UX-032-forge-events` |
 | UX-033 | Konami Code Easter Egg | TODO | `feat/UX-033-konami-code` |
 | UX-034 | Visitor Counter / Social Proof | TODO | `feat/UX-034-visitor-counter` |
-| UX-035 | Zone Entry Transition Effect | TODO | `feat/UX-035-zone-entry-transition` |
+| UX-035 | Zone Entry Transition Effect | DONE | `feat/UX-035-zone-entry-transition` |
 
 ### PHASE FUTURE: Future Features (Post-Launch)
 | ID | Ticket | Status | Branch |
