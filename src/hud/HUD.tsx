@@ -18,6 +18,7 @@ import { CodexButton } from './CodexButton';
 import { CodexOverlay } from './CodexOverlay';
 import { ContextualCTA } from './ContextualCTA';
 import { ZoneUnlockCinematic } from './ZoneUnlockCinematic';
+import { ZoneEntryTransition } from './ZoneEntryTransition';
 
 /**
  * HUD — single compositor component that renders all overlay elements.
@@ -65,6 +66,9 @@ export function HUD() {
 
       {/* ── z-20: Dynamic prompts ────────────────────────────── */}
       <CursorTooltip />
+
+      {/* ── z-45: Zone entry transition ────────────────────────── */}
+      <ZoneEntryTransition />
 
       {/* ── z-50: Notifications ──────────────────────────────── */}
       <ZoneFlash />

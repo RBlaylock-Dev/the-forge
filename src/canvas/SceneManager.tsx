@@ -19,6 +19,7 @@ function Fog({ color }: { color: number }) {
   const { scene } = useThree();
   useMemo(() => {
     scene.fog = new THREE.FogExp2(color, 0.014);
+    scene.background = new THREE.Color(color);
   }, [scene, color]);
   return null;
 }

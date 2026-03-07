@@ -11,6 +11,22 @@ import type { ZoneId } from '@/types';
 // Zones that get breadcrumb trails (not Hearth — it's the origin)
 const TRAIL_ZONES: ZoneId[] = ['skill-tree', 'vault', 'timeline', 'war-room'];
 
+function createEmberTexture(): THREE.Texture {
+  const size = 32;
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d')!;
+  const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+  gradient.addColorStop(0, 'rgba(255,255,255,1)');
+  gradient.addColorStop(0.4, 'rgba(255,255,255,0.8)');
+  gradient.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, size, size);
+  const tex = new THREE.CanvasTexture(canvas);
+  return tex;
+}
+
 const PARTICLES_PER_TRAIL = 25;
 const FULL_COUNT = TRAIL_ZONES.length * PARTICLES_PER_TRAIL;
 const PARTICLE_Y_MIN = 0.05;
@@ -37,6 +53,7 @@ export function BreadcrumbParticles() {
   const pointsRef = useRef<THREE.Points>(null);
 
   const count = useMemo(() => isMobile() ? Math.floor(FULL_COUNT / 2) : FULL_COUNT, []);
+  const emberTexture = useMemo(() => createEmberTexture(), []);
   const perTrail = useMemo(() => Math.floor(count / TRAIL_ZONES.length), [count]);
 
   // Pre-compute trail directions (Hearth center → zone center)
@@ -174,6 +191,7 @@ export function BreadcrumbParticles() {
       </bufferGeometry>
       <pointsMaterial
         size={0.12}
+        map={emberTexture}
         transparent
         opacity={0.9}
         vertexColors
