@@ -102,6 +102,10 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   isZoneUnlockActive: false,
   zoneUnlockTarget: null,
 
+  // ── Audio ──────────────────────────────────────────
+  audioEnabled: false,
+  audioVolume: 0.5,
+
   // ── Codex (Discovery Tracker) ─────────────────────
   discoveredProjects: hydrated.discoveredProjects,
   discoveredSubcategories: hydrated.discoveredSubcategories,
@@ -207,6 +211,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
 
   openCodex: () => set({ showCodex: true }),
   closeCodex: () => set({ showCodex: false }),
+
+  toggleAudio: () => set((state) => ({ audioEnabled: !state.audioEnabled })),
+  setAudioVolume: (volume: number) => set({ audioVolume: Math.max(0, Math.min(1, volume)) }),
 }));
 
 // ── Total discoverable item counts ──────────────────────────

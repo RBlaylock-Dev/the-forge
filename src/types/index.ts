@@ -131,6 +131,10 @@ export interface ForgeState {
   isZoneUnlockActive: boolean;
   zoneUnlockTarget: ZoneId | null;
 
+  // Audio
+  audioEnabled: boolean;
+  audioVolume: number; // 0–1
+
   // Codex (Discovery Tracker)
   discoveredProjects: Set<string>;
   discoveredSubcategories: Set<string>;
@@ -166,4 +170,6 @@ export interface ForgeState {
   endZoneUnlock: () => void;
   openCodex: () => void;
   closeCodex: () => void;
+  toggleAudio: () => void;
+  setAudioVolume: (volume: number) => void;
 }

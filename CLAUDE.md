@@ -158,7 +158,7 @@ src/
 | UX-021 | Forge Codex (Discovery Tracker) | DONE | `feat/UX-021-forge-codex` |
 | UX-022 | Contextual CTAs | DONE | `feat/UX-022-contextual-ctas` |
 | UX-023 | Breadcrumb Particles | DONE | `feat/UX-023-breadcrumb-particles` |
-| UX-024 | Ambient Soundscape | TODO | `feat/UX-024-ambient-sound` |
+| UX-024 | Ambient Soundscape | DONE | `feat/UX-024-ambient-sound` |
 | UX-025 | Zone Unlock Cinematics | DONE | `feat/UX-025-zone-unlock` |
 | UX-026 | Screenshot Mode | TODO | `feat/UX-026-screenshot-mode` |
 | UX-027 | Resume as Forge Artifact | TODO | `feat/UX-027-resume-artifact` |
