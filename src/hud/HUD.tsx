@@ -19,6 +19,8 @@ import { CodexOverlay } from './CodexOverlay';
 import { ContextualCTA } from './ContextualCTA';
 import { ZoneUnlockCinematic } from './ZoneUnlockCinematic';
 import { ZoneEntryTransition } from './ZoneEntryTransition';
+import { SoundToggle } from './SoundToggle';
+import { useSoundscape } from '@/audio/useSoundscape';
 
 /**
  * HUD — single compositor component that renders all overlay elements.
@@ -40,6 +42,8 @@ import { ZoneEntryTransition } from './ZoneEntryTransition';
  * on themselves individually.
  */
 export function HUD() {
+  useSoundscape();
+
   return (
     <div
       id="hud-root"
@@ -61,6 +65,7 @@ export function HUD() {
       <NavBar />
       <ContactButton />
       <ResumeButton />
+      <SoundToggle />
       <CodexButton />
       <ContextualCTA />
 
