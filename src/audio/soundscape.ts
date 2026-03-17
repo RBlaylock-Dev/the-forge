@@ -188,7 +188,7 @@ class SoundscapeEngine {
     }
   }
 
-  private async playOneShot(url: string, volume: number) {
+  async playOneShot(url: string, volume: number) {
     if (!this.ctx || !this.masterGain) return;
     try {
       const buf = await this.loadBuffer(url);

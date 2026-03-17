@@ -12,6 +12,7 @@ import { WarRoom } from '@/zones/WarRoom';
 import { EmberParticles } from '@/objects/EmberParticles';
 import { ForgeEmbers } from '@/objects/ForgeEmbers';
 import { BreadcrumbParticles } from '@/objects/BreadcrumbParticles';
+import { ForgeEvents } from '@/objects/ForgeEvents';
 import { PathStrip } from '@/objects/PathStrip';
 import { getTimeOfDayPreset } from '@/utils/timeOfDay';
 
@@ -126,6 +127,7 @@ export function SceneManager() {
       <EmberParticles />
       <ForgeEmbers />
       <BreadcrumbParticles />
+      <ForgeEvents />
 
       {/* Zones */}
       <Hearth />
