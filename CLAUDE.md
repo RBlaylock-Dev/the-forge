@@ -166,7 +166,7 @@ src/
 | UX-029 | Dynamic Time-of-Day Lighting | DONE | `feat/UX-029-time-of-day` |
 | UX-030 | Skill Constellations | DONE | `feat/UX-030-skill-constellations` |
 | UX-031 | Hidden Forge (Secret Zone) | TODO | `feat/UX-031-hidden-forge` |
-| UX-032 | Forge Events (Ambient Surprises) | TODO | `feat/UX-032-forge-events` |
+| UX-032 | Forge Events (Ambient Surprises) | DONE | `feat/UX-032-forge-events` |
 | UX-033 | Konami Code Easter Egg | TODO | `feat/UX-033-konami-code` |
 | UX-034 | Visitor Counter / Social Proof | TODO | `feat/UX-034-visitor-counter` |
 | UX-035 | Zone Entry Transition Effect | DONE | `feat/UX-035-zone-entry-transition` |
