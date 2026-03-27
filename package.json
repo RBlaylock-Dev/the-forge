@@ -27,6 +27,7 @@
     "@react-three/drei": "^9.122.0",
     "@react-three/fiber": "^8.18.0",
     "@react-three/postprocessing": "^2.19.1",
+    "@upstash/redis": "^1.37.0",
     "framer-motion": "^12.34.3",
     "next": "14.2.35",
     "postprocessing": "^6.38.3",

@@ -21,6 +21,7 @@ import { ZoneUnlockCinematic } from './ZoneUnlockCinematic';
 import { ZoneEntryTransition } from './ZoneEntryTransition';
 import { SoundToggle } from './SoundToggle';
 import { useSoundscape } from '@/audio/useSoundscape';
+import { useVisitorCount } from '@/utils/useVisitorCount';
 
 /**
  * HUD — single compositor component that renders all overlay elements.
@@ -43,6 +44,7 @@ import { useSoundscape } from '@/audio/useSoundscape';
  */
 export function HUD() {
   useSoundscape();
+  useVisitorCount();
 
   return (
     <div

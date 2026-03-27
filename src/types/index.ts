@@ -79,7 +79,10 @@ export interface ZoneDef {
 
 export type DetailData =
   | { type: 'project'; data: Project }
-  | { type: 'skill-subcategory'; data: { subcategory: SkillSubcategory; category: SkillCategoryConfig } }
+  | {
+      type: 'skill-subcategory';
+      data: { subcategory: SkillSubcategory; category: SkillCategoryConfig };
+    }
   | { type: 'timeline-era'; data: TimelineEra }
   | { type: 'active-project'; data: ActiveProject };
 
@@ -135,6 +138,9 @@ export interface ForgeState {
   audioEnabled: boolean;
   audioVolume: number; // 0–1
 
+  // Visitor Counter
+  visitorCount: number;
+
   // Codex (Discovery Tracker)
   discoveredProjects: Set<string>;
   discoveredSubcategories: Set<string>;
@@ -172,4 +178,5 @@ export interface ForgeState {
   closeCodex: () => void;
   toggleAudio: () => void;
   setAudioVolume: (volume: number) => void;
+  setVisitorCount: (count: number) => void;
 }

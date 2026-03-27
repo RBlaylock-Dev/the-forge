@@ -21,17 +21,17 @@ Always reference these docs before building any ticket:
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 14 (App Router) |
-| 3D Engine | React Three Fiber (R3F) + Drei |
-| Language | TypeScript |
-| Styling | Tailwind CSS (2D HUD overlays) |
-| State | Zustand |
-| Shaders | Custom GLSL |
+| Layer     | Technology                         |
+| --------- | ---------------------------------- |
+| Framework | Next.js 14 (App Router)            |
+| 3D Engine | React Three Fiber (R3F) + Drei     |
+| Language  | TypeScript                         |
+| Styling   | Tailwind CSS (2D HUD overlays)     |
+| State     | Zustand                            |
+| Shaders   | Custom GLSL                        |
 | Animation | R3F useFrame + Framer Motion (HUD) |
-| Content | JSON/TS config files |
-| Hosting | Vercel |
+| Content   | JSON/TS config files               |
+| Hosting   | Vercel                             |
 
 ## Architecture
 
@@ -52,153 +52,168 @@ src/
 ## Ticket Tracker
 
 ### PHASE 1: Foundation
-| ID | Ticket | Status | Branch |
-|----|--------|--------|--------|
-| FORGE-001 | Project Scaffolding & Dependencies | DONE | `feat/FORGE-001-project-scaffolding` |
-| FORGE-002 | TypeScript Types & Interfaces | DONE | `feat/FORGE-002-types-interfaces` |
-| FORGE-003 | Content Data Files | DONE | `feat/FORGE-003-content-data` |
-| FORGE-004 | Zustand Store | DONE | `feat/FORGE-004-zustand-store` |
-| FORGE-005 | Docker + Makefile + Docker Compose | DONE | `chore/FORGE-005-docker-makefile` |
+
+| ID        | Ticket                             | Status | Branch                               |
+| --------- | ---------------------------------- | ------ | ------------------------------------ |
+| FORGE-001 | Project Scaffolding & Dependencies | DONE   | `feat/FORGE-001-project-scaffolding` |
+| FORGE-002 | TypeScript Types & Interfaces      | DONE   | `feat/FORGE-002-types-interfaces`    |
+| FORGE-003 | Content Data Files                 | DONE   | `feat/FORGE-003-content-data`        |
+| FORGE-004 | Zustand Store                      | DONE   | `feat/FORGE-004-zustand-store`       |
+| FORGE-005 | Docker + Makefile + Docker Compose | DONE   | `chore/FORGE-005-docker-makefile`    |
 
 ### PHASE 2: Core 3D Engine
-| ID | Ticket | Status | Branch |
-|----|--------|--------|--------|
-| FORGE-006 | R3F Canvas & Scene Shell | DONE | `feat/FORGE-006-canvas-scene-shell` |
-| FORGE-007 | Player Controller — Movement | DONE | `feat/FORGE-007-player-movement` |
-| FORGE-008 | Ember Particle Systems | DONE | `feat/FORGE-008-ember-particles` |
-| FORGE-009 | Path Strips Between Zones | DONE | `feat/FORGE-008-ember-particles` |
+
+| ID        | Ticket                       | Status | Branch                              |
+| --------- | ---------------------------- | ------ | ----------------------------------- |
+| FORGE-006 | R3F Canvas & Scene Shell     | DONE   | `feat/FORGE-006-canvas-scene-shell` |
+| FORGE-007 | Player Controller — Movement | DONE   | `feat/FORGE-007-player-movement`    |
+| FORGE-008 | Ember Particle Systems       | DONE   | `feat/FORGE-008-ember-particles`    |
+| FORGE-009 | Path Strips Between Zones    | DONE   | `feat/FORGE-008-ember-particles`    |
 
 ### PHASE 3: Zones
-| ID | Ticket | Status | Branch |
-|----|--------|--------|--------|
-| FORGE-010 | Hearth Zone (Center) | DONE | `feat/FORGE-010-hearth-zone` |
-| FORGE-011 | Skill Tree Zone | DONE | `feat/FORGE-011-skill-tree-zone` |
-| FORGE-012 | Project Vault Zone | DONE | `feat/FORGE-012-project-vault-zone` |
-| FORGE-013 | Timeline Zone | DONE | `feat/FORGE-013-timeline-zone` |
-| FORGE-014 | War Room Zone | DONE | `feat/FORGE-014-war-room-zone` |
+
+| ID        | Ticket               | Status | Branch                              |
+| --------- | -------------------- | ------ | ----------------------------------- |
+| FORGE-010 | Hearth Zone (Center) | DONE   | `feat/FORGE-010-hearth-zone`        |
+| FORGE-011 | Skill Tree Zone      | DONE   | `feat/FORGE-011-skill-tree-zone`    |
+| FORGE-012 | Project Vault Zone   | DONE   | `feat/FORGE-012-project-vault-zone` |
+| FORGE-013 | Timeline Zone        | DONE   | `feat/FORGE-013-timeline-zone`      |
+| FORGE-014 | War Room Zone        | DONE   | `feat/FORGE-014-war-room-zone`      |
 
 ### PHASE 4: HUD & Interaction
-| ID | Ticket | Status | Branch |
-|----|--------|--------|--------|
-| FORGE-015 | Start Overlay | DONE | `feat/FORGE-015-start-overlay` |
-| FORGE-016 | Top Bar & Zone Indicator | DONE | `feat/FORGE-016-top-bar` |
-| FORGE-017 | Zone Detection System | DONE | `feat/FORGE-017-zone-detection` |
-| FORGE-018 | Zone Flash & XP Bar | DONE | `feat/FORGE-018-zone-flash-xp` |
-| FORGE-019 | Interaction System (Raycaster + Prompt) | DONE | `feat/FORGE-019-interaction-system` |
-| FORGE-020 | Detail Panel | DONE | `feat/FORGE-020-detail-panel` |
-| FORGE-021 | Minimap | DONE | `feat/FORGE-021-minimap` |
-| FORGE-022 | Controls HUD & Quick Nav | DONE | `feat/FORGE-022-controls-quicknav` |
-| FORGE-023 | HUD Compositor | DONE | `feat/FORGE-023-hud-compositor` |
+
+| ID        | Ticket                                  | Status | Branch                              |
+| --------- | --------------------------------------- | ------ | ----------------------------------- |
+| FORGE-015 | Start Overlay                           | DONE   | `feat/FORGE-015-start-overlay`      |
+| FORGE-016 | Top Bar & Zone Indicator                | DONE   | `feat/FORGE-016-top-bar`            |
+| FORGE-017 | Zone Detection System                   | DONE   | `feat/FORGE-017-zone-detection`     |
+| FORGE-018 | Zone Flash & XP Bar                     | DONE   | `feat/FORGE-018-zone-flash-xp`      |
+| FORGE-019 | Interaction System (Raycaster + Prompt) | DONE   | `feat/FORGE-019-interaction-system` |
+| FORGE-020 | Detail Panel                            | DONE   | `feat/FORGE-020-detail-panel`       |
+| FORGE-021 | Minimap                                 | DONE   | `feat/FORGE-021-minimap`            |
+| FORGE-022 | Controls HUD & Quick Nav                | DONE   | `feat/FORGE-022-controls-quicknav`  |
+| FORGE-023 | HUD Compositor                          | DONE   | `feat/FORGE-023-hud-compositor`     |
 
 ### PHASE 5: Polish & Performance
-| ID | Ticket | Status | Branch |
-|----|--------|--------|--------|
-| FORGE-024 | Post-Processing & Shader Polish | DONE | `feat/FORGE-024-post-processing` |
-| FORGE-025 | Accessibility & 2D Fallback | DONE | `feat/FORGE-025-accessibility-fallback` |
-| FORGE-026 | Performance Optimization | DONE | `chore/FORGE-026-performance` |
+
+| ID        | Ticket                          | Status | Branch                                  |
+| --------- | ------------------------------- | ------ | --------------------------------------- |
+| FORGE-024 | Post-Processing & Shader Polish | DONE   | `feat/FORGE-024-post-processing`        |
+| FORGE-025 | Accessibility & 2D Fallback     | DONE   | `feat/FORGE-025-accessibility-fallback` |
+| FORGE-026 | Performance Optimization        | DONE   | `chore/FORGE-026-performance`           |
 
 ### PHASE 6: Deployment
-| ID | Ticket | Status | Branch |
-|----|--------|--------|--------|
-| FORGE-027 | Vercel Deployment & Domain | DONE | `chore/FORGE-027-deployment` |
+
+| ID        | Ticket                     | Status | Branch                       |
+| --------- | -------------------------- | ------ | ---------------------------- |
+| FORGE-027 | Vercel Deployment & Domain | DONE   | `chore/FORGE-027-deployment` |
 
 ### PHASE UX-1: Navigation Overhaul
-| ID | Ticket | Status | Branch |
-|----|--------|--------|--------|
-| UX-001 | Arrow Keys + Click-to-Walk | DONE | `feat/UX-001-navigation-overhaul` |
-| UX-002 | Orbit-Style Camera (Remove Pointer Lock) | DONE | `feat/UX-002-orbit-camera` |
-| UX-003 | Persistent Navigation Bar | DONE | `feat/UX-003-nav-bar` |
+
+| ID     | Ticket                                   | Status | Branch                            |
+| ------ | ---------------------------------------- | ------ | --------------------------------- |
+| UX-001 | Arrow Keys + Click-to-Walk               | DONE   | `feat/UX-001-navigation-overhaul` |
+| UX-002 | Orbit-Style Camera (Remove Pointer Lock) | DONE   | `feat/UX-002-orbit-camera`        |
+| UX-003 | Persistent Navigation Bar                | DONE   | `feat/UX-003-nav-bar`             |
 
 ### PHASE UX-2: Zone Clarity & Labeling
-| ID | Ticket | Status | Branch |
-|----|--------|--------|--------|
-| UX-004 | Floating Zone Title Signs | DONE | `feat/UX-004-zone-labels` |
-| UX-005 | Project Labels & Tier Badges | DONE | `feat/UX-005-project-labels` |
-| UX-006 | Skill Node Labels & Category Headers | DONE | `feat/UX-006-skill-labels` |
-| UX-007 | Timeline Era Labels & Narrative Cards | DONE | `feat/UX-007-timeline-labels` |
-| UX-008 | War Room Project Status Cards | DONE | `feat/UX-008-warroom-labels` |
+
+| ID     | Ticket                                | Status | Branch                        |
+| ------ | ------------------------------------- | ------ | ----------------------------- |
+| UX-004 | Floating Zone Title Signs             | DONE   | `feat/UX-004-zone-labels`     |
+| UX-005 | Project Labels & Tier Badges          | DONE   | `feat/UX-005-project-labels`  |
+| UX-006 | Skill Node Labels & Category Headers  | DONE   | `feat/UX-006-skill-labels`    |
+| UX-007 | Timeline Era Labels & Narrative Cards | DONE   | `feat/UX-007-timeline-labels` |
+| UX-008 | War Room Project Status Cards         | DONE   | `feat/UX-008-warroom-labels`  |
 
 ### PHASE UX-3: Onboarding & Guided Experience
-| ID | Ticket | Status | Branch |
-|----|--------|--------|--------|
-| UX-009 | Guided Intro Tour (First Visit) | DONE | `feat/UX-009-intro-tour` |
-| UX-010 | Contextual Tooltips & Hover States | DONE | `feat/UX-010-hover-tooltips` |
-| UX-011 | Click-to-Interact (Replace E Key) | DONE | `feat/UX-011-click-interact` |
+
+| ID     | Ticket                             | Status | Branch                       |
+| ------ | ---------------------------------- | ------ | ---------------------------- |
+| UX-009 | Guided Intro Tour (First Visit)    | DONE   | `feat/UX-009-intro-tour`     |
+| UX-010 | Contextual Tooltips & Hover States | DONE   | `feat/UX-010-hover-tooltips` |
+| UX-011 | Click-to-Interact (Replace E Key)  | DONE   | `feat/UX-011-click-interact` |
 
 ### PHASE UX-4: Information Architecture & Contact
-| ID | Ticket | Status | Branch |
-|----|--------|--------|--------|
-| UX-012 | Welcome Zone (Hearth) — Bio & Resume | DONE | `feat/UX-012-hearth-bio` |
-| UX-013 | Contact Section / Modal | DONE | `feat/FORGE-028-contact-form` |
-| UX-014 | Project Detail Panel — Enhanced | DONE | `feat/UX-014-enhanced-detail` |
+
+| ID     | Ticket                               | Status | Branch                        |
+| ------ | ------------------------------------ | ------ | ----------------------------- |
+| UX-012 | Welcome Zone (Hearth) — Bio & Resume | DONE   | `feat/UX-012-hearth-bio`      |
+| UX-013 | Contact Section / Modal              | DONE   | `feat/FORGE-028-contact-form` |
+| UX-014 | Project Detail Panel — Enhanced      | DONE   | `feat/UX-014-enhanced-detail` |
 
 ### PHASE UX-5: Accessibility, Performance & Polish
-| ID | Ticket | Status | Branch |
-|----|--------|--------|--------|
-| UX-015 | Loading Screen with Progress | DONE | `feat/UX-015-loading-screen` |
-| UX-016 | Responsive Design & Mobile Experience | DONE | `feat/UX-016-responsive-mobile` |
-| UX-017 | Keyboard Accessibility & Screen Reader | TODO | `feat/UX-017-accessibility` |
-| UX-018 | Social Preview & Meta Tags | DONE | `feat/UX-018-social-meta` |
+
+| ID     | Ticket                                 | Status | Branch                          |
+| ------ | -------------------------------------- | ------ | ------------------------------- |
+| UX-015 | Loading Screen with Progress           | DONE   | `feat/UX-015-loading-screen`    |
+| UX-016 | Responsive Design & Mobile Experience  | DONE   | `feat/UX-016-responsive-mobile` |
+| UX-017 | Keyboard Accessibility & Screen Reader | TODO   | `feat/UX-017-accessibility`     |
+| UX-018 | Social Preview & Meta Tags             | DONE   | `feat/UX-018-social-meta`       |
 
 ### PHASE CORE: Conversion Essentials (Must Ship v1)
-| ID | Ticket | Status | Branch |
-|----|--------|--------|--------|
-| FORGE-028 | Contact Form & Email Delivery | DONE | `feat/FORGE-028-contact-form` |
-| FORGE-029 | Resume Download | DONE | `feat/FORGE-029-resume-download` |
+
+| ID        | Ticket                        | Status | Branch                           |
+| --------- | ----------------------------- | ------ | -------------------------------- |
+| FORGE-028 | Contact Form & Email Delivery | DONE   | `feat/FORGE-028-contact-form`    |
+| FORGE-029 | Resume Download               | DONE   | `feat/FORGE-029-resume-download` |
 
 ### PHASE UX-EXT: Expanded Features
-| ID | Ticket | Status | Branch |
-|----|--------|--------|--------|
-| UX-019 | Skill Tree — Expanded Inventory (70+ skills) | DONE | `feat/UX-019-skill-tree-expanded` |
+
+| ID     | Ticket                                       | Status | Branch                            |
+| ------ | -------------------------------------------- | ------ | --------------------------------- |
+| UX-019 | Skill Tree — Expanded Inventory (70+ skills) | DONE   | `feat/UX-019-skill-tree-expanded` |
 
 ### PHASE ENGAGEMENT: Hooks & Polish (from Engagement Strategy)
-| ID | Ticket | Status | Branch |
-|----|--------|--------|--------|
-| UX-020 | Cinematic Cold Open | DONE | `feat/UX-020-cinematic-cold-open` |
-| UX-021 | Forge Codex (Discovery Tracker) | DONE | `feat/UX-021-forge-codex` |
-| UX-022 | Contextual CTAs | DONE | `feat/UX-022-contextual-ctas` |
-| UX-023 | Breadcrumb Particles | DONE | `feat/UX-023-breadcrumb-particles` |
-| UX-024 | Ambient Soundscape | DONE | `feat/UX-024-ambient-sound` |
-| UX-025 | Zone Unlock Cinematics | DONE | `feat/UX-025-zone-unlock` |
-| UX-026 | Screenshot Mode | TODO | `feat/UX-026-screenshot-mode` |
-| UX-027 | Resume as Forge Artifact | TODO | `feat/UX-027-resume-artifact` |
-| UX-028 | Project Live Previews | DONE | `feat/UX-028-project-previews` |
-| UX-029 | Dynamic Time-of-Day Lighting | DONE | `feat/UX-029-time-of-day` |
-| UX-030 | Skill Constellations | DONE | `feat/UX-030-skill-constellations` |
-| UX-031 | Hidden Forge (Secret Zone) | TODO | `feat/UX-031-hidden-forge` |
-| UX-032 | Forge Events (Ambient Surprises) | DONE | `feat/UX-032-forge-events` |
-| UX-033 | Konami Code Easter Egg | TODO | `feat/UX-033-konami-code` |
-| UX-034 | Visitor Counter / Social Proof | TODO | `feat/UX-034-visitor-counter` |
-| UX-035 | Zone Entry Transition Effect | DONE | `feat/UX-035-zone-entry-transition` |
+
+| ID     | Ticket                           | Status | Branch                              |
+| ------ | -------------------------------- | ------ | ----------------------------------- |
+| UX-020 | Cinematic Cold Open              | DONE   | `feat/UX-020-cinematic-cold-open`   |
+| UX-021 | Forge Codex (Discovery Tracker)  | DONE   | `feat/UX-021-forge-codex`           |
+| UX-022 | Contextual CTAs                  | DONE   | `feat/UX-022-contextual-ctas`       |
+| UX-023 | Breadcrumb Particles             | DONE   | `feat/UX-023-breadcrumb-particles`  |
+| UX-024 | Ambient Soundscape               | DONE   | `feat/UX-024-ambient-sound`         |
+| UX-025 | Zone Unlock Cinematics           | DONE   | `feat/UX-025-zone-unlock`           |
+| UX-026 | Screenshot Mode                  | TODO   | `feat/UX-026-screenshot-mode`       |
+| UX-027 | Resume as Forge Artifact         | TODO   | `feat/UX-027-resume-artifact`       |
+| UX-028 | Project Live Previews            | DONE   | `feat/UX-028-project-previews`      |
+| UX-029 | Dynamic Time-of-Day Lighting     | DONE   | `feat/UX-029-time-of-day`           |
+| UX-030 | Skill Constellations             | DONE   | `feat/UX-030-skill-constellations`  |
+| UX-031 | Hidden Forge (Secret Zone)       | TODO   | `feat/UX-031-hidden-forge`          |
+| UX-032 | Forge Events (Ambient Surprises) | DONE   | `feat/UX-032-forge-events`          |
+| UX-033 | Konami Code Easter Egg           | TODO   | `feat/UX-033-konami-code`           |
+| UX-034 | Visitor Counter / Social Proof   | DONE   | `feat/UX-034-visitor-counter`       |
+| UX-035 | Zone Entry Transition Effect     | DONE   | `feat/UX-035-zone-entry-transition` |
 
 ### PHASE FUTURE: Future Features (Post-Launch)
-| ID | Ticket | Status | Branch |
-|----|--------|--------|--------|
-| F-001 | AI Forge Assistant (Portfolio Guide) | TODO | `feat/F-001-ai-forge-assistant` |
-| F-002 | Live Code Playground | TODO | `feat/F-002-code-playground` |
-| F-003 | Multiplayer Forge (Co-Presence) | TODO | `feat/F-003-multiplayer` |
-| F-004 | Project Forge Replay | TODO | `feat/F-004-forge-replay` |
-| F-005 | Testimonials Forge Wall | TODO | `feat/F-005-testimonials` |
-| F-006 | Weather System | TODO | `feat/F-006-weather` |
-| F-007 | Achievement System & Badges | TODO | `feat/F-007-achievements` |
-| F-008 | Blog Forge (Content Zone) | TODO | `feat/F-008-blog-forge` |
-| F-009 | Seasonal Forge Themes | TODO | `feat/F-009-seasonal-themes` |
-| F-010 | Interactive Resume Builder | TODO | `feat/F-010-resume-builder` |
-| F-011 | Forge Radio (Soundtrack) | TODO | `feat/F-011-forge-radio` |
-| F-012 | Visitor Heatmap (Admin Dashboard) | TODO | `feat/F-012-visitor-heatmap` |
-| F-013 | AR Mode | TODO | `feat/F-013-ar-mode` |
-| F-014 | Voice Navigation | TODO | `feat/F-014-voice-nav` |
-| F-015 | Forge Guestbook | TODO | `feat/F-015-guestbook` |
-| F-016 | Mini-Game: Forge the Code | TODO | `feat/F-016-forge-game` |
-| F-017 | Custom Cursor Forge Tool | TODO | `feat/F-017-custom-cursors` |
-| F-018 | Project Comparison Mode | TODO | `feat/F-018-project-comparison` |
-| F-019 | Collaborative Whiteboard | TODO | `feat/F-019-whiteboard` |
-| F-020 | Accessibility Audio Tour | TODO | `feat/F-020-audio-tour` |
-| F-021 | The Forge API | TODO | `feat/F-021-forge-api` |
-| F-022 | GitHub Activity Heatmap | TODO | `feat/F-022-github-heatmap` |
-| F-023 | Forge Changelog | TODO | `feat/F-023-changelog` |
-| F-024 | Spotify Integration | TODO | `feat/F-024-spotify` |
-| F-025 | Forge Lore Pages | TODO | `feat/F-025-lore-pages` |
+
+| ID    | Ticket                               | Status | Branch                          |
+| ----- | ------------------------------------ | ------ | ------------------------------- |
+| F-001 | AI Forge Assistant (Portfolio Guide) | TODO   | `feat/F-001-ai-forge-assistant` |
+| F-002 | Live Code Playground                 | TODO   | `feat/F-002-code-playground`    |
+| F-003 | Multiplayer Forge (Co-Presence)      | TODO   | `feat/F-003-multiplayer`        |
+| F-004 | Project Forge Replay                 | TODO   | `feat/F-004-forge-replay`       |
+| F-005 | Testimonials Forge Wall              | TODO   | `feat/F-005-testimonials`       |
+| F-006 | Weather System                       | TODO   | `feat/F-006-weather`            |
+| F-007 | Achievement System & Badges          | TODO   | `feat/F-007-achievements`       |
+| F-008 | Blog Forge (Content Zone)            | TODO   | `feat/F-008-blog-forge`         |
+| F-009 | Seasonal Forge Themes                | TODO   | `feat/F-009-seasonal-themes`    |
+| F-010 | Interactive Resume Builder           | TODO   | `feat/F-010-resume-builder`     |
+| F-011 | Forge Radio (Soundtrack)             | TODO   | `feat/F-011-forge-radio`        |
+| F-012 | Visitor Heatmap (Admin Dashboard)    | TODO   | `feat/F-012-visitor-heatmap`    |
+| F-013 | AR Mode                              | TODO   | `feat/F-013-ar-mode`            |
+| F-014 | Voice Navigation                     | TODO   | `feat/F-014-voice-nav`          |
+| F-015 | Forge Guestbook                      | TODO   | `feat/F-015-guestbook`          |
+| F-016 | Mini-Game: Forge the Code            | TODO   | `feat/F-016-forge-game`         |
+| F-017 | Custom Cursor Forge Tool             | TODO   | `feat/F-017-custom-cursors`     |
+| F-018 | Project Comparison Mode              | TODO   | `feat/F-018-project-comparison` |
+| F-019 | Collaborative Whiteboard             | TODO   | `feat/F-019-whiteboard`         |
+| F-020 | Accessibility Audio Tour             | TODO   | `feat/F-020-audio-tour`         |
+| F-021 | The Forge API                        | TODO   | `feat/F-021-forge-api`          |
+| F-022 | GitHub Activity Heatmap              | TODO   | `feat/F-022-github-heatmap`     |
+| F-023 | Forge Changelog                      | TODO   | `feat/F-023-changelog`          |
+| F-024 | Spotify Integration                  | TODO   | `feat/F-024-spotify`            |
+| F-025 | Forge Lore Pages                     | TODO   | `feat/F-025-lore-pages`         |
 
 ## Optimized Build Order
 
