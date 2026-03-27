@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForgeStore } from '@/store/useForgeStore';
 import { useIsMobile } from '@/utils/mobile';
-import type { Project, SkillCategory, TimelineEra, ActiveProject, ProjectTier } from '@/types';
+import { PROFICIENCY_LEVELS } from '@/data/skills';
+import type { Project, SkillSubcategory, SkillCategoryConfig, TimelineEra, ActiveProject, ProjectTier } from '@/types';
 
 const TIER_HEX: Record<ProjectTier, string> = {
   LEGENDARY: '#ff6600',
@@ -15,8 +16,128 @@ const TIER_HEX: Record<ProjectTier, string> = {
 // ── Sub-renderers ───────────────────────────────────────────
 
 function ProjectDetail({ data }: { data: Project }) {
+  const [showPreview, setShowPreview] = useState(false);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+
+  // Reset preview state when project changes
+  useEffect(() => {
+    setShowPreview(false);
+    setIframeLoaded(false);
+  }, [data.name]);
+
   return (
     <>
+      {/* Screenshot / Live Preview area */}
+      {(data.screenshot || (data.previewable && data.liveUrl)) && (
+        <div
+          style={{
+            width: '100%',
+            height: showPreview ? 300 : 180,
+            borderRadius: 8,
+            overflow: 'hidden',
+            marginBottom: 12,
+            border: '1px solid rgba(196,129,58,0.15)',
+            position: 'relative',
+            transition: 'height 0.3s ease',
+            background: '#0a0806',
+          }}
+        >
+          {showPreview && data.liveUrl ? (
+            <>
+              {/* Loading indicator */}
+              {!iframeLoaded && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: 8,
+                  }}
+                >
+                  <div
+                    className="font-rajdhani"
+                    style={{
+                      fontSize: 12,
+                      color: '#c4813a',
+                      letterSpacing: '2px',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    Loading preview...
+                  </div>
+                  <div className="loading-bar" style={{ width: 100 }}>
+                    <div
+                      className="loading-bar-fill"
+                      style={{ width: '60%', animation: 'pulse-glow 1.5s ease-in-out infinite' }}
+                    />
+                  </div>
+                </div>
+              )}
+              <iframe
+                src={data.liveUrl}
+                title={`${data.name} live preview`}
+                sandbox="allow-scripts allow-same-origin allow-forms"
+                onLoad={() => setIframeLoaded(true)}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  border: 'none',
+                  display: 'block',
+                  opacity: iframeLoaded ? 1 : 0,
+                  transition: 'opacity 0.3s ease',
+                }}
+              />
+            </>
+          ) : data.screenshot ? (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img
+              src={data.screenshot}
+              alt={`${data.name} screenshot`}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+              }}
+            />
+          ) : null}
+        </div>
+      )}
+
+      {/* Preview toggle button */}
+      {data.previewable && data.liveUrl && (
+        <button
+          onClick={() => {
+            setShowPreview(!showPreview);
+            if (showPreview) setIframeLoaded(false);
+          }}
+          className="font-rajdhani"
+          style={{
+            fontSize: 11,
+            fontWeight: 600,
+            letterSpacing: '1.5px',
+            textTransform: 'uppercase',
+            color: showPreview ? '#c4813a' : '#e8a54b',
+            background: showPreview ? 'rgba(196,129,58,0.08)' : 'rgba(196,129,58,0.15)',
+            border: `1px solid ${showPreview ? 'rgba(196,129,58,0.2)' : 'rgba(232,165,75,0.3)'}`,
+            borderRadius: 4,
+            padding: '5px 12px',
+            cursor: 'pointer',
+            pointerEvents: 'auto',
+            marginBottom: 16,
+            transition: 'all 0.2s ease',
+          }}
+        >
+          {showPreview ? 'Show Screenshot' : 'Live Preview'}
+        </button>
+      )}
+
+      {/* Spacer when no preview toggle */}
+      {(!data.previewable || !data.liveUrl) && <div style={{ marginBottom: 4 }} />}
+
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
         <h2 className="font-cinzel" style={{ fontSize: 22, fontWeight: 700, color: '#f5deb3', margin: 0 }}>
           {data.name}
@@ -36,6 +157,27 @@ function ProjectDetail({ data }: { data: Project }) {
           {data.tier}
         </span>
       </div>
+
+      {data.role && (
+        <div style={{ marginBottom: 16 }}>
+          <div
+            className="font-rajdhani"
+            style={{
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: '2px',
+              textTransform: 'uppercase',
+              color: '#c4813a',
+              marginBottom: 6,
+            }}
+          >
+            My Role
+          </div>
+          <p style={{ fontSize: 13, lineHeight: 1.6, color: '#c4b99a', margin: 0 }}>
+            {data.role}
+          </p>
+        </div>
+      )}
 
       <p style={{ fontSize: 14, lineHeight: 1.6, color: '#c4b99a', marginBottom: 16 }}>
         {data.desc}
@@ -99,40 +241,72 @@ function ProjectDetail({ data }: { data: Project }) {
   );
 }
 
-function SkillCategoryDetail({ data }: { data: SkillCategory }) {
-  const colorHex = `#${data.color.toString(16).padStart(6, '0')}`;
+function SkillSubcategoryDetail({ subcategory, category }: { subcategory: SkillSubcategory; category: SkillCategoryConfig }) {
   return (
     <>
       <h2 className="font-cinzel" style={{ fontSize: 22, fontWeight: 700, color: '#f5deb3', margin: 0, marginBottom: 4 }}>
-        {data.name}
+        {subcategory.label}
       </h2>
       <div
         className="font-rajdhani"
-        style={{ fontSize: 11, letterSpacing: '2px', textTransform: 'uppercase', color: colorHex, marginBottom: 20 }}
+        style={{ fontSize: 11, letterSpacing: '2px', textTransform: 'uppercase', color: category.color, marginBottom: 20 }}
       >
-        Skill Branch
+        Part of {category.label}
       </div>
 
       <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-        {data.skills.map((skill) => (
-          <li
-            key={skill.name}
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '6px 0',
-              borderBottom: '1px solid rgba(196,129,58,0.1)',
-            }}
-          >
-            <span style={{ fontSize: 13, color: '#c4b99a' }}>{skill.name}</span>
-            <span style={{ fontSize: 12, letterSpacing: '2px', color: colorHex }}>
-              {'⚒'.repeat(skill.level)}
-              <span style={{ opacity: 0.2 }}>{'⚒'.repeat(5 - skill.level)}</span>
-            </span>
-          </li>
-        ))}
+        {subcategory.skills.map((skill) => {
+          const prof = PROFICIENCY_LEVELS[skill.proficiency];
+          return (
+            <li
+              key={skill.id}
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '8px 0',
+                borderBottom: '1px solid rgba(196,129,58,0.1)',
+              }}
+            >
+              <span style={{ fontSize: 13, color: '#c4b99a' }}>{skill.name}</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div style={{ display: 'flex', gap: 3 }}>
+                  {[1, 2, 3, 4].map((dot) => (
+                    <span
+                      key={dot}
+                      style={{
+                        width: 7,
+                        height: 7,
+                        borderRadius: '50%',
+                        background: dot <= prof.dots ? prof.color : 'rgba(196,129,58,0.15)',
+                        display: 'inline-block',
+                      }}
+                    />
+                  ))}
+                </div>
+                <span style={{ fontSize: 9, color: prof.color, letterSpacing: '1px', textTransform: 'uppercase', minWidth: 60, textAlign: 'right' }}>
+                  {prof.label}
+                </span>
+              </div>
+            </li>
+          );
+        })}
       </ul>
+
+      <div
+        className="font-rajdhani"
+        style={{
+          fontSize: 11,
+          letterSpacing: '1.5px',
+          color: '#4a3d30',
+          textTransform: 'uppercase',
+          marginTop: 20,
+          paddingTop: 12,
+          borderTop: '1px solid rgba(196,129,58,0.1)',
+        }}
+      >
+        {subcategory.skills.length} skills &middot; Part of {category.label}
+      </div>
     </>
   );
 }
@@ -224,7 +398,7 @@ export function DetailPanel() {
         top: 0,
         right: 0,
         bottom: 0,
-        width: 360,
+        width: 440,
         maxWidth: '90vw',
         zIndex: 60,
         background: 'rgba(10,8,6,0.92)',
@@ -265,7 +439,7 @@ export function DetailPanel() {
       {/* Content */}
       <div style={{ marginTop: 24 }}>
         {activeDetail?.type === 'project' && <ProjectDetail data={activeDetail.data} />}
-        {activeDetail?.type === 'skill-category' && <SkillCategoryDetail data={activeDetail.data} />}
+        {activeDetail?.type === 'skill-subcategory' && <SkillSubcategoryDetail subcategory={activeDetail.data.subcategory} category={activeDetail.data.category} />}
         {activeDetail?.type === 'timeline-era' && <TimelineEraDetail data={activeDetail.data} />}
         {activeDetail?.type === 'active-project' && <ActiveProjectDetail data={activeDetail.data} />}
       </div>

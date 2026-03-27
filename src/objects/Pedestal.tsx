@@ -11,22 +11,33 @@ const pedestalMat = new THREE.MeshStandardMaterial({
   metalness: 0.8,
 });
 
-// Shared pedestal geometry — avoids per-instance allocations
-const pedestalGeo = new THREE.CylinderGeometry(0.4, 0.55, 1.5, 8);
+// Shared pedestal geometries — one per row tier
+const PEDESTAL_GEOS = {
+  short: new THREE.CylinderGeometry(0.4, 0.55, 1.5, 8),
+  medium: new THREE.CylinderGeometry(0.4, 0.55, 3.0, 8),
+  tall: new THREE.CylinderGeometry(0.4, 0.55, 4.5, 8),
+};
+
+const PEDESTAL_METRICS = {
+  short: { cylY: 0.85, ringY: 1.62 },
+  medium: { cylY: 1.6, ringY: 3.12 },
+  tall: { cylY: 2.35, ringY: 4.62 },
+};
+
 const ringGeo = new THREE.TorusGeometry(0.5, 0.03, 8, 24);
+
+export type PedestalSize = 'short' | 'medium' | 'tall';
 
 interface PedestalProps {
   position: [number, number, number];
   tierColor: number;
+  size?: PedestalSize;
 }
 
 /**
  * Pedestal — reusable base for project vault artifacts.
- * Wrapped in React.memo since props (position, tierColor)
- * are stable across renders. Ring material is memoized
- * to avoid creating a new material every render.
  */
-export const Pedestal = memo(function Pedestal({ position, tierColor }: PedestalProps) {
+export const Pedestal = memo(function Pedestal({ position, tierColor, size = 'short' }: PedestalProps) {
   const ringMat = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
@@ -37,19 +48,22 @@ export const Pedestal = memo(function Pedestal({ position, tierColor }: Pedestal
     [tierColor],
   );
 
+  const geo = PEDESTAL_GEOS[size];
+  const { cylY, ringY } = PEDESTAL_METRICS[size];
+
   return (
     <group>
       {/* Pedestal cylinder */}
       <mesh
-        position={[position[0], 0.85, position[2]]}
-        geometry={pedestalGeo}
+        position={[position[0], cylY, position[2]]}
+        geometry={geo}
         material={pedestalMat}
         castShadow
       />
 
       {/* Tier glow ring */}
       <mesh
-        position={[position[0], 1.62, position[2]]}
+        position={[position[0], ringY, position[2]]}
         rotation={[-Math.PI / 2, 0, 0]}
         geometry={ringGeo}
         material={ringMat}

@@ -17,17 +17,39 @@ export interface Project {
   liveUrl?: string;
   codeUrl?: string;
   shape: ArtifactShape;
+  screenshot?: string;
+  role?: string;
+  previewable?: boolean;
 }
+
+// ── Skill System (Expanded) ──────────────────────────────────
+
+export type SkillProficiency = 'expert' | 'advanced' | 'intermediate' | 'exploring';
+
+export type SkillCategoryId = 'frontend' | 'backend' | 'devops' | 'workspace' | 'strategic';
 
 export interface Skill {
+  id: string;
   name: string;
-  level: number; // 1-5
+  category: SkillCategoryId;
+  subcategory: string;
+  proficiency: SkillProficiency;
+  relatedProjects?: string[];
 }
 
-export interface SkillCategory {
-  name: string;
-  color: number;
+export interface SkillSubcategory {
+  id: string;
+  label: string;
   skills: Skill[];
+}
+
+export interface SkillCategoryConfig {
+  id: SkillCategoryId;
+  label: string;
+  icon: string;
+  color: string;
+  position: [number, number, number];
+  subcategories: SkillSubcategory[];
 }
 
 export interface TimelineEra {
@@ -57,7 +79,10 @@ export interface ZoneDef {
 
 export type DetailData =
   | { type: 'project'; data: Project }
-  | { type: 'skill-category'; data: SkillCategory }
+  | {
+      type: 'skill-subcategory';
+      data: { subcategory: SkillSubcategory; category: SkillCategoryConfig };
+    }
   | { type: 'timeline-era'; data: TimelineEra }
   | { type: 'active-project'; data: ActiveProject };
 
@@ -97,6 +122,31 @@ export interface ForgeState {
 
   // Contact
   showContact: boolean;
+  contactSubject: string | null;
+
+  // Skill Tree
+  expandedSkillCategory: string | null;
+
+  // Cinematic
+  isCinematicActive: boolean;
+
+  // Zone Unlock Cinematic
+  isZoneUnlockActive: boolean;
+  zoneUnlockTarget: ZoneId | null;
+
+  // Audio
+  audioEnabled: boolean;
+  audioVolume: number; // 0–1
+
+  // Visitor Counter
+  visitorCount: number;
+
+  // Codex (Discovery Tracker)
+  discoveredProjects: Set<string>;
+  discoveredSubcategories: Set<string>;
+  discoveredEras: Set<string>;
+  discoveredActiveProjects: Set<string>;
+  showCodex: boolean;
 
   // Actions
   startGame: () => void;
@@ -118,4 +168,15 @@ export interface ForgeState {
   closeResume: () => void;
   openContact: () => void;
   closeContact: () => void;
+  expandCategory: (id: string) => void;
+  collapseCategory: () => void;
+  startCinematic: () => void;
+  endCinematic: () => void;
+  startZoneUnlock: (zone: ZoneId) => void;
+  endZoneUnlock: () => void;
+  openCodex: () => void;
+  closeCodex: () => void;
+  toggleAudio: () => void;
+  setAudioVolume: (volume: number) => void;
+  setVisitorCount: (count: number) => void;
 }

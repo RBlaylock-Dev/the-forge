@@ -179,36 +179,31 @@ body {
   text-align: center;
   white-space: nowrap;
   transition: opacity 0.3s ease;
+  padding: 0.3rem 0.6rem 0.25rem;
+  background: rgba(10, 8, 6, 0.7);
+  border: 1px solid rgba(196, 129, 58, 0.15);
+  border-radius: 0.4rem;
 }
 
 .project-label-name {
   font-family: var(--font-cinzel), "Cinzel", serif;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  text-shadow: 0 0 8px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5);
-  letter-spacing: 0.06em;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
+  letter-spacing: 0.05em;
 }
 
 .project-label-badge {
   display: inline-block;
   font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
-  font-size: 0.55rem;
+  font-size: 0.45rem;
   font-weight: 600;
   color: #fff;
-  padding: 0.05rem 0.4rem;
-  border-radius: 0.6rem;
-  margin-top: 0.15rem;
+  padding: 0.02rem 0.35rem;
+  border-radius: 0.5rem;
+  margin-top: 0.2rem;
   letter-spacing: 0.08em;
   text-shadow: none;
-}
-
-.project-label-tags {
-  font-family: var(--font-rajdhani), "Rajdhani", sans-serif;
-  font-size: 0.6rem;
-  font-weight: 400;
-  color: #a09080;
-  margin-top: 0.1rem;
-  letter-spacing: 0.03em;
 }
 
 /* ── Timeline Cards ───────────────────────────────────── */
@@ -559,6 +554,109 @@ body {
   to {
     opacity: 1;
   }
+}
+
+/* ── Cinematic Cold Open ───────────────────────────────── */
+
+@keyframes cinematic-title-in {
+  from {
+    opacity: 0;
+    letter-spacing: 20px;
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    letter-spacing: 8px;
+    filter: blur(0px);
+  }
+}
+
+@keyframes cinematic-subtitle-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Zone Unlock Cinematic ─────────────────────────────── */
+
+@keyframes zone-unlock-title-in {
+  0% {
+    opacity: 0;
+    letter-spacing: 16px;
+    filter: blur(6px);
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    letter-spacing: 6px;
+    filter: blur(0px);
+    transform: scale(1);
+  }
+}
+
+@keyframes zone-unlock-subtitle-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 0.8;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zone-unlock-line-expand {
+  from {
+    width: 0;
+  }
+  to {
+    width: 120px;
+  }
+}
+
+/* ── Zone Entry Transition ─────────────────────────────── */
+
+@keyframes zone-entry-pulse {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ── Contextual CTA ────────────────────────────────────── */
+
+@keyframes contextual-cta-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes contextual-cta-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(196,129,58,0.2), 0 0 40px rgba(196,129,58,0.08);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(232,165,75,0.35), 0 0 50px rgba(196,129,58,0.15);
+  }
+}
+
+.contextual-cta-glow {
+  animation: contextual-cta-in 0.6s ease both, contextual-cta-pulse 3s ease-in-out 1s infinite;
 }
 
 /* ── Keyboard Focus ─────────────────────────────────────── */

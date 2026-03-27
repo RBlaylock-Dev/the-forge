@@ -12,7 +12,16 @@ import { ResumePreview } from './ResumePreview';
 import { ContactButton } from './ContactButton';
 import { ContactModal } from './ContactModal';
 import { IntroTour } from './IntroTour';
+import { CinematicOverlay } from './CinematicOverlay';
 import { CursorTooltip } from './CursorTooltip';
+import { CodexButton } from './CodexButton';
+import { CodexOverlay } from './CodexOverlay';
+import { ContextualCTA } from './ContextualCTA';
+import { ZoneUnlockCinematic } from './ZoneUnlockCinematic';
+import { ZoneEntryTransition } from './ZoneEntryTransition';
+import { SoundToggle } from './SoundToggle';
+import { useSoundscape } from '@/audio/useSoundscape';
+import { useVisitorCount } from '@/utils/useVisitorCount';
 
 /**
  * HUD — single compositor component that renders all overlay elements.
@@ -34,6 +43,9 @@ import { CursorTooltip } from './CursorTooltip';
  * on themselves individually.
  */
 export function HUD() {
+  useSoundscape();
+  useVisitorCount();
+
   return (
     <div
       id="hud-root"
@@ -55,9 +67,15 @@ export function HUD() {
       <NavBar />
       <ContactButton />
       <ResumeButton />
+      <SoundToggle />
+      <CodexButton />
+      <ContextualCTA />
 
       {/* ── z-20: Dynamic prompts ────────────────────────────── */}
       <CursorTooltip />
+
+      {/* ── z-45: Zone entry transition ────────────────────────── */}
+      <ZoneEntryTransition />
 
       {/* ── z-50: Notifications ──────────────────────────────── */}
       <ZoneFlash />
@@ -65,12 +83,21 @@ export function HUD() {
       {/* ── z-60: Detail panel ───────────────────────────────── */}
       <DetailPanel />
 
+      {/* ── z-65: Zone unlock cinematic ────────────────────────── */}
+      <ZoneUnlockCinematic />
+
       {/* ── z-70: Intro tour ───────────────────────────────── */}
       <IntroTour />
 
       {/* ── z-80: Full-screen overlays ──────────────────────────── */}
       <ResumePreview />
       <ContactModal />
+
+      {/* ── z-75: Codex overlay ───────────────────────────────── */}
+      <CodexOverlay />
+
+      {/* ── z-90: Cinematic cold open ────────────────────────── */}
+      <CinematicOverlay />
 
       {/* ── z-100: Modal overlays ────────────────────────────── */}
       <StartOverlay />

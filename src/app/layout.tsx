@@ -68,6 +68,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Person',
+              name: 'Robert Blaylock',
+              jobTitle: 'Senior Full Stack & 3D Engineer',
+              url: 'https://rblaylock.dev',
+              sameAs: [
+                'https://www.linkedin.com/in/rblaylock286/',
+                'https://github.com/RBlaylock-Dev',
+              ],
+            }),
+          }}
+        />
+      </head>
       <body className={`${cinzel.variable} ${rajdhani.variable} antialiased`}>
         {children}
 

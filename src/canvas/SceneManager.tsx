@@ -11,17 +11,21 @@ import { Timeline } from '@/zones/Timeline';
 import { WarRoom } from '@/zones/WarRoom';
 import { EmberParticles } from '@/objects/EmberParticles';
 import { ForgeEmbers } from '@/objects/ForgeEmbers';
+import { BreadcrumbParticles } from '@/objects/BreadcrumbParticles';
+import { ForgeEvents } from '@/objects/ForgeEvents';
 import { PathStrip } from '@/objects/PathStrip';
+import { getTimeOfDayPreset } from '@/utils/timeOfDay';
 
-function Fog() {
+function Fog({ color }: { color: number }) {
   const { scene } = useThree();
   useMemo(() => {
-    scene.fog = new THREE.FogExp2(0x0a0806, 0.014);
-  }, [scene]);
+    scene.fog = new THREE.FogExp2(color, 0.014);
+    scene.background = new THREE.Color(color);
+  }, [scene, color]);
   return null;
 }
 
-function Ground() {
+function Ground({ emissive, emissiveIntensity }: { emissive: number; emissiveIntensity: number }) {
   const geometry = useMemo(() => {
     const geo = new THREE.PlaneGeometry(120, 120, 80, 80);
     const posArr = geo.getAttribute('position');
@@ -42,8 +46,8 @@ function Ground() {
     >
       <meshStandardMaterial
         color={0x1a1210}
-        emissive={0x0a0806}
-        emissiveIntensity={0.25}
+        emissive={emissive}
+        emissiveIntensity={emissiveIntensity}
         roughness={0.95}
         metalness={0.1}
       />
@@ -52,17 +56,20 @@ function Ground() {
 }
 
 export function SceneManager() {
+  // Compute time-of-day lighting once on mount
+  const tod = useMemo(() => getTimeOfDayPreset(), []);
+
   return (
     <>
-      <Fog />
+      <Fog color={tod.fogColor} />
 
       {/* Ambient */}
-      <ambientLight color={0x2a1a10} intensity={0.9} />
+      <ambientLight color={tod.ambientColor} intensity={tod.ambientIntensity} />
 
       {/* Fill light A */}
       <pointLight
-        color={0xc4813a}
-        intensity={1}
+        color={tod.fillAColor}
+        intensity={tod.fillAIntensity}
         distance={35}
         decay={2}
         position={[-15, 5, -8]}
@@ -70,14 +77,14 @@ export function SceneManager() {
 
       {/* Fill light B */}
       <pointLight
-        color={0x8b4513}
-        intensity={0.7}
+        color={tod.fillBColor}
+        intensity={tod.fillBIntensity}
         distance={35}
         decay={2}
         position={[15, 4, 8]}
       />
 
-      {/* Zone lights */}
+      {/* Zone lights (unchanged — zone identity colors) */}
       <pointLight
         color={0x44aa88}
         intensity={2}
@@ -108,7 +115,7 @@ export function SceneManager() {
       />
 
       {/* Ground */}
-      <Ground />
+      <Ground emissive={tod.groundEmissive} emissiveIntensity={tod.groundEmissiveIntensity} />
 
       {/* Paths */}
       <PathStrip from={{ x: 0, z: 0 }} to={{ x: -22, z: 0 }} color={0x44aa88} />
@@ -119,6 +126,8 @@ export function SceneManager() {
       {/* Particles */}
       <EmberParticles />
       <ForgeEmbers />
+      <BreadcrumbParticles />
+      <ForgeEvents />
 
       {/* Zones */}
       <Hearth />
