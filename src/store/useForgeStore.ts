@@ -51,7 +51,9 @@ function saveCodex(state: ForgeState) {
       activeProjects: Array.from(state.discoveredActiveProjects),
     };
     localStorage.setItem(CODEX_KEY, JSON.stringify(data));
-  } catch { /* SSR or quota — silently fail */ }
+  } catch {
+    /* SSR or quota — silently fail */
+  }
 }
 
 const hydrated = loadCodex();
@@ -106,6 +108,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   audioEnabled: false,
   audioVolume: 0.5,
 
+  // ── Visitor Counter ──────────────────────────────
+  visitorCount: 0,
+
   // ── Codex (Discovery Tracker) ─────────────────────
   discoveredProjects: hydrated.discoveredProjects,
   discoveredSubcategories: hydrated.discoveredSubcategories,
@@ -116,11 +121,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   // ── Actions ──────────────────────────────────────────────
   startGame: () => set({ isStarted: true }),
 
-  updatePlayerPosition: (x: number, y: number, z: number) =>
-    set({ playerPosition: { x, y, z } }),
+  updatePlayerPosition: (x: number, y: number, z: number) => set({ playerPosition: { x, y, z } }),
 
-  updatePlayerRotation: (yaw: number, pitch: number) =>
-    set({ playerYaw: yaw, playerPitch: pitch }),
+  updatePlayerRotation: (yaw: number, pitch: number) => set({ playerYaw: yaw, playerPitch: pitch }),
 
   setCurrentZone: (zone: ZoneId | null) => set({ currentZone: zone }),
 
@@ -149,7 +152,10 @@ export const useForgeStore = create<ForgeState>()((set) => ({
         discoveredProjects = new Set(state.discoveredProjects);
         discoveredProjects.add(data.data.name);
         changed = true;
-      } else if (data.type === 'skill-subcategory' && !state.discoveredSubcategories.has(data.data.subcategory.id)) {
+      } else if (
+        data.type === 'skill-subcategory' &&
+        !state.discoveredSubcategories.has(data.data.subcategory.id)
+      ) {
         discoveredSubcategories = new Set(state.discoveredSubcategories);
         discoveredSubcategories.add(data.data.subcategory.id);
         changed = true;
@@ -157,7 +163,10 @@ export const useForgeStore = create<ForgeState>()((set) => ({
         discoveredEras = new Set(state.discoveredEras);
         discoveredEras.add(data.data.era);
         changed = true;
-      } else if (data.type === 'active-project' && !state.discoveredActiveProjects.has(data.data.name)) {
+      } else if (
+        data.type === 'active-project' &&
+        !state.discoveredActiveProjects.has(data.data.name)
+      ) {
         discoveredActiveProjects = new Set(state.discoveredActiveProjects);
         discoveredActiveProjects.add(data.data.name);
         changed = true;
@@ -166,7 +175,14 @@ export const useForgeStore = create<ForgeState>()((set) => ({
       const update = {
         activeDetail: data,
         showDetail: true,
-        ...(changed ? { discoveredProjects, discoveredSubcategories, discoveredEras, discoveredActiveProjects } : {}),
+        ...(changed
+          ? {
+              discoveredProjects,
+              discoveredSubcategories,
+              discoveredEras,
+              discoveredActiveProjects,
+            }
+          : {}),
       };
 
       if (changed) {
@@ -177,16 +193,13 @@ export const useForgeStore = create<ForgeState>()((set) => ({
       return update;
     }),
 
-  closeDetailPanel: () =>
-    set({ activeDetail: null, showDetail: false, interactTarget: null }),
+  closeDetailPanel: () => set({ activeDetail: null, showDetail: false, interactTarget: null }),
 
-  teleportTo: (x: number, z: number, yaw: number) =>
-    set({ teleportTarget: { x, z, yaw } }),
+  teleportTo: (x: number, z: number, yaw: number) => set({ teleportTarget: { x, z, yaw } }),
 
   clearTeleport: () => set({ teleportTarget: null }),
 
-  flyToZone: (x: number, z: number, yaw: number) =>
-    set({ flyTarget: { x, z, yaw } }),
+  flyToZone: (x: number, z: number, yaw: number) => set({ flyTarget: { x, z, yaw } }),
 
   clearFlyTarget: () => set({ flyTarget: null }),
 
@@ -214,6 +227,8 @@ export const useForgeStore = create<ForgeState>()((set) => ({
 
   toggleAudio: () => set((state) => ({ audioEnabled: !state.audioEnabled })),
   setAudioVolume: (volume: number) => set({ audioVolume: Math.max(0, Math.min(1, volume)) }),
+
+  setVisitorCount: (count: number) => set({ visitorCount: count }),
 }));
 
 // ── Total discoverable item counts ──────────────────────────
@@ -222,7 +237,8 @@ const TOTAL_PROJECTS = 12;
 const TOTAL_SUBCATEGORIES = 21;
 const TOTAL_ERAS = 5;
 const TOTAL_ACTIVE_PROJECTS = 7;
-const TOTAL_ITEMS = TOTAL_ZONES + TOTAL_PROJECTS + TOTAL_SUBCATEGORIES + TOTAL_ERAS + TOTAL_ACTIVE_PROJECTS;
+const TOTAL_ITEMS =
+  TOTAL_ZONES + TOTAL_PROJECTS + TOTAL_SUBCATEGORIES + TOTAL_ERAS + TOTAL_ACTIVE_PROJECTS;
 
 /** Derived selector: overall Codex progress as 0–1 ratio */
 export const selectCodexProgress = (state: ForgeState) => {
