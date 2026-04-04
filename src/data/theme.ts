@@ -24,4 +24,5 @@ export const ZONE_COLORS = {
   vault: 0xaa6622,
   timeline: 0x6644aa,
   'war-room': 0x22aacc,
+  'hidden-forge': 0xff6600,
 } as const;

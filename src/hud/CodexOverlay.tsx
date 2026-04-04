@@ -10,7 +10,14 @@ import { TIMELINE_DATA } from '@/data/timeline';
 import { ACTIVE_PROJECTS } from '@/data/activeProjects';
 import type { ZoneId } from '@/types';
 
-const ZONE_IDS: ZoneId[] = ['hearth', 'skill-tree', 'vault', 'timeline', 'war-room'];
+const ZONE_IDS: ZoneId[] = [
+  'hearth',
+  'skill-tree',
+  'vault',
+  'timeline',
+  'war-room',
+  'hidden-forge',
+];
 
 const ZONE_COLORS: Record<ZoneId, string> = {
   hearth: '#c4813a',
@@ -18,6 +25,7 @@ const ZONE_COLORS: Record<ZoneId, string> = {
   vault: '#aa6622',
   timeline: '#6644aa',
   'war-room': '#22aacc',
+  'hidden-forge': '#ff6600',
 };
 
 const TIER_COLORS: Record<string, string> = {
@@ -63,7 +71,11 @@ export function CodexOverlay() {
 
   // Flatten all subcategories
   const allSubcategories = SKILL_CATEGORIES.flatMap((cat) =>
-    cat.subcategories.map((sub) => ({ ...sub, categoryColor: cat.color, categoryLabel: cat.label })),
+    cat.subcategories.map((sub) => ({
+      ...sub,
+      categoryColor: cat.color,
+      categoryLabel: cat.label,
+    })),
   );
 
   return (
@@ -90,7 +102,14 @@ export function CodexOverlay() {
         }}
       >
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: 24,
+          }}
+        >
           <div>
             <h2
               className="font-cinzel"
@@ -131,14 +150,32 @@ export function CodexOverlay() {
         {/* Progress bar */}
         <div style={{ marginBottom: 32 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-            <span className="font-rajdhani" style={{ fontSize: 12, color: '#6a5a4a', letterSpacing: '2px', textTransform: 'uppercase' }}>
+            <span
+              className="font-rajdhani"
+              style={{
+                fontSize: 12,
+                color: '#6a5a4a',
+                letterSpacing: '2px',
+                textTransform: 'uppercase',
+              }}
+            >
               Overall Progress
             </span>
-            <span className="font-rajdhani" style={{ fontSize: 14, color: '#e8a54b', fontWeight: 600 }}>
+            <span
+              className="font-rajdhani"
+              style={{ fontSize: 14, color: '#e8a54b', fontWeight: 600 }}
+            >
               {pct}%
             </span>
           </div>
-          <div style={{ height: 6, borderRadius: 3, background: 'rgba(196,129,58,0.15)', overflow: 'hidden' }}>
+          <div
+            style={{
+              height: 6,
+              borderRadius: 3,
+              background: 'rgba(196,129,58,0.15)',
+              overflow: 'hidden',
+            }}
+          >
             <div
               style={{
                 width: `${pct}%`,
@@ -154,7 +191,13 @@ export function CodexOverlay() {
 
         {/* ── Zones Section ────────────────────────────────────── */}
         <Section title="Zones" discovered={zoneCount} total={5} color="#c4813a">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 10 }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+              gap: 10,
+            }}
+          >
             {ZONE_IDS.map((id) => {
               const found = discoveredZones.has(id);
               return (
@@ -167,16 +210,41 @@ export function CodexOverlay() {
         </Section>
 
         {/* ── Project Vault ────────────────────────────────────── */}
-        <Section title="The Project Vault" discovered={projectCount} total={PROJECTS.length} color="#aa6622">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 10 }}>
+        <Section
+          title="The Project Vault"
+          discovered={projectCount}
+          total={PROJECTS.length}
+          color="#aa6622"
+        >
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+              gap: 10,
+            }}
+          >
             {PROJECTS.map((p) => {
               const found = discoveredProjects.has(p.name);
               return (
-                <Card key={p.name} discovered={found} accentColor={TIER_COLORS[p.tier] ?? '#6a5a4a'}>
+                <Card
+                  key={p.name}
+                  discovered={found}
+                  accentColor={TIER_COLORS[p.tier] ?? '#6a5a4a'}
+                >
                   {found ? (
                     <div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: '#f5deb3' }}>{p.name}</div>
-                      <div style={{ fontSize: 10, color: TIER_COLORS[p.tier], marginTop: 2, textTransform: 'uppercase', letterSpacing: '1px' }}>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: '#f5deb3' }}>
+                        {p.name}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 10,
+                          color: TIER_COLORS[p.tier],
+                          marginTop: 2,
+                          textTransform: 'uppercase',
+                          letterSpacing: '1px',
+                        }}
+                      >
                         {p.tier}
                       </div>
                     </div>
@@ -190,15 +258,28 @@ export function CodexOverlay() {
         </Section>
 
         {/* ── Skill Tree ───────────────────────────────────────── */}
-        <Section title="The Skill Tree" discovered={subcatCount} total={allSubcategories.length} color="#44aa88">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 10 }}>
+        <Section
+          title="The Skill Tree"
+          discovered={subcatCount}
+          total={allSubcategories.length}
+          color="#44aa88"
+        >
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+              gap: 10,
+            }}
+          >
             {allSubcategories.map((sub) => {
               const found = discoveredSubcategories.has(sub.id);
               return (
                 <Card key={sub.id} discovered={found} accentColor={sub.categoryColor}>
                   {found ? (
                     <div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: '#f5deb3' }}>{sub.label}</div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: '#f5deb3' }}>
+                        {sub.label}
+                      </div>
                       <div style={{ fontSize: 10, color: sub.categoryColor, marginTop: 2 }}>
                         {sub.skills.length} skills &middot; {sub.categoryLabel}
                       </div>
@@ -213,16 +294,35 @@ export function CodexOverlay() {
         </Section>
 
         {/* ── Timeline ─────────────────────────────────────────── */}
-        <Section title="The Timeline" discovered={eraCount} total={TIMELINE_DATA.length} color="#6644aa">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 10 }}>
+        <Section
+          title="The Timeline"
+          discovered={eraCount}
+          total={TIMELINE_DATA.length}
+          color="#6644aa"
+        >
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+              gap: 10,
+            }}
+          >
             {TIMELINE_DATA.map((era) => {
               const found = discoveredEras.has(era.era);
               return (
-                <Card key={era.era} discovered={found} accentColor={`#${era.color.toString(16).padStart(6, '0')}`}>
+                <Card
+                  key={era.era}
+                  discovered={found}
+                  accentColor={`#${era.color.toString(16).padStart(6, '0')}`}
+                >
                   {found ? (
                     <div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: '#f5deb3' }}>{era.era}</div>
-                      <div style={{ fontSize: 10, color: '#8a7a6a', marginTop: 2 }}>{era.org} &middot; {era.years}</div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: '#f5deb3' }}>
+                        {era.era}
+                      </div>
+                      <div style={{ fontSize: 10, color: '#8a7a6a', marginTop: 2 }}>
+                        {era.org} &middot; {era.years}
+                      </div>
                     </div>
                   ) : (
                     '???'
@@ -234,16 +334,35 @@ export function CodexOverlay() {
         </Section>
 
         {/* ── War Room ─────────────────────────────────────────── */}
-        <Section title="The War Room" discovered={activeCount} total={ACTIVE_PROJECTS.length} color="#22aacc">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 10 }}>
+        <Section
+          title="The War Room"
+          discovered={activeCount}
+          total={ACTIVE_PROJECTS.length}
+          color="#22aacc"
+        >
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+              gap: 10,
+            }}
+          >
             {ACTIVE_PROJECTS.map((ap) => {
               const found = discoveredActiveProjects.has(ap.name);
               return (
-                <Card key={ap.name} discovered={found} accentColor={`#${ap.color.toString(16).padStart(6, '0')}`}>
+                <Card
+                  key={ap.name}
+                  discovered={found}
+                  accentColor={`#${ap.color.toString(16).padStart(6, '0')}`}
+                >
                   {found ? (
                     <div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: '#f5deb3' }}>{ap.name}</div>
-                      <div style={{ fontSize: 10, color: '#8a7a6a', marginTop: 2 }}>{ap.status}</div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: '#f5deb3' }}>
+                        {ap.name}
+                      </div>
+                      <div style={{ fontSize: 10, color: '#8a7a6a', marginTop: 2 }}>
+                        {ap.status}
+                      </div>
                     </div>
                   ) : (
                     '???'
