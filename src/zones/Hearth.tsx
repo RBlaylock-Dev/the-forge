@@ -7,6 +7,9 @@ import { BioCard } from '@/objects/BioCard';
 import { ResumeScroll } from '@/objects/ResumeScroll';
 import { ContactAnvil } from '@/objects/ContactAnvil';
 import { VisitorTally } from '@/objects/VisitorTally';
+import { TestimonialPlaque } from '@/objects/TestimonialPlaque';
+import { TESTIMONIALS } from '@/data/testimonials';
+import { ZoneLabel } from '@/objects/ZoneLabel';
 
 // ── Materials (shared across meshes) ────────────────────────
 const darkMetal = new THREE.MeshStandardMaterial({
@@ -194,6 +197,35 @@ export const Hearth = memo(function Hearth() {
       <ResumeScroll />
       <ContactAnvil />
       <VisitorTally />
+
+      {/* Testimonial Wall — semicircle behind hearth (hidden when empty) */}
+      {TESTIMONIALS.length > 0 && (
+        <ZoneLabel
+          title="The Wall of Voices"
+          subtitle={`${TESTIMONIALS.length} testimonials`}
+          position={[-6, 3.5, 4]}
+          worldPosition={[-6, 3.5, 4]}
+        />
+      )}
+      {TESTIMONIALS.map((testimonial, i) => {
+        // Arrange in arc from -60° to +60° around the back (positive Z)
+        const arcStart = -Math.PI / 3;
+        const arcEnd = Math.PI / 3;
+        const angle = arcStart + (i / (TESTIMONIALS.length - 1)) * (arcEnd - arcStart);
+        const radius = 8;
+        const x = Math.sin(angle) * radius;
+        const z = Math.cos(angle) * radius;
+        // Face toward center
+        const yRot = -angle;
+        return (
+          <TestimonialPlaque
+            key={testimonial.id}
+            testimonial={testimonial}
+            position={[x, 2, z]}
+            rotation={[0, yRot, 0]}
+          />
+        );
+      })}
     </group>
   );
 });

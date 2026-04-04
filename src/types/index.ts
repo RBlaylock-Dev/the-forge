@@ -77,6 +77,17 @@ export interface ZoneDef {
 
 // ── Detail Panel ─────────────────────────────────────────────
 
+export interface Testimonial {
+  id: string;
+  quote: string;
+  author: string;
+  role: string;
+  company: string;
+  relationship: 'colleague' | 'client' | 'mentor' | 'mentee' | 'collaborator';
+  linkedinUrl?: string;
+  projectId?: string;
+}
+
 export type DetailData =
   | { type: 'project'; data: Project }
   | {
@@ -84,7 +95,8 @@ export type DetailData =
       data: { subcategory: SkillSubcategory; category: SkillCategoryConfig };
     }
   | { type: 'timeline-era'; data: TimelineEra }
-  | { type: 'active-project'; data: ActiveProject };
+  | { type: 'active-project'; data: ActiveProject }
+  | { type: 'testimonial'; data: Testimonial };
 
 // ── Zustand Store ────────────────────────────────────────────
 
