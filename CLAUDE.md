@@ -148,7 +148,7 @@ src/
 | ------ | -------------------------------------- | ------ | ------------------------------- |
 | UX-015 | Loading Screen with Progress           | DONE   | `feat/UX-015-loading-screen`    |
 | UX-016 | Responsive Design & Mobile Experience  | DONE   | `feat/UX-016-responsive-mobile` |
-| UX-017 | Keyboard Accessibility & Screen Reader | TODO   | `feat/UX-017-accessibility`     |
+| UX-017 | Keyboard Accessibility & Screen Reader | DONE   | `feat/UX-017-accessibility`     |
 | UX-018 | Social Preview & Meta Tags             | DONE   | `feat/UX-018-social-meta`       |
 
 ### PHASE CORE: Conversion Essentials (Must Ship v1)
