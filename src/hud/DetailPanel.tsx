@@ -1,10 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useForgeStore } from '@/store/useForgeStore';
 import { useIsMobile } from '@/utils/mobile';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 import { PROFICIENCY_LEVELS } from '@/data/skills';
-import type { Project, SkillSubcategory, SkillCategoryConfig, TimelineEra, ActiveProject, ProjectTier } from '@/types';
+import type {
+  Project,
+  SkillSubcategory,
+  SkillCategoryConfig,
+  TimelineEra,
+  ActiveProject,
+  ProjectTier,
+} from '@/types';
 
 const TIER_HEX: Record<ProjectTier, string> = {
   LEGENDARY: '#ff6600',
@@ -139,7 +147,10 @@ function ProjectDetail({ data }: { data: Project }) {
       {(!data.previewable || !data.liveUrl) && <div style={{ marginBottom: 4 }} />}
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-        <h2 className="font-cinzel" style={{ fontSize: 22, fontWeight: 700, color: '#f5deb3', margin: 0 }}>
+        <h2
+          className="font-cinzel"
+          style={{ fontSize: 22, fontWeight: 700, color: '#f5deb3', margin: 0 }}
+        >
           {data.name}
         </h2>
         <span
@@ -173,9 +184,7 @@ function ProjectDetail({ data }: { data: Project }) {
           >
             My Role
           </div>
-          <p style={{ fontSize: 13, lineHeight: 1.6, color: '#c4b99a', margin: 0 }}>
-            {data.role}
-          </p>
+          <p style={{ fontSize: 13, lineHeight: 1.6, color: '#c4b99a', margin: 0 }}>{data.role}</p>
         </div>
       )}
 
@@ -241,15 +250,30 @@ function ProjectDetail({ data }: { data: Project }) {
   );
 }
 
-function SkillSubcategoryDetail({ subcategory, category }: { subcategory: SkillSubcategory; category: SkillCategoryConfig }) {
+function SkillSubcategoryDetail({
+  subcategory,
+  category,
+}: {
+  subcategory: SkillSubcategory;
+  category: SkillCategoryConfig;
+}) {
   return (
     <>
-      <h2 className="font-cinzel" style={{ fontSize: 22, fontWeight: 700, color: '#f5deb3', margin: 0, marginBottom: 4 }}>
+      <h2
+        className="font-cinzel"
+        style={{ fontSize: 22, fontWeight: 700, color: '#f5deb3', margin: 0, marginBottom: 4 }}
+      >
         {subcategory.label}
       </h2>
       <div
         className="font-rajdhani"
-        style={{ fontSize: 11, letterSpacing: '2px', textTransform: 'uppercase', color: category.color, marginBottom: 20 }}
+        style={{
+          fontSize: 11,
+          letterSpacing: '2px',
+          textTransform: 'uppercase',
+          color: category.color,
+          marginBottom: 20,
+        }}
       >
         Part of {category.label}
       </div>
@@ -284,7 +308,16 @@ function SkillSubcategoryDetail({ subcategory, category }: { subcategory: SkillS
                     />
                   ))}
                 </div>
-                <span style={{ fontSize: 9, color: prof.color, letterSpacing: '1px', textTransform: 'uppercase', minWidth: 60, textAlign: 'right' }}>
+                <span
+                  style={{
+                    fontSize: 9,
+                    color: prof.color,
+                    letterSpacing: '1px',
+                    textTransform: 'uppercase',
+                    minWidth: 60,
+                    textAlign: 'right',
+                  }}
+                >
                   {prof.label}
                 </span>
               </div>
@@ -315,7 +348,10 @@ function TimelineEraDetail({ data }: { data: TimelineEra }) {
   const colorHex = `#${data.color.toString(16).padStart(6, '0')}`;
   return (
     <>
-      <h2 className="font-cinzel" style={{ fontSize: 22, fontWeight: 700, color: '#f5deb3', margin: 0, marginBottom: 8 }}>
+      <h2
+        className="font-cinzel"
+        style={{ fontSize: 22, fontWeight: 700, color: '#f5deb3', margin: 0, marginBottom: 8 }}
+      >
         {data.era}
       </h2>
       <div style={{ fontSize: 13, color: colorHex, marginBottom: 4 }}>{data.org}</div>
@@ -330,7 +366,10 @@ function ActiveProjectDetail({ data }: { data: ActiveProject }) {
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-        <h2 className="font-cinzel" style={{ fontSize: 22, fontWeight: 700, color: '#f5deb3', margin: 0 }}>
+        <h2
+          className="font-cinzel"
+          style={{ fontSize: 22, fontWeight: 700, color: '#f5deb3', margin: 0 }}
+        >
           {data.name}
         </h2>
         <span
@@ -360,6 +399,15 @@ export function DetailPanel() {
   const showDetail = useForgeStore((s) => s.showDetail);
   const closeDetailPanel = useForgeStore((s) => s.closeDetailPanel);
   const mobile = useIsMobile();
+  const focusTrapRef = useFocusTrap(showDetail);
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  // Focus close button when panel opens
+  useEffect(() => {
+    if (showDetail) {
+      requestAnimationFrame(() => closeRef.current?.focus());
+    }
+  }, [showDetail]);
 
   // ESC to close
   useEffect(() => {
@@ -374,45 +422,52 @@ export function DetailPanel() {
 
   return (
     <aside
+      ref={focusTrapRef as React.RefObject<HTMLElement>}
       role="dialog"
+      aria-modal="true"
       aria-label="Detail panel"
       className="font-rajdhani"
-      style={mobile ? {
-        position: 'fixed',
-        left: 0,
-        right: 0,
-        bottom: 0,
-        height: '70vh',
-        zIndex: 60,
-        background: 'rgba(10,8,6,0.95)',
-        backdropFilter: 'blur(12px)',
-        borderTop: '1px solid rgba(196,129,58,0.2)',
-        padding: '24px 20px',
-        overflowY: 'auto',
-        transform: showDetail ? 'translateY(0)' : 'translateY(100%)',
-        transition: 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
-        pointerEvents: showDetail ? 'auto' : 'none',
-        borderRadius: '16px 16px 0 0',
-      } : {
-        position: 'fixed',
-        top: 0,
-        right: 0,
-        bottom: 0,
-        width: 440,
-        maxWidth: '90vw',
-        zIndex: 60,
-        background: 'rgba(10,8,6,0.92)',
-        backdropFilter: 'blur(12px)',
-        borderLeft: '1px solid rgba(196,129,58,0.2)',
-        padding: '32px 28px',
-        overflowY: 'auto',
-        transform: showDetail ? 'translateX(0)' : 'translateX(100%)',
-        transition: 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
-        pointerEvents: showDetail ? 'auto' : 'none',
-      }}
+      style={
+        mobile
+          ? {
+              position: 'fixed',
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: '70vh',
+              zIndex: 60,
+              background: 'rgba(10,8,6,0.95)',
+              backdropFilter: 'blur(12px)',
+              borderTop: '1px solid rgba(196,129,58,0.2)',
+              padding: '24px 20px',
+              overflowY: 'auto',
+              transform: showDetail ? 'translateY(0)' : 'translateY(100%)',
+              transition: 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
+              pointerEvents: showDetail ? 'auto' : 'none',
+              borderRadius: '16px 16px 0 0',
+            }
+          : {
+              position: 'fixed',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              width: 440,
+              maxWidth: '90vw',
+              zIndex: 60,
+              background: 'rgba(10,8,6,0.92)',
+              backdropFilter: 'blur(12px)',
+              borderLeft: '1px solid rgba(196,129,58,0.2)',
+              padding: '32px 28px',
+              overflowY: 'auto',
+              transform: showDetail ? 'translateX(0)' : 'translateX(100%)',
+              transition: 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
+              pointerEvents: showDetail ? 'auto' : 'none',
+            }
+      }
     >
       {/* Close button */}
       <button
+        ref={closeRef}
         onClick={closeDetailPanel}
         aria-label="Close detail panel"
         style={{
@@ -439,9 +494,16 @@ export function DetailPanel() {
       {/* Content */}
       <div style={{ marginTop: 24 }}>
         {activeDetail?.type === 'project' && <ProjectDetail data={activeDetail.data} />}
-        {activeDetail?.type === 'skill-subcategory' && <SkillSubcategoryDetail subcategory={activeDetail.data.subcategory} category={activeDetail.data.category} />}
+        {activeDetail?.type === 'skill-subcategory' && (
+          <SkillSubcategoryDetail
+            subcategory={activeDetail.data.subcategory}
+            category={activeDetail.data.category}
+          />
+        )}
         {activeDetail?.type === 'timeline-era' && <TimelineEraDetail data={activeDetail.data} />}
-        {activeDetail?.type === 'active-project' && <ActiveProjectDetail data={activeDetail.data} />}
+        {activeDetail?.type === 'active-project' && (
+          <ActiveProjectDetail data={activeDetail.data} />
+        )}
       </div>
     </aside>
   );

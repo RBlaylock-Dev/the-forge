@@ -3,6 +3,7 @@
 import { useEffect, useCallback } from 'react';
 import { useForgeStore } from '@/store/useForgeStore';
 import { selectCodexProgress } from '@/store/useForgeStore';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 import { ZONE_DEFS } from '@/data/zones';
 import { PROJECTS } from '@/data/projects';
 import { SKILL_CATEGORIES } from '@/data/skills';
@@ -44,6 +45,7 @@ export function CodexOverlay() {
   const discoveredSubcategories = useForgeStore((s) => s.discoveredSubcategories);
   const discoveredEras = useForgeStore((s) => s.discoveredEras);
   const discoveredActiveProjects = useForgeStore((s) => s.discoveredActiveProjects);
+  const focusTrapRef = useFocusTrap(showCodex);
 
   const onKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -80,7 +82,11 @@ export function CodexOverlay() {
 
   return (
     <div
+      ref={focusTrapRef}
       onClick={closeCodex}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Forge Codex — Discovery Tracker"
       style={{
         position: 'fixed',
         inset: 0,
@@ -190,7 +196,7 @@ export function CodexOverlay() {
         </div>
 
         {/* ── Zones Section ────────────────────────────────────── */}
-        <Section title="Zones" discovered={zoneCount} total={5} color="#c4813a">
+        <Section title="Zones" discovered={zoneCount} total={6} color="#c4813a">
           <div
             style={{
               display: 'grid',
