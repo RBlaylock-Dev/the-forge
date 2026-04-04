@@ -1,14 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
+import { EffectComposer, Bloom, Vignette, DepthOfField } from '@react-three/postprocessing';
 import { isMobile } from '@/utils/mobile';
+import { useForgeStore } from '@/store/useForgeStore';
 
 /**
  * PostProcessing — cinematic effects layer for the forge scene.
  *
  * - Bloom: subtle glow on emissive materials (fire, torches, embers)
  * - Vignette: darkened edges for dramatic framing
+ * - DepthOfField: subtle bokeh in screenshot mode for cinematic captures
  *
  * Respects `prefers-reduced-motion` — renders Vignette-only when
  * the user prefers reduced motion (no bloom animation).
@@ -17,6 +19,7 @@ import { isMobile } from '@/utils/mobile';
 export function PostProcessing() {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [mobile] = useState(() => isMobile());
+  const isScreenshotMode = useForgeStore((s) => s.isScreenshotMode);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -27,8 +30,31 @@ export function PostProcessing() {
     return () => mq.removeEventListener('change', onChange);
   }, []);
 
-  // Skip bloom on mobile or reduced-motion
-  if (reducedMotion || mobile) {
+  const skipBloom = reducedMotion || mobile;
+
+  // Screenshot mode + bloom
+  if (isScreenshotMode && !skipBloom) {
+    return (
+      <EffectComposer multisampling={0}>
+        <Bloom luminanceThreshold={0.8} luminanceSmoothing={0.3} intensity={0.3} mipmapBlur />
+        <DepthOfField focusDistance={0.02} focalLength={0.06} bokehScale={3} />
+        <Vignette offset={0.3} darkness={0.7} />
+      </EffectComposer>
+    );
+  }
+
+  // Screenshot mode, no bloom
+  if (isScreenshotMode && skipBloom) {
+    return (
+      <EffectComposer multisampling={0}>
+        <DepthOfField focusDistance={0.02} focalLength={0.06} bokehScale={3} />
+        <Vignette offset={0.3} darkness={0.7} />
+      </EffectComposer>
+    );
+  }
+
+  // Normal mode, no bloom
+  if (skipBloom) {
     return (
       <EffectComposer multisampling={0}>
         <Vignette offset={0.3} darkness={0.5} />
@@ -36,14 +62,10 @@ export function PostProcessing() {
     );
   }
 
+  // Normal mode + bloom
   return (
     <EffectComposer multisampling={0}>
-      <Bloom
-        luminanceThreshold={0.8}
-        luminanceSmoothing={0.3}
-        intensity={0.3}
-        mipmapBlur
-      />
+      <Bloom luminanceThreshold={0.8} luminanceSmoothing={0.3} intensity={0.3} mipmapBlur />
       <Vignette offset={0.3} darkness={0.5} />
     </EffectComposer>
   );

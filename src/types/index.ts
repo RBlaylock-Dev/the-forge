@@ -141,6 +141,9 @@ export interface ForgeState {
   // Visitor Counter
   visitorCount: number;
 
+  // Screenshot Mode
+  isScreenshotMode: boolean;
+
   // Codex (Discovery Tracker)
   discoveredProjects: Set<string>;
   discoveredSubcategories: Set<string>;
@@ -179,4 +182,5 @@ export interface ForgeState {
   toggleAudio: () => void;
   setAudioVolume: (volume: number) => void;
   setVisitorCount: (count: number) => void;
+  toggleScreenshotMode: () => void;
 }

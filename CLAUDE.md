@@ -174,7 +174,7 @@ src/
 | UX-023 | Breadcrumb Particles             | DONE   | `feat/UX-023-breadcrumb-particles`  |
 | UX-024 | Ambient Soundscape               | DONE   | `feat/UX-024-ambient-sound`         |
 | UX-025 | Zone Unlock Cinematics           | DONE   | `feat/UX-025-zone-unlock`           |
-| UX-026 | Screenshot Mode                  | TODO   | `feat/UX-026-screenshot-mode`       |
+| UX-026 | Screenshot Mode                  | DONE   | `feat/UX-026-screenshot-mode`       |
 | UX-027 | Resume as Forge Artifact         | TODO   | `feat/UX-027-resume-artifact`       |
 | UX-028 | Project Live Previews            | DONE   | `feat/UX-028-project-previews`      |
 | UX-029 | Dynamic Time-of-Day Lighting     | DONE   | `feat/UX-029-time-of-day`           |

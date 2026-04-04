@@ -111,6 +111,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   // ── Visitor Counter ──────────────────────────────
   visitorCount: 0,
 
+  // ── Screenshot Mode ─────────────────────────────
+  isScreenshotMode: false,
+
   // ── Codex (Discovery Tracker) ─────────────────────
   discoveredProjects: hydrated.discoveredProjects,
   discoveredSubcategories: hydrated.discoveredSubcategories,
@@ -229,6 +232,8 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   setAudioVolume: (volume: number) => set({ audioVolume: Math.max(0, Math.min(1, volume)) }),
 
   setVisitorCount: (count: number) => set({ visitorCount: count }),
+
+  toggleScreenshotMode: () => set((state) => ({ isScreenshotMode: !state.isScreenshotMode })),
 }));
 
 // ── Total discoverable item counts ──────────────────────────
