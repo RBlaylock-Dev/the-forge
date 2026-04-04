@@ -147,6 +147,9 @@ export interface ForgeState {
   // Resume
   resumeDownloaded: boolean;
 
+  // Konami Easter Egg
+  isKonamiActive: boolean;
+
   // Codex (Discovery Tracker)
   discoveredProjects: Set<string>;
   discoveredSubcategories: Set<string>;
@@ -187,4 +190,6 @@ export interface ForgeState {
   setVisitorCount: (count: number) => void;
   toggleScreenshotMode: () => void;
   markResumeDownloaded: () => void;
+  activateKonami: () => void;
+  deactivateKonami: () => void;
 }

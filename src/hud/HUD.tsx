@@ -22,8 +22,10 @@ import { ZoneEntryTransition } from './ZoneEntryTransition';
 import { SoundToggle } from './SoundToggle';
 import { ScreenshotButton } from './ScreenshotButton';
 import { ScreenshotWatermark } from './ScreenshotWatermark';
+import { KonamiOverlay } from './KonamiOverlay';
 import { useSoundscape } from '@/audio/useSoundscape';
 import { useVisitorCount } from '@/utils/useVisitorCount';
+import { useKonamiCode } from '@/hooks/useKonamiCode';
 import { useForgeStore } from '@/store/useForgeStore';
 
 /**
@@ -48,6 +50,7 @@ import { useForgeStore } from '@/store/useForgeStore';
 export function HUD() {
   useSoundscape();
   useVisitorCount();
+  useKonamiCode();
 
   const isScreenshotMode = useForgeStore((s) => s.isScreenshotMode);
 
@@ -61,6 +64,9 @@ export function HUD() {
         pointerEvents: 'none',
       }}
     >
+      {/* ── z-95: Konami easter egg overlay ───────────────────── */}
+      <KonamiOverlay />
+
       {/* ── Screenshot watermark (visible only in screenshot mode) ── */}
       <ScreenshotWatermark />
 
