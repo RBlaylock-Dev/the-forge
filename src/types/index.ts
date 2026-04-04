@@ -162,6 +162,9 @@ export interface ForgeState {
   // Konami Easter Egg
   isKonamiActive: boolean;
 
+  // Achievements
+  showAchievements: boolean;
+
   // Codex (Discovery Tracker)
   discoveredProjects: Set<string>;
   discoveredSubcategories: Set<string>;
@@ -197,6 +200,8 @@ export interface ForgeState {
   endZoneUnlock: () => void;
   openCodex: () => void;
   closeCodex: () => void;
+  openAchievements: () => void;
+  closeAchievements: () => void;
   toggleAudio: () => void;
   setAudioVolume: (volume: number) => void;
   setVisitorCount: (count: number) => void;

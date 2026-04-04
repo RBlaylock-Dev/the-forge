@@ -120,6 +120,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   // ── Konami Easter Egg ─────────────────────────
   isKonamiActive: false,
 
+  // ── Achievements ───────────────────────────────────
+  showAchievements: false,
+
   // ── Codex (Discovery Tracker) ─────────────────────
   discoveredProjects: hydrated.discoveredProjects,
   discoveredSubcategories: hydrated.discoveredSubcategories,
@@ -233,6 +236,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
 
   openCodex: () => set({ showCodex: true }),
   closeCodex: () => set({ showCodex: false }),
+
+  openAchievements: () => set({ showAchievements: true }),
+  closeAchievements: () => set({ showAchievements: false }),
 
   toggleAudio: () => set((state) => ({ audioEnabled: !state.audioEnabled })),
   setAudioVolume: (volume: number) => set({ audioVolume: Math.max(0, Math.min(1, volume)) }),

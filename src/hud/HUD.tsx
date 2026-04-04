@@ -23,9 +23,13 @@ import { SoundToggle } from './SoundToggle';
 import { ScreenshotButton } from './ScreenshotButton';
 import { ScreenshotWatermark } from './ScreenshotWatermark';
 import { KonamiOverlay } from './KonamiOverlay';
+import { AchievementButton } from './AchievementButton';
+import { AchievementToast } from './AchievementToast';
+import { AchievementGallery } from './AchievementGallery';
 import { useSoundscape } from '@/audio/useSoundscape';
 import { useVisitorCount } from '@/utils/useVisitorCount';
 import { useKonamiCode } from '@/hooks/useKonamiCode';
+import { useAchievementTracker } from '@/hooks/useAchievementTracker';
 import { useForgeStore } from '@/store/useForgeStore';
 
 /**
@@ -51,6 +55,7 @@ export function HUD() {
   useSoundscape();
   useVisitorCount();
   useKonamiCode();
+  useAchievementTracker();
 
   const isScreenshotMode = useForgeStore((s) => s.isScreenshotMode);
 
@@ -89,6 +94,7 @@ export function HUD() {
           <ResumeButton />
           <SoundToggle />
           <CodexButton />
+          <AchievementButton />
           <ContextualCTA />
 
           {/* ── z-20: Dynamic prompts ────────────────────────────── */}
@@ -99,6 +105,9 @@ export function HUD() {
 
           {/* ── z-50: Notifications ──────────────────────────────── */}
           <ZoneFlash />
+
+          {/* ── z-55: Achievement toasts ───────────────────────── */}
+          <AchievementToast />
 
           {/* ── z-60: Detail panel ───────────────────────────────── */}
           <DetailPanel />
@@ -115,6 +124,9 @@ export function HUD() {
 
           {/* ── z-75: Codex overlay ───────────────────────────────── */}
           <CodexOverlay />
+
+          {/* ── z-75: Achievement gallery ─────────────────────── */}
+          <AchievementGallery />
 
           {/* ── z-90: Cinematic cold open ────────────────────────── */}
           <CinematicOverlay />
