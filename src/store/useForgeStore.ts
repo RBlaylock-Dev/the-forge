@@ -114,6 +114,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   // ── Screenshot Mode ─────────────────────────────
   isScreenshotMode: false,
 
+  // ── Resume ─────────────────────────────────────
+  resumeDownloaded: false,
+
   // ── Codex (Discovery Tracker) ─────────────────────
   discoveredProjects: hydrated.discoveredProjects,
   discoveredSubcategories: hydrated.discoveredSubcategories,
@@ -234,6 +237,8 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   setVisitorCount: (count: number) => set({ visitorCount: count }),
 
   toggleScreenshotMode: () => set((state) => ({ isScreenshotMode: !state.isScreenshotMode })),
+
+  markResumeDownloaded: () => set({ resumeDownloaded: true }),
 }));
 
 // ── Total discoverable item counts ──────────────────────────
