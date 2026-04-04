@@ -195,7 +195,7 @@ src/
 | F-004 | Project Forge Replay                 | TODO   | `feat/F-004-forge-replay`       |
 | F-005 | Testimonials Forge Wall              | DONE   | `feat/F-005-testimonials`       |
 | F-006 | Weather System                       | TODO   | `feat/F-006-weather`            |
-| F-007 | Achievement System & Badges          | TODO   | `feat/F-007-achievements`       |
+| F-007 | Achievement System & Badges          | DONE   | `feat/F-007-achievements`       |
 | F-008 | Blog Forge (Content Zone)            | TODO   | `feat/F-008-blog-forge`         |
 | F-009 | Seasonal Forge Themes                | TODO   | `feat/F-009-seasonal-themes`    |
 | F-010 | Interactive Resume Builder           | TODO   | `feat/F-010-resume-builder`     |
