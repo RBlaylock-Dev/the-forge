@@ -117,6 +117,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   // ── Resume ─────────────────────────────────────
   resumeDownloaded: false,
 
+  // ── Konami Easter Egg ─────────────────────────
+  isKonamiActive: false,
+
   // ── Codex (Discovery Tracker) ─────────────────────
   discoveredProjects: hydrated.discoveredProjects,
   discoveredSubcategories: hydrated.discoveredSubcategories,
@@ -239,6 +242,9 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   toggleScreenshotMode: () => set((state) => ({ isScreenshotMode: !state.isScreenshotMode })),
 
   markResumeDownloaded: () => set({ resumeDownloaded: true }),
+
+  activateKonami: () => set({ isKonamiActive: true }),
+  deactivateKonami: () => set({ isKonamiActive: false }),
 }));
 
 // ── Total discoverable item counts ──────────────────────────
