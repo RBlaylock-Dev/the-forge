@@ -193,7 +193,7 @@ src/
 | F-002 | Live Code Playground                 | TODO   | `feat/F-002-code-playground`    |
 | F-003 | Multiplayer Forge (Co-Presence)      | TODO   | `feat/F-003-multiplayer`        |
 | F-004 | Project Forge Replay                 | TODO   | `feat/F-004-forge-replay`       |
-| F-005 | Testimonials Forge Wall              | TODO   | `feat/F-005-testimonials`       |
+| F-005 | Testimonials Forge Wall              | DONE   | `feat/F-005-testimonials`       |
 | F-006 | Weather System                       | TODO   | `feat/F-006-weather`            |
 | F-007 | Achievement System & Badges          | TODO   | `feat/F-007-achievements`       |
 | F-008 | Blog Forge (Content Zone)            | TODO   | `feat/F-008-blog-forge`         |
@@ -240,6 +240,94 @@ Build the UX tickets in sessions to minimize context-switching:
 4. **UX-015 → UX-009** — First impressions (loading screen + guided tour)
 5. **UX-012 → UX-013 → UX-014** — Content completeness (bio, contact, enhanced details)
 6. **UX-016 → UX-017 → UX-018** — Ship quality (mobile, accessibility, social meta)
+
+## Future Features Build Order
+
+Optimized for impact, dependency order, and context-switching. Each wave groups related features.
+
+### Wave 1: Quick Wins (~1 session)
+
+> Ship fast, show momentum. Zero dependencies, pure polish.
+
+- **F-017** (Custom Cursors) — 0.5 session. Zone-specific cursors: hammer, branch, magnifying glass, compass, target.
+- **F-023** (Forge Changelog) — 0.5 session. Scroll object in Hearth, data-driven entries, "NEW" badge.
+
+### Wave 2: Social Proof & Gamification (~4 sessions)
+
+> Build trust and engagement loops. F-007 unlocks F-025 and F-016 later.
+
+- **F-005** (Testimonials Wall) — 1–2 sessions. Glowing plaques in Hearth with colleague quotes.
+- **F-007** (Achievement Badges) — 2–3 sessions. 9+ achievements, rarity tiers, SVG badges, localStorage persistence. **Foundation for F-025, F-016.**
+
+### Wave 3: Immersion & Narrative (~4 sessions)
+
+> Deepen the world. All build on existing systems (sound, post-processing, achievements).
+
+- **F-025** (Forge Lore Pages) — 1–2 sessions. Hidden poetic fragments across zones, discovery tracking, "Lorekeeper" achievement. _Depends on F-007._
+- **F-011** (Forge Radio) — 1–2 sessions. Zone-specific ambient music with crossfades. _Builds on UX-024._
+- **F-024** (Spotify Integration) — 1 session. Now-playing widget, speaker object in Hearth.
+
+### Wave 4: Conversion Powerhouses (~6 sessions)
+
+> The features that close deals. High effort but highest ROI.
+
+- **F-001** (AI Forge Assistant) — 3–4 sessions. Claude API-powered forge spirit chatbot with RAG context. Deep-links to zones. **Game changer for recruiter engagement.**
+- **F-010** (Interactive Resume Builder) — 3–4 sessions. Multi-step UI, dynamic PDF generation. _Depends on UX-019, FORGE-012._
+
+### Wave 5: Proof of Ability (~4 sessions)
+
+> Show don't tell. Code, commits, and API design.
+
+- **F-002** (Live Code Playground) — 2–3 sessions. Sandpack/Monaco editor, 8–12 runnable snippets.
+- **F-021** (Forge API) — 1 session. REST API for portfolio data, OpenAPI spec, rate limiting.
+- **F-022** (GitHub Heatmap Terrain) — 1–2 sessions. 3D commit activity grid via GitHub GraphQL.
+
+### Wave 6: World-Building & Polish (~5 sessions)
+
+> Make the world feel alive and dynamic. Encourage return visits.
+
+- **F-006** (Weather System) — 1–2 sessions. Real weather from Counce, TN via OpenWeatherMap.
+- **F-009** (Seasonal Themes) — 1–2 sessions. Spring/summer/fall/winter shader variations.
+- **F-020** (Audio Tour) — 2–3 sessions. Robert's voice narrating each zone. Accessibility win.
+
+### Wave 7: Community & Content (~6 sessions)
+
+> User-generated content and thought leadership.
+
+- **F-015** (Guestbook) — 2–3 sessions. Parchment-styled visitor messages, profanity filter.
+- **F-008** (Blog Forge) — 2–3 sessions. MDX blog posts as glowing tomes on a bookshelf.
+- **F-012** (Visitor Heatmap) — 2–3 sessions. Admin dashboard with engagement analytics.
+
+### Wave 8: Interactive & Fun (~5 sessions)
+
+> Engagement depth features. Build after core differentiators are solid.
+
+- **F-016** (Forge the Code Game) — 2–3 sessions. 5 drag-and-drop coding puzzles. _Depends on F-007._
+- **F-018** (Project Comparison) — 1–2 sessions. Side-by-side project analysis, radar charts.
+- **F-014** (Voice Navigation) — 1–2 sessions. Web Speech API zone commands.
+- **F-019** (Collaborative Whiteboard) — 1–2 sessions. War Room project status board.
+
+### Wave 9: Moonshots (~13 sessions)
+
+> Build when everything else is polished. Maximum technical ambition.
+
+- **F-004** (Project Forge Replay) — 4–5 sessions. Git history as 3D code city time-lapse.
+- **F-003** (Multiplayer Co-Presence) — 4–5 sessions. WebSocket visitor ghosts via PartyKit.
+- **F-013** (AR Mode) — 4–5 sessions. WebXR miniature forge on desk.
+
+### Summary: ~48 sessions across 9 waves
+
+| Wave | Theme                       | Sessions | Key Unlocks                      |
+| ---- | --------------------------- | -------- | -------------------------------- |
+| 1    | Quick Wins                  | ~1       | Ship momentum                    |
+| 2    | Social Proof & Gamification | ~4       | Achievement system (foundation)  |
+| 3    | Immersion & Narrative       | ~4       | Lore, music, personality         |
+| 4    | Conversion Powerhouses      | ~6       | AI assistant, resume builder     |
+| 5    | Proof of Ability            | ~4       | Live code, API, GitHub activity  |
+| 6    | World-Building & Polish     | ~5       | Weather, seasons, audio tour     |
+| 7    | Community & Content         | ~6       | Guestbook, blog, analytics       |
+| 8    | Interactive & Fun           | ~5       | Code game, voice nav, comparison |
+| 9    | Moonshots                   | ~13      | Multiplayer, AR, git replay      |
 
 ## Engineering Rules
 

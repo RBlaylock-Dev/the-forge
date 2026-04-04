@@ -12,6 +12,7 @@ import type {
   TimelineEra,
   ActiveProject,
   ProjectTier,
+  Testimonial,
 } from '@/types';
 
 const TIER_HEX: Record<ProjectTier, string> = {
@@ -392,6 +393,98 @@ function ActiveProjectDetail({ data }: { data: ActiveProject }) {
   );
 }
 
+const RELATIONSHIP_LABELS: Record<string, string> = {
+  colleague: 'Colleague',
+  client: 'Client',
+  mentor: 'Mentor',
+  mentee: 'Mentee',
+  collaborator: 'Collaborator',
+};
+
+const RELATIONSHIP_COLORS_HEX: Record<string, string> = {
+  colleague: '#c4813a',
+  client: '#e8a54b',
+  mentor: '#6644aa',
+  mentee: '#4488ff',
+  collaborator: '#44aa88',
+};
+
+function TestimonialDetail({ data }: { data: Testimonial }) {
+  const relColor = RELATIONSHIP_COLORS_HEX[data.relationship] ?? '#c4813a';
+  const relLabel = RELATIONSHIP_LABELS[data.relationship] ?? data.relationship;
+
+  return (
+    <>
+      {/* Quote */}
+      <div
+        style={{
+          fontSize: 16,
+          lineHeight: 1.7,
+          color: '#f5deb3',
+          fontStyle: 'italic',
+          marginBottom: 24,
+          paddingLeft: 16,
+          borderLeft: `3px solid ${relColor}`,
+        }}
+      >
+        &ldquo;{data.quote}&rdquo;
+      </div>
+
+      {/* Author */}
+      <h2
+        className="font-cinzel"
+        style={{ fontSize: 20, fontWeight: 700, color: '#f5deb3', margin: 0, marginBottom: 4 }}
+      >
+        {data.author}
+      </h2>
+
+      {/* Role & Company */}
+      <div style={{ fontSize: 13, color: '#c4b99a', marginBottom: 8 }}>
+        {data.role} at {data.company}
+      </div>
+
+      {/* Relationship badge */}
+      <span
+        style={{
+          display: 'inline-block',
+          fontSize: 10,
+          fontWeight: 600,
+          letterSpacing: '1.5px',
+          textTransform: 'uppercase',
+          color: relColor,
+          border: `1px solid ${relColor}`,
+          borderRadius: 3,
+          padding: '2px 8px',
+          marginBottom: 20,
+        }}
+      >
+        {relLabel}
+      </span>
+
+      {/* LinkedIn link */}
+      {data.linkedinUrl && (
+        <div style={{ marginTop: 16 }}>
+          <a
+            href={data.linkedinUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontSize: 13,
+              fontWeight: 600,
+              color: '#e8a54b',
+              textDecoration: 'none',
+              letterSpacing: '1px',
+              pointerEvents: 'auto',
+            }}
+          >
+            View on LinkedIn &#8599;
+          </a>
+        </div>
+      )}
+    </>
+  );
+}
+
 // ── Main Component ──────────────────────────────────────────
 
 export function DetailPanel() {
@@ -504,6 +597,7 @@ export function DetailPanel() {
         {activeDetail?.type === 'active-project' && (
           <ActiveProjectDetail data={activeDetail.data} />
         )}
+        {activeDetail?.type === 'testimonial' && <TestimonialDetail data={activeDetail.data} />}
       </div>
     </aside>
   );
