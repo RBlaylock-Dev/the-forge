@@ -144,6 +144,9 @@ export interface ForgeState {
   // Screenshot Mode
   isScreenshotMode: boolean;
 
+  // Resume
+  resumeDownloaded: boolean;
+
   // Codex (Discovery Tracker)
   discoveredProjects: Set<string>;
   discoveredSubcategories: Set<string>;
@@ -183,4 +186,5 @@ export interface ForgeState {
   setAudioVolume: (volume: number) => void;
   setVisitorCount: (count: number) => void;
   toggleScreenshotMode: () => void;
+  markResumeDownloaded: () => void;
 }
