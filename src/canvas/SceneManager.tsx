@@ -9,6 +9,7 @@ import { SkillTree } from '@/zones/SkillTree';
 import { ProjectVault } from '@/zones/ProjectVault';
 import { Timeline } from '@/zones/Timeline';
 import { WarRoom } from '@/zones/WarRoom';
+import { HiddenForge } from '@/zones/HiddenForge';
 import { EmberParticles } from '@/objects/EmberParticles';
 import { ForgeEmbers } from '@/objects/ForgeEmbers';
 import { BreadcrumbParticles } from '@/objects/BreadcrumbParticles';
@@ -39,11 +40,7 @@ function Ground({ emissive, emissiveIntensity }: { emissive: number; emissiveInt
   }, []);
 
   return (
-    <mesh
-      geometry={geometry}
-      rotation={[-Math.PI / 2, 0, 0]}
-      receiveShadow
-    >
+    <mesh geometry={geometry} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
       <meshStandardMaterial
         color={0x1a1210}
         emissive={emissive}
@@ -85,34 +82,10 @@ export function SceneManager() {
       />
 
       {/* Zone lights (unchanged — zone identity colors) */}
-      <pointLight
-        color={0x44aa88}
-        intensity={2}
-        distance={18}
-        decay={2}
-        position={[-22, 5, 0]}
-      />
-      <pointLight
-        color={0xaa6622}
-        intensity={2}
-        distance={20}
-        decay={2}
-        position={[22, 5, 0]}
-      />
-      <pointLight
-        color={0x6644aa}
-        intensity={2}
-        distance={18}
-        decay={2}
-        position={[0, 5, -24]}
-      />
-      <pointLight
-        color={0x22aacc}
-        intensity={2}
-        distance={18}
-        decay={2}
-        position={[0, 5, 24]}
-      />
+      <pointLight color={0x44aa88} intensity={2} distance={18} decay={2} position={[-22, 5, 0]} />
+      <pointLight color={0xaa6622} intensity={2} distance={20} decay={2} position={[22, 5, 0]} />
+      <pointLight color={0x6644aa} intensity={2} distance={18} decay={2} position={[0, 5, -24]} />
+      <pointLight color={0x22aacc} intensity={2} distance={18} decay={2} position={[0, 5, 24]} />
 
       {/* Ground */}
       <Ground emissive={tod.groundEmissive} emissiveIntensity={tod.groundEmissiveIntensity} />
@@ -135,6 +108,7 @@ export function SceneManager() {
       <ProjectVault />
       <Timeline />
       <WarRoom />
+      <HiddenForge />
 
       {/* Player */}
       <PlayerController />

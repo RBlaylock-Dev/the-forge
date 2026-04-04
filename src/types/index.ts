@@ -1,6 +1,6 @@
 // ── Union Types ──────────────────────────────────────────────
 
-export type ZoneId = 'hearth' | 'skill-tree' | 'vault' | 'timeline' | 'war-room';
+export type ZoneId = 'hearth' | 'skill-tree' | 'vault' | 'timeline' | 'war-room' | 'hidden-forge';
 
 export type ProjectTier = 'LEGENDARY' | 'EPIC' | 'RARE' | 'COMMON';
 
