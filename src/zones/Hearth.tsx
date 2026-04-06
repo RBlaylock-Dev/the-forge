@@ -211,7 +211,10 @@ export const Hearth = memo(function Hearth() {
         // Arrange in arc from -60° to +60° around the back (positive Z)
         const arcStart = -Math.PI / 3;
         const arcEnd = Math.PI / 3;
-        const angle = arcStart + (i / (TESTIMONIALS.length - 1)) * (arcEnd - arcStart);
+        const angle =
+          TESTIMONIALS.length === 1
+            ? 0 // Center single testimonial
+            : arcStart + (i / (TESTIMONIALS.length - 1)) * (arcEnd - arcStart);
         const radius = 8;
         const x = Math.sin(angle) * radius;
         const z = Math.cos(angle) * radius;

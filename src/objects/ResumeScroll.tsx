@@ -188,7 +188,7 @@ export const ResumeScroll = memo(function ResumeScroll() {
       </mesh>
 
       {/* Floating scroll group */}
-      <group ref={scrollRef} position={[0, 1.3, 0]}>
+      <group ref={scrollRef} position={[0, 1.6, 0]}>
         {/* Parchment body */}
         <mesh
           geometry={parchmentGeo}
