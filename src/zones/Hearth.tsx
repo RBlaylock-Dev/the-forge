@@ -10,6 +10,7 @@ import { VisitorTally } from '@/objects/VisitorTally';
 import { TestimonialPlaque } from '@/objects/TestimonialPlaque';
 import { TESTIMONIALS } from '@/data/testimonials';
 import { ZoneLabel } from '@/objects/ZoneLabel';
+import { ForgeSpirit } from '@/objects/ForgeSpirit';
 
 // ── Materials (shared across meshes) ────────────────────────
 const darkMetal = new THREE.MeshStandardMaterial({
@@ -197,6 +198,7 @@ export const Hearth = memo(function Hearth() {
       <ResumeScroll />
       <ContactAnvil />
       <VisitorTally />
+      <ForgeSpirit />
 
       {/* Testimonial Wall — semicircle behind hearth (hidden when empty) */}
       {TESTIMONIALS.length > 0 && (
