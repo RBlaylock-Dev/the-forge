@@ -26,6 +26,8 @@ import { KonamiOverlay } from './KonamiOverlay';
 import { AchievementButton } from './AchievementButton';
 import { AchievementToast } from './AchievementToast';
 import { AchievementGallery } from './AchievementGallery';
+import { ChatButton } from './ChatButton';
+import { ChatPanel } from './ChatPanel';
 import { useSoundscape } from '@/audio/useSoundscape';
 import { useVisitorCount } from '@/utils/useVisitorCount';
 import { useKonamiCode } from '@/hooks/useKonamiCode';
@@ -95,6 +97,7 @@ export function HUD() {
           <SoundToggle />
           <CodexButton />
           <AchievementButton />
+          <ChatButton />
           <ContextualCTA />
 
           {/* ── z-20: Dynamic prompts ────────────────────────────── */}
@@ -127,6 +130,9 @@ export function HUD() {
 
           {/* ── z-75: Achievement gallery ─────────────────────── */}
           <AchievementGallery />
+
+          {/* ── z-85: Forge Spirit chat panel ────────────────────── */}
+          <ChatPanel />
 
           {/* ── z-90: Cinematic cold open ────────────────────────── */}
           <CinematicOverlay />

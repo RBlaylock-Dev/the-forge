@@ -252,7 +252,7 @@ Optimized for impact, dependency order, and context-switching. Each wave groups 
 - **F-017** (Custom Cursors) — 0.5 session. Zone-specific cursors: hammer, branch, magnifying glass, compass, target.
 - **F-023** (Forge Changelog) — 0.5 session. Scroll object in Hearth, data-driven entries, "NEW" badge.
 
-### Wave 2: Social Proof & Gamification (~4 sessions)
+### Wave 2: Social Proof & Gamification (~4 sessions) (DONE)
 
 > Build trust and engagement loops. F-007 unlocks F-025 and F-016 later.
 
