@@ -28,6 +28,7 @@ import { AchievementToast } from './AchievementToast';
 import { AchievementGallery } from './AchievementGallery';
 import { ChatButton } from './ChatButton';
 import { ChatPanel } from './ChatPanel';
+import { ResumeBuilder } from './ResumeBuilder';
 import { useSoundscape } from '@/audio/useSoundscape';
 import { useVisitorCount } from '@/utils/useVisitorCount';
 import { useKonamiCode } from '@/hooks/useKonamiCode';
@@ -98,6 +99,7 @@ export function HUD() {
           <CodexButton />
           <AchievementButton />
           <ChatButton />
+          <ResumeBuilder />
           <ContextualCTA />
 
           {/* ── z-20: Dynamic prompts ────────────────────────────── */}
