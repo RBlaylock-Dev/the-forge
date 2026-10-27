@@ -10,6 +10,7 @@ const ZONE_COLORS: Record<ZoneId, string> = {
   vault: '#aa6622',
   timeline: '#6644aa',
   'war-room': '#22aacc',
+  'hidden-forge': '#ff6600',
 };
 
 const TRANSITION_DURATION = 600; // ms

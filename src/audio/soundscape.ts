@@ -7,6 +7,7 @@ const ZONE_SOUNDS: Record<ZoneId, string> = {
   vault: '/audio/dragon-studio-ancient-mechanical-gears-487670.mp3',
   timeline: '/audio/trading_nation-etheral-drone-185559.mp3',
   'war-room': '/audio/freesound_community-dark-server-76461.mp3',
+  'hidden-forge': '/audio/dragon-studio-fire-crackling-sounds-427410.mp3',
 };
 
 const WIND_SOUND = '/audio/freesound_community-outdoors_night_windy_01-17044.mp3';
@@ -43,7 +44,9 @@ class SoundscapeEngine {
     }
   }
 
-  get enabled() { return this._enabled; }
+  get enabled() {
+    return this._enabled;
+  }
 
   async enable() {
     await this.init();
@@ -130,7 +133,9 @@ class SoundscapeEngine {
 
       this.windSource = source;
       this.windGain = gain;
-    } catch { /* audio load failed — silently continue */ }
+    } catch {
+      /* audio load failed — silently continue */
+    }
   }
 
   private stopWind() {
@@ -169,7 +174,9 @@ class SoundscapeEngine {
 
       this.activeZoneSource = source;
       this.activeZoneGain = gain;
-    } catch { /* audio load failed — silently continue */ }
+    } catch {
+      /* audio load failed — silently continue */
+    }
   }
 
   private stopZone(fadeMs: number) {
@@ -183,7 +190,11 @@ class SoundscapeEngine {
 
     if (prevSource) {
       setTimeout(() => {
-        try { prevSource.stop(); } catch { /* already stopped */ }
+        try {
+          prevSource.stop();
+        } catch {
+          /* already stopped */
+        }
       }, fadeMs + 200);
     }
   }
@@ -201,7 +212,9 @@ class SoundscapeEngine {
       source.connect(gain);
       gain.connect(this.masterGain);
       source.start();
-    } catch { /* silently fail */ }
+    } catch {
+      /* silently fail */
+    }
   }
 }
 

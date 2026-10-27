@@ -13,7 +13,8 @@ export function TopBar() {
   if (!isStarted) return null;
 
   return (
-    <div
+    <header
+      role="banner"
       style={{
         position: 'fixed',
         top: 0,
@@ -24,8 +25,7 @@ export function TopBar() {
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 'clamp(12px, 2vw, 18px) clamp(16px, 4vw, 28px)',
-        background:
-          'linear-gradient(180deg, rgba(10,8,6,0.92) 0%, transparent 100%)',
+        background: 'linear-gradient(180deg, rgba(10,8,6,0.92) 0%, transparent 100%)',
         pointerEvents: 'none',
       }}
     >
@@ -41,26 +41,26 @@ export function TopBar() {
           textShadow: '0 0 20px rgba(196,129,58,0.4)',
         }}
       >
-        THE FORGE{' '}
-        <span style={{ color: '#f5deb3', fontWeight: 400 }}>— RB</span>
+        THE FORGE <span style={{ color: '#f5deb3', fontWeight: 400 }}>— RB</span>
       </div>
 
       {/* Zone indicator */}
       <div
         className="font-cinzel"
+        role="status"
+        aria-live="polite"
+        aria-label={`Current zone: ${zoneName}`}
         style={{
           fontSize: 'clamp(10px, 2.5vw, 13px)',
           letterSpacing: '4px',
           textTransform: 'uppercase',
           color: isActive ? '#e8a54b' : '#5a4a3a',
-          textShadow: isActive
-            ? '0 0 12px rgba(232,165,75,0.5)'
-            : 'none',
+          textShadow: isActive ? '0 0 12px rgba(232,165,75,0.5)' : 'none',
           transition: 'all 0.6s ease',
         }}
       >
         {zoneName}
       </div>
-    </div>
+    </header>
   );
 }

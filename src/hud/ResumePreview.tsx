@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import { useForgeStore } from '@/store/useForgeStore';
 
 const RESUME_PATH = '/resume/robert-blaylock-resume.pdf';
@@ -8,14 +8,37 @@ const RESUME_PATH = '/resume/robert-blaylock-resume.pdf';
 /**
  * ResumePreview — Full-screen overlay with embedded PDF preview
  * and prominent download button. Forge-themed.
+ *
+ * UX-027 enhancements: download tracking, focus management.
  */
 export function ResumePreview() {
   const showResume = useForgeStore((s) => s.showResume);
   const closeResume = useForgeStore((s) => s.closeResume);
+  const markResumeDownloaded = useForgeStore((s) => s.markResumeDownloaded);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<Element | null>(null);
 
   const handleClose = useCallback(() => {
     closeResume();
   }, [closeResume]);
+
+  const handleDownload = useCallback(() => {
+    markResumeDownloaded();
+  }, [markResumeDownloaded]);
+
+  // Focus management: focus close button on open, return focus on close
+  useEffect(() => {
+    if (showResume) {
+      triggerRef.current = document.activeElement;
+      // Delay to let the DOM mount
+      requestAnimationFrame(() => {
+        closeRef.current?.focus();
+      });
+    } else if (triggerRef.current instanceof HTMLElement) {
+      triggerRef.current.focus();
+      triggerRef.current = null;
+    }
+  }, [showResume]);
 
   // Escape key to close
   useEffect(() => {
@@ -41,6 +64,7 @@ export function ResumePreview() {
       link.href = RESUME_PATH;
       link.download = 'robert-blaylock-resume.pdf';
       link.click();
+      markResumeDownloaded();
       closeResume();
     }
     return null;
@@ -49,6 +73,9 @@ export function ResumePreview() {
   return (
     <div
       className="font-rajdhani"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Resume preview"
       style={{
         position: 'fixed',
         inset: 0,
@@ -127,8 +154,12 @@ export function ResumePreview() {
                 textTransform: 'uppercase',
                 transition: 'color 0.2s',
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = '#f5deb3'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(245, 222, 179, 0.5)'; }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#f5deb3';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'rgba(245, 222, 179, 0.5)';
+              }}
             >
               Open in New Tab
             </a>
@@ -137,6 +168,8 @@ export function ResumePreview() {
             <a
               href={RESUME_PATH}
               download="robert-blaylock-resume.pdf"
+              onClick={handleDownload}
+              aria-label="Download resume PDF"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -165,7 +198,16 @@ export function ResumePreview() {
                 e.currentTarget.style.boxShadow = 'none';
               }}
             >
-              <svg width={14} height={14} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width={14}
+                height={14}
+                viewBox="0 0 14 14"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.5}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M7 1v9" />
                 <path d="M3.5 7L7 10.5 10.5 7" />
                 <path d="M2 12.5h10" />
@@ -175,6 +217,7 @@ export function ResumePreview() {
 
             {/* Close button */}
             <button
+              ref={closeRef}
               onClick={handleClose}
               aria-label="Close resume preview"
               style={{
@@ -199,7 +242,15 @@ export function ResumePreview() {
                 e.currentTarget.style.borderColor = 'rgba(196, 129, 58, 0.2)';
               }}
             >
-              <svg width={14} height={14} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round">
+              <svg
+                width={14}
+                height={14}
+                viewBox="0 0 14 14"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.5}
+                strokeLinecap="round"
+              >
                 <path d="M2 2l10 10" />
                 <path d="M12 2L2 12" />
               </svg>

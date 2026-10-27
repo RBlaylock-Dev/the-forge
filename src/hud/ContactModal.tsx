@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useForgeStore } from '@/store/useForgeStore';
 import { useIsMobile } from '@/utils/mobile';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 
 const SUBJECT_OPTIONS = [
   'Hiring Inquiry',
@@ -117,6 +118,7 @@ export function ContactModal() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const focusTrapRef = useFocusTrap(showContact);
 
   const handleClose = useCallback(() => {
     closeContact();
@@ -204,7 +206,11 @@ export function ContactModal() {
 
   return (
     <div
+      ref={focusTrapRef}
       className="font-rajdhani"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Contact form"
       style={{
         position: 'fixed',
         inset: 0,
@@ -229,31 +235,34 @@ export function ContactModal() {
 
       {/* Modal */}
       <div
-        style={mobile ? {
-          position: 'relative',
-          width: '100%',
-          height: '100%',
-          maxWidth: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          background: '#1a1511',
-          border: 'none',
-          borderRadius: 0,
-          overflow: 'hidden',
-        } : {
-          position: 'relative',
-          width: '90%',
-          maxWidth: 520,
-          maxHeight: '90vh',
-          display: 'flex',
-          flexDirection: 'column',
-          background: '#1a1511',
-          border: '1px solid rgba(196, 129, 58, 0.3)',
-          borderRadius: 12,
-          overflow: 'hidden',
-          boxShadow:
-            '0 0 40px rgba(196, 129, 58, 0.15), 0 0 80px rgba(10, 8, 6, 0.8)',
-        }}
+        style={
+          mobile
+            ? {
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+                maxWidth: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                background: '#1a1511',
+                border: 'none',
+                borderRadius: 0,
+                overflow: 'hidden',
+              }
+            : {
+                position: 'relative',
+                width: '90%',
+                maxWidth: 520,
+                maxHeight: '90vh',
+                display: 'flex',
+                flexDirection: 'column',
+                background: '#1a1511',
+                border: '1px solid rgba(196, 129, 58, 0.3)',
+                borderRadius: 12,
+                overflow: 'hidden',
+                boxShadow: '0 0 40px rgba(196, 129, 58, 0.15), 0 0 80px rgba(10, 8, 6, 0.8)',
+              }
+        }
       >
         {/* Header */}
         <div
@@ -303,7 +312,15 @@ export function ContactModal() {
               e.currentTarget.style.borderColor = 'rgba(196, 129, 58, 0.2)';
             }}
           >
-            <svg width={14} height={14} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round">
+            <svg
+              width={14}
+              height={14}
+              viewBox="0 0 14 14"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.5}
+              strokeLinecap="round"
+            >
               <path d="M2 2l10 10" />
               <path d="M12 2L2 12" />
             </svg>
@@ -327,7 +344,14 @@ export function ContactModal() {
               >
                 Message Received!
               </h3>
-              <p style={{ fontSize: 14, color: 'rgba(245, 222, 179, 0.7)', marginBottom: 28, lineHeight: 1.6 }}>
+              <p
+                style={{
+                  fontSize: 14,
+                  color: 'rgba(245, 222, 179, 0.7)',
+                  marginBottom: 28,
+                  lineHeight: 1.6,
+                }}
+              >
                 Robert will get back to you soon.
               </p>
               <button
@@ -373,19 +397,29 @@ export function ContactModal() {
 
               {/* Name */}
               <div>
-                <label style={labelStyle}>Name</label>
+                <label htmlFor="contact-name" style={labelStyle}>
+                  Name
+                </label>
                 <input
+                  id="contact-name"
                   type="text"
                   value={formData.name}
                   onChange={(e) => updateField('name', e.target.value)}
                   onBlur={() => handleBlur('name')}
                   placeholder="Your name"
                   maxLength={100}
+                  aria-invalid={errors.name && touched.has('name') ? true : undefined}
+                  aria-describedby={
+                    errors.name && touched.has('name') ? 'contact-name-error' : undefined
+                  }
                   style={{
                     ...inputStyle,
-                    borderColor: errors.name && touched.has('name')
-                      ? 'rgba(255, 107, 107, 0.5)'
-                      : inputStyle.border ? undefined : undefined,
+                    borderColor:
+                      errors.name && touched.has('name')
+                        ? 'rgba(255, 107, 107, 0.5)'
+                        : inputStyle.border
+                          ? undefined
+                          : undefined,
                   }}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor = 'rgba(232, 165, 75, 0.6)';
@@ -399,19 +433,28 @@ export function ContactModal() {
                   }}
                 />
                 {errors.name && touched.has('name') && (
-                  <div style={errorStyle}>{errors.name}</div>
+                  <div id="contact-name-error" role="alert" style={errorStyle}>
+                    {errors.name}
+                  </div>
                 )}
               </div>
 
               {/* Email */}
               <div>
-                <label style={labelStyle}>Email</label>
+                <label htmlFor="contact-email" style={labelStyle}>
+                  Email
+                </label>
                 <input
+                  id="contact-email"
                   type="email"
                   value={formData.email}
                   onChange={(e) => updateField('email', e.target.value)}
                   onBlur={() => handleBlur('email')}
                   placeholder="your@email.com"
+                  aria-invalid={errors.email && touched.has('email') ? true : undefined}
+                  aria-describedby={
+                    errors.email && touched.has('email') ? 'contact-email-error' : undefined
+                  }
                   style={inputStyle}
                   onFocus={(e) => {
                     e.currentTarget.style.borderColor = 'rgba(232, 165, 75, 0.6)';
@@ -425,14 +468,19 @@ export function ContactModal() {
                   }}
                 />
                 {errors.email && touched.has('email') && (
-                  <div style={errorStyle}>{errors.email}</div>
+                  <div id="contact-email-error" role="alert" style={errorStyle}>
+                    {errors.email}
+                  </div>
                 )}
               </div>
 
               {/* Subject */}
               <div>
-                <label style={labelStyle}>Subject</label>
+                <label htmlFor="contact-subject" style={labelStyle}>
+                  Subject
+                </label>
                 <select
+                  id="contact-subject"
                   value={formData.subject}
                   onChange={(e) => updateField('subject', e.target.value)}
                   style={{
@@ -453,7 +501,11 @@ export function ContactModal() {
                   }}
                 >
                   {SUBJECT_OPTIONS.map((opt) => (
-                    <option key={opt} value={opt} style={{ background: '#1a1511', color: '#f5deb3' }}>
+                    <option
+                      key={opt}
+                      value={opt}
+                      style={{ background: '#1a1511', color: '#f5deb3' }}
+                    >
                       {opt}
                     </option>
                   ))}
@@ -462,19 +514,37 @@ export function ContactModal() {
 
               {/* Message */}
               <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                  <label style={labelStyle}>Message</label>
-                  <span style={{ fontSize: 11, color: msgLen > 1900 ? '#ff6b6b' : 'rgba(245, 222, 179, 0.3)' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'baseline',
+                  }}
+                >
+                  <label htmlFor="contact-message" style={labelStyle}>
+                    Message
+                  </label>
+                  <span
+                    style={{
+                      fontSize: 11,
+                      color: msgLen > 1900 ? '#ff6b6b' : 'rgba(245, 222, 179, 0.3)',
+                    }}
+                  >
                     {msgLen}/2000
                   </span>
                 </div>
                 <textarea
+                  id="contact-message"
                   value={formData.message}
                   onChange={(e) => updateField('message', e.target.value)}
                   onBlur={() => handleBlur('message')}
                   placeholder="What would you like to discuss?"
                   maxLength={2000}
                   rows={5}
+                  aria-invalid={errors.message && touched.has('message') ? true : undefined}
+                  aria-describedby={
+                    errors.message && touched.has('message') ? 'contact-message-error' : undefined
+                  }
                   style={{
                     ...inputStyle,
                     resize: 'vertical' as const,
@@ -493,7 +563,9 @@ export function ContactModal() {
                   }}
                 />
                 {errors.message && touched.has('message') && (
-                  <div style={errorStyle}>{errors.message}</div>
+                  <div id="contact-message-error" role="alert" style={errorStyle}>
+                    {errors.message}
+                  </div>
                 )}
               </div>
 

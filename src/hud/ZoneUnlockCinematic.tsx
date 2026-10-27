@@ -13,7 +13,8 @@ const ZONE_UNLOCK_CONFIG: Record<ZoneId, { subtitle: string; color: string }> = 
   'skill-tree': { subtitle: '70+ skills forged in fire', color: '#44aa88' },
   vault: { subtitle: 'Shipped artifacts on display', color: '#aa6622' },
   timeline: { subtitle: 'The journey so far', color: '#6644aa' },
-  'war-room': { subtitle: 'What\'s being built now', color: '#22aacc' },
+  'war-room': { subtitle: "What's being built now", color: '#22aacc' },
+  'hidden-forge': { subtitle: 'You found the secret workshop', color: '#ff6600' },
 };
 
 export function ZoneUnlockCinematic() {

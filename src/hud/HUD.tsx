@@ -7,21 +7,29 @@ import { ZoneFlash } from './ZoneFlash';
 import { DetailPanel } from './DetailPanel';
 import { Minimap } from './Minimap';
 import { NavBar } from './NavBar';
-import { ResumeButton } from './ResumeButton';
 import { ResumePreview } from './ResumePreview';
-import { ContactButton } from './ContactButton';
 import { ContactModal } from './ContactModal';
 import { IntroTour } from './IntroTour';
 import { CinematicOverlay } from './CinematicOverlay';
 import { CursorTooltip } from './CursorTooltip';
-import { CodexButton } from './CodexButton';
 import { CodexOverlay } from './CodexOverlay';
 import { ContextualCTA } from './ContextualCTA';
 import { ZoneUnlockCinematic } from './ZoneUnlockCinematic';
 import { ZoneEntryTransition } from './ZoneEntryTransition';
-import { SoundToggle } from './SoundToggle';
+import { useScreenshotHotkey } from './ScreenshotButton';
+import { ScreenshotWatermark } from './ScreenshotWatermark';
+import { KonamiOverlay } from './KonamiOverlay';
+import { AchievementToast } from './AchievementToast';
+import { AchievementGallery } from './AchievementGallery';
+import { ChatPanel } from './ChatPanel';
+import { HudToolRail } from './HudToolRail';
+import { HudActionDock } from './HudActionDock';
+import { ResumeBuilder } from './ResumeBuilder';
 import { useSoundscape } from '@/audio/useSoundscape';
 import { useVisitorCount } from '@/utils/useVisitorCount';
+import { useKonamiCode } from '@/hooks/useKonamiCode';
+import { useAchievementTracker } from '@/hooks/useAchievementTracker';
+import { useForgeStore } from '@/store/useForgeStore';
 
 /**
  * HUD — single compositor component that renders all overlay elements.
@@ -29,7 +37,7 @@ import { useVisitorCount } from '@/utils/useVisitorCount';
  *
  *   z-2:   CSS vignette overlay (cinematic edge darkening)
  *   z-3:   CSS scanlines overlay (subtle CRT effect)
- *   z-10:  Static overlays (TopBar, XPBar, Minimap, ResumeButton, ContactButton)
+ *   z-10:  Static overlays (TopBar, XPBar, Minimap + HudToolRail, HudActionDock)
  *   z-10:  NavBar (interactive, pointer-events: auto)
  *   z-20:  Dynamic prompts (CursorTooltip)
  *   z-50:  Notifications (ZoneFlash)
@@ -45,6 +53,11 @@ import { useVisitorCount } from '@/utils/useVisitorCount';
 export function HUD() {
   useSoundscape();
   useVisitorCount();
+  useKonamiCode();
+  useAchievementTracker();
+  useScreenshotHotkey();
+
+  const isScreenshotMode = useForgeStore((s) => s.isScreenshotMode);
 
   return (
     <div
@@ -56,51 +69,70 @@ export function HUD() {
         pointerEvents: 'none',
       }}
     >
-      {/* ── z-2/3: CSS post-processing overlays ──────────────── */}
-      <div className="forge-vignette" aria-hidden="true" />
-      <div className="forge-scanlines" aria-hidden="true" />
+      {/* ── z-95: Konami easter egg overlay ───────────────────── */}
+      <KonamiOverlay />
 
-      {/* ── z-10: Static overlays ────────────────────────────── */}
-      <TopBar />
-      <XPBar />
-      <Minimap />
-      <NavBar />
-      <ContactButton />
-      <ResumeButton />
-      <SoundToggle />
-      <CodexButton />
-      <ContextualCTA />
+      {/* ── Screenshot watermark (visible only in screenshot mode) ── */}
+      <ScreenshotWatermark />
 
-      {/* ── z-20: Dynamic prompts ────────────────────────────── */}
-      <CursorTooltip />
+      {/* Hide all HUD elements in screenshot mode */}
+      {!isScreenshotMode && (
+        <>
+          {/* ── z-2/3: CSS post-processing overlays ──────────────── */}
+          <div className="forge-vignette" aria-hidden="true" />
+          <div className="forge-scanlines" aria-hidden="true" />
 
-      {/* ── z-45: Zone entry transition ────────────────────────── */}
-      <ZoneEntryTransition />
+          {/* ── z-10: Static overlays ────────────────────────────── */}
+          <TopBar />
+          <XPBar />
+          <Minimap />
+          <NavBar />
+          <HudToolRail />
+          <HudActionDock />
+          <ResumeBuilder />
+          <ContextualCTA />
 
-      {/* ── z-50: Notifications ──────────────────────────────── */}
-      <ZoneFlash />
+          {/* ── z-20: Dynamic prompts ────────────────────────────── */}
+          <CursorTooltip />
 
-      {/* ── z-60: Detail panel ───────────────────────────────── */}
-      <DetailPanel />
+          {/* ── z-45: Zone entry transition ────────────────────────── */}
+          <ZoneEntryTransition />
 
-      {/* ── z-65: Zone unlock cinematic ────────────────────────── */}
-      <ZoneUnlockCinematic />
+          {/* ── z-50: Notifications ──────────────────────────────── */}
+          <ZoneFlash />
 
-      {/* ── z-70: Intro tour ───────────────────────────────── */}
-      <IntroTour />
+          {/* ── z-55: Achievement toasts ───────────────────────── */}
+          <AchievementToast />
 
-      {/* ── z-80: Full-screen overlays ──────────────────────────── */}
-      <ResumePreview />
-      <ContactModal />
+          {/* ── z-60: Detail panel ───────────────────────────────── */}
+          <DetailPanel />
 
-      {/* ── z-75: Codex overlay ───────────────────────────────── */}
-      <CodexOverlay />
+          {/* ── z-65: Zone unlock cinematic ────────────────────────── */}
+          <ZoneUnlockCinematic />
 
-      {/* ── z-90: Cinematic cold open ────────────────────────── */}
-      <CinematicOverlay />
+          {/* ── z-70: Intro tour ───────────────────────────────── */}
+          <IntroTour />
 
-      {/* ── z-100: Modal overlays ────────────────────────────── */}
-      <StartOverlay />
+          {/* ── z-80: Full-screen overlays ──────────────────────────── */}
+          <ResumePreview />
+          <ContactModal />
+
+          {/* ── z-75: Codex overlay ───────────────────────────────── */}
+          <CodexOverlay />
+
+          {/* ── z-75: Achievement gallery ─────────────────────── */}
+          <AchievementGallery />
+
+          {/* ── z-85: Forge Spirit chat panel ────────────────────── */}
+          <ChatPanel />
+
+          {/* ── z-90: Cinematic cold open ────────────────────────── */}
+          <CinematicOverlay />
+
+          {/* ── z-100: Modal overlays ────────────────────────────── */}
+          <StartOverlay />
+        </>
+      )}
     </div>
   );
 }

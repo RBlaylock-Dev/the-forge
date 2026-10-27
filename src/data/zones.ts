@@ -26,4 +26,9 @@ export const ZONE_DEFS: Record<ZoneId, ZoneDef> = {
     center: { x: 0, z: 24 },
     radius: 10,
   },
+  'hidden-forge': {
+    name: 'The Workshop',
+    center: { x: -14, z: -14 },
+    radius: 7,
+  },
 };

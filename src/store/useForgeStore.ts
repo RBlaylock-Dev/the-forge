@@ -111,6 +111,18 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   // ── Visitor Counter ──────────────────────────────
   visitorCount: 0,
 
+  // ── Screenshot Mode ─────────────────────────────
+  isScreenshotMode: false,
+
+  // ── Resume ─────────────────────────────────────
+  resumeDownloaded: false,
+
+  // ── Konami Easter Egg ─────────────────────────
+  isKonamiActive: false,
+
+  // ── Achievements ───────────────────────────────────
+  showAchievements: false,
+
   // ── Codex (Discovery Tracker) ─────────────────────
   discoveredProjects: hydrated.discoveredProjects,
   discoveredSubcategories: hydrated.discoveredSubcategories,
@@ -225,14 +237,24 @@ export const useForgeStore = create<ForgeState>()((set) => ({
   openCodex: () => set({ showCodex: true }),
   closeCodex: () => set({ showCodex: false }),
 
+  openAchievements: () => set({ showAchievements: true }),
+  closeAchievements: () => set({ showAchievements: false }),
+
   toggleAudio: () => set((state) => ({ audioEnabled: !state.audioEnabled })),
   setAudioVolume: (volume: number) => set({ audioVolume: Math.max(0, Math.min(1, volume)) }),
 
   setVisitorCount: (count: number) => set({ visitorCount: count }),
+
+  toggleScreenshotMode: () => set((state) => ({ isScreenshotMode: !state.isScreenshotMode })),
+
+  markResumeDownloaded: () => set({ resumeDownloaded: true }),
+
+  activateKonami: () => set({ isKonamiActive: true }),
+  deactivateKonami: () => set({ isKonamiActive: false }),
 }));
 
 // ── Total discoverable item counts ──────────────────────────
-const TOTAL_ZONES = 5;
+const TOTAL_ZONES = 6;
 const TOTAL_PROJECTS = 12;
 const TOTAL_SUBCATEGORIES = 21;
 const TOTAL_ERAS = 5;

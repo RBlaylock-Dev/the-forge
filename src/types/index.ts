@@ -1,6 +1,6 @@
 // ── Union Types ──────────────────────────────────────────────
 
-export type ZoneId = 'hearth' | 'skill-tree' | 'vault' | 'timeline' | 'war-room';
+export type ZoneId = 'hearth' | 'skill-tree' | 'vault' | 'timeline' | 'war-room' | 'hidden-forge';
 
 export type ProjectTier = 'LEGENDARY' | 'EPIC' | 'RARE' | 'COMMON';
 
@@ -77,6 +77,17 @@ export interface ZoneDef {
 
 // ── Detail Panel ─────────────────────────────────────────────
 
+export interface Testimonial {
+  id: string;
+  quote: string;
+  author: string;
+  role: string;
+  company: string;
+  relationship: 'colleague' | 'client' | 'mentor' | 'mentee' | 'collaborator';
+  linkedinUrl?: string;
+  projectId?: string;
+}
+
 export type DetailData =
   | { type: 'project'; data: Project }
   | {
@@ -84,7 +95,8 @@ export type DetailData =
       data: { subcategory: SkillSubcategory; category: SkillCategoryConfig };
     }
   | { type: 'timeline-era'; data: TimelineEra }
-  | { type: 'active-project'; data: ActiveProject };
+  | { type: 'active-project'; data: ActiveProject }
+  | { type: 'testimonial'; data: Testimonial };
 
 // ── Zustand Store ────────────────────────────────────────────
 
@@ -141,6 +153,18 @@ export interface ForgeState {
   // Visitor Counter
   visitorCount: number;
 
+  // Screenshot Mode
+  isScreenshotMode: boolean;
+
+  // Resume
+  resumeDownloaded: boolean;
+
+  // Konami Easter Egg
+  isKonamiActive: boolean;
+
+  // Achievements
+  showAchievements: boolean;
+
   // Codex (Discovery Tracker)
   discoveredProjects: Set<string>;
   discoveredSubcategories: Set<string>;
@@ -176,7 +200,13 @@ export interface ForgeState {
   endZoneUnlock: () => void;
   openCodex: () => void;
   closeCodex: () => void;
+  openAchievements: () => void;
+  closeAchievements: () => void;
   toggleAudio: () => void;
   setAudioVolume: (volume: number) => void;
   setVisitorCount: (count: number) => void;
+  toggleScreenshotMode: () => void;
+  markResumeDownloaded: () => void;
+  activateKonami: () => void;
+  deactivateKonami: () => void;
 }
