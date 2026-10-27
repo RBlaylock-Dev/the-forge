@@ -267,7 +267,7 @@ Optimized for impact, dependency order, and context-switching. Each wave groups 
 - **F-011** (Forge Radio) — 1–2 sessions. Zone-specific ambient music with crossfades. _Builds on UX-024._
 - **F-024** (Spotify Integration) — 1 session. Now-playing widget, speaker object in Hearth.
 
-### Wave 4: Conversion Powerhouses (~6 sessions)
+### Wave 4: Conversion Powerhouses (~6 sessions) (Done)
 
 > The features that close deals. High effort but highest ROI.
 

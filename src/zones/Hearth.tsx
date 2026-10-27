@@ -215,7 +215,7 @@ export const Hearth = memo(function Hearth() {
         const arcEnd = Math.PI / 3;
         const angle =
           TESTIMONIALS.length === 1
-            ? 0 // Center single testimonial
+            ? arcStart // Place single testimonial at the left edge of the arc
             : arcStart + (i / (TESTIMONIALS.length - 1)) * (arcEnd - arcStart);
         const radius = 8;
         const x = Math.sin(angle) * radius;
