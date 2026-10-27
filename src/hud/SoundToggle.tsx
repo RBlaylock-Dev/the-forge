@@ -4,48 +4,42 @@ import { useState } from 'react';
 import { useForgeStore } from '@/store/useForgeStore';
 
 /**
- * SoundToggle — HUD button to toggle ambient soundscape on/off
- * with a volume slider on hover.
+ * SoundToggle — tool rail button to toggle the ambient soundscape,
+ * with a volume slider that pops out to the left on hover/focus.
  */
 export function SoundToggle() {
-  const isStarted = useForgeStore((s) => s.isStarted);
   const audioEnabled = useForgeStore((s) => s.audioEnabled);
   const audioVolume = useForgeStore((s) => s.audioVolume);
   const toggleAudio = useForgeStore((s) => s.toggleAudio);
   const setAudioVolume = useForgeStore((s) => s.setAudioVolume);
   const [showSlider, setShowSlider] = useState(false);
 
-  if (!isStarted) return null;
-
   return (
     <div
+      style={{ position: 'relative' }}
       onMouseEnter={() => setShowSlider(true)}
       onMouseLeave={() => setShowSlider(false)}
-      style={{
-        position: 'fixed',
-        bottom: 80,
-        right: 16,
-        zIndex: 10,
-        pointerEvents: 'auto',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 8,
+      onFocus={() => setShowSlider(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget)) setShowSlider(false);
       }}
     >
-      {/* Volume slider (visible on hover) */}
+      {/* Volume slider (pops out to the left) */}
       {showSlider && audioEnabled && (
         <div
           style={{
-            width: 32,
-            height: 100,
+            position: 'absolute',
+            right: '100%',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            marginRight: 10,
+            padding: '6px 10px',
             background: 'rgba(10,8,6,0.85)',
             border: '1px solid rgba(196,129,58,0.3)',
-            borderRadius: 6,
+            borderRadius: 8,
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            padding: '8px 0',
+            pointerEvents: 'auto',
           }}
         >
           <input
@@ -56,42 +50,38 @@ export function SoundToggle() {
             value={audioVolume}
             onChange={(e) => setAudioVolume(parseFloat(e.target.value))}
             aria-label="Sound volume"
-            style={{
-              writingMode: 'vertical-lr',
-              direction: 'rtl',
-              width: 20,
-              height: 80,
-              accentColor: '#c4813a',
-              cursor: 'pointer',
-            }}
+            style={{ width: 90, accentColor: '#c4813a', cursor: 'pointer' }}
           />
         </div>
       )}
 
-      {/* Toggle button */}
       <button
         onClick={toggleAudio}
         aria-label={audioEnabled ? 'Mute sound' : 'Enable sound'}
+        aria-pressed={audioEnabled}
         title={audioEnabled ? 'Mute sound' : 'Enable sound'}
-        className="font-rajdhani"
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: '50%',
-          border: '1px solid rgba(196,129,58,0.4)',
-          background: audioEnabled
-            ? 'rgba(196,129,58,0.15)'
-            : 'rgba(10,8,6,0.7)',
-          color: audioEnabled ? '#e8a54b' : '#f5deb380',
-          fontSize: 18,
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transition: 'all 0.3s ease',
-        }}
+        className="hud-tool"
       >
-        {audioEnabled ? '\u{1F50A}' : '\u{1F507}'}
+        <svg
+          width={16}
+          height={16}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M11 5L6 9H2v6h4l5 4V5z" />
+          {audioEnabled ? (
+            <>
+              <path d="M15.5 8.5a5 5 0 010 7" />
+              <path d="M18.5 5.5a9 9 0 010 13" />
+            </>
+          ) : (
+            <path d="M22 9l-6 6M16 9l6 6" />
+          )}
+        </svg>
       </button>
     </div>
   );

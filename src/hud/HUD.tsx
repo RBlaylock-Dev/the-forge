@@ -7,27 +7,23 @@ import { ZoneFlash } from './ZoneFlash';
 import { DetailPanel } from './DetailPanel';
 import { Minimap } from './Minimap';
 import { NavBar } from './NavBar';
-import { ResumeButton } from './ResumeButton';
 import { ResumePreview } from './ResumePreview';
-import { ContactButton } from './ContactButton';
 import { ContactModal } from './ContactModal';
 import { IntroTour } from './IntroTour';
 import { CinematicOverlay } from './CinematicOverlay';
 import { CursorTooltip } from './CursorTooltip';
-import { CodexButton } from './CodexButton';
 import { CodexOverlay } from './CodexOverlay';
 import { ContextualCTA } from './ContextualCTA';
 import { ZoneUnlockCinematic } from './ZoneUnlockCinematic';
 import { ZoneEntryTransition } from './ZoneEntryTransition';
-import { SoundToggle } from './SoundToggle';
-import { ScreenshotButton } from './ScreenshotButton';
+import { useScreenshotHotkey } from './ScreenshotButton';
 import { ScreenshotWatermark } from './ScreenshotWatermark';
 import { KonamiOverlay } from './KonamiOverlay';
-import { AchievementButton } from './AchievementButton';
 import { AchievementToast } from './AchievementToast';
 import { AchievementGallery } from './AchievementGallery';
-import { ChatButton } from './ChatButton';
 import { ChatPanel } from './ChatPanel';
+import { HudToolRail } from './HudToolRail';
+import { HudActionDock } from './HudActionDock';
 import { ResumeBuilder } from './ResumeBuilder';
 import { useSoundscape } from '@/audio/useSoundscape';
 import { useVisitorCount } from '@/utils/useVisitorCount';
@@ -41,7 +37,7 @@ import { useForgeStore } from '@/store/useForgeStore';
  *
  *   z-2:   CSS vignette overlay (cinematic edge darkening)
  *   z-3:   CSS scanlines overlay (subtle CRT effect)
- *   z-10:  Static overlays (TopBar, XPBar, Minimap, ResumeButton, ContactButton)
+ *   z-10:  Static overlays (TopBar, XPBar, Minimap + HudToolRail, HudActionDock)
  *   z-10:  NavBar (interactive, pointer-events: auto)
  *   z-20:  Dynamic prompts (CursorTooltip)
  *   z-50:  Notifications (ZoneFlash)
@@ -59,6 +55,7 @@ export function HUD() {
   useVisitorCount();
   useKonamiCode();
   useAchievementTracker();
+  useScreenshotHotkey();
 
   const isScreenshotMode = useForgeStore((s) => s.isScreenshotMode);
 
@@ -78,9 +75,6 @@ export function HUD() {
       {/* ── Screenshot watermark (visible only in screenshot mode) ── */}
       <ScreenshotWatermark />
 
-      {/* ── Screenshot button + P key listener (always mounted for keyboard) ── */}
-      <ScreenshotButton />
-
       {/* Hide all HUD elements in screenshot mode */}
       {!isScreenshotMode && (
         <>
@@ -93,12 +87,8 @@ export function HUD() {
           <XPBar />
           <Minimap />
           <NavBar />
-          <ContactButton />
-          <ResumeButton />
-          <SoundToggle />
-          <CodexButton />
-          <AchievementButton />
-          <ChatButton />
+          <HudToolRail />
+          <HudActionDock />
           <ResumeBuilder />
           <ContextualCTA />
 

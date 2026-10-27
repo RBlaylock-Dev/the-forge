@@ -6,12 +6,10 @@ import { useAchievementStore } from '@/store/useAchievementStore';
 import { ACHIEVEMENTS } from '@/data/achievements';
 
 /**
- * AchievementButton — HUD button showing achievement progress.
+ * AchievementButton — tool rail button with an unlocked-count badge.
  * Click to open the Achievement Gallery.
  */
 export function AchievementButton() {
-  const isStarted = useForgeStore((s) => s.isStarted);
-  const isTourActive = useForgeStore((s) => s.isTourActive);
   const showAchievements = useForgeStore((s) => s.showAchievements);
   const openAchievements = useForgeStore((s) => s.openAchievements);
   const unlocked = useAchievementStore((s) => s.unlocked);
@@ -30,8 +28,6 @@ export function AchievementButton() {
     prevCount.current = unlocked.size;
   }, [unlocked.size]);
 
-  if (!isStarted || isTourActive || showAchievements) return null;
-
   const count = unlocked.size;
   const total = ACHIEVEMENTS.length;
 
@@ -39,43 +35,47 @@ export function AchievementButton() {
     <button
       onClick={openAchievements}
       aria-label={`Achievements: ${count} of ${total} unlocked`}
+      aria-pressed={showAchievements}
       title={`Achievements: ${count}/${total}`}
-      className="font-rajdhani"
-      style={{
-        position: 'fixed',
-        bottom: 128,
-        right: 16,
-        zIndex: 10,
-        display: 'flex',
-        alignItems: 'center',
-        gap: 6,
-        padding: '8px 12px',
-        background: 'rgba(10, 8, 6, 0.6)',
-        backdropFilter: 'blur(12px)',
-        border: '1px solid rgba(196, 129, 58, 0.25)',
-        borderRadius: 8,
-        color: 'rgba(245, 222, 179, 0.6)',
-        fontSize: 12,
-        fontWeight: 600,
-        letterSpacing: '0.5px',
-        cursor: 'pointer',
-        pointerEvents: 'auto',
-        transition: 'all 0.2s ease',
-        transform: pulse ? 'scale(1.1)' : 'scale(1)',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.color = '#e8a54b';
-        e.currentTarget.style.borderColor = 'rgba(196, 129, 58, 0.5)';
-        e.currentTarget.style.boxShadow = '0 0 12px rgba(196, 129, 58, 0.2)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.color = 'rgba(245, 222, 179, 0.6)';
-        e.currentTarget.style.borderColor = 'rgba(196, 129, 58, 0.25)';
-        e.currentTarget.style.boxShadow = 'none';
-      }}
+      className={`hud-tool font-rajdhani ${pulse ? 'hud-tool-pulse' : ''}`}
+      style={{ position: 'relative' }}
     >
-      <span style={{ fontSize: 14 }}>{'\u{1F3C6}'}</span>
-      {count}/{total}
+      <svg
+        width={16}
+        height={16}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4z" />
+        <path d="M17 6h3v2a3 3 0 01-3 3M7 6H4v2a3 3 0 003 3" />
+      </svg>
+      {count > 0 && (
+        <span
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            top: -4,
+            right: -4,
+            minWidth: 15,
+            height: 15,
+            padding: '0 3px',
+            borderRadius: 8,
+            background: '#c4813a',
+            color: '#0a0806',
+            fontSize: 9,
+            fontWeight: 700,
+            lineHeight: '15px',
+            textAlign: 'center',
+          }}
+        >
+          {count}
+        </span>
+      )}
     </button>
   );
 }

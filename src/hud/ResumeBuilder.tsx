@@ -430,24 +430,9 @@ export function ResumeBuilder() {
 
   if (!isStarted) return null;
 
+  // Opened from the HUD action dock via the 'open-resume-builder' event
   return (
     <>
-      {/* HUD Button */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-4 right-[170px] sm:right-[200px] z-[10] flex items-center gap-2 px-4 py-2.5 rounded-full border bg-[#0a0806]/80 border-[#c4813a]/40 text-[#c4813a] hover:border-[#c4813a]/70 hover:bg-[#c4813a]/10 transition-all duration-300"
-        style={{
-          pointerEvents: 'auto',
-          fontFamily: 'Rajdhani, sans-serif',
-          backdropFilter: 'blur(8px)',
-        }}
-        aria-label="Build custom resume"
-        title="Interactive Resume Builder"
-      >
-        <span className="text-lg leading-none">&#x1F4DC;</span>
-        <span className="text-sm font-semibold hidden sm:inline">Build Resume</span>
-      </button>
-
       {/* Full-screen overlay */}
       <AnimatePresence>
         {isOpen && (

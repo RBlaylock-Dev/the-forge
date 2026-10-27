@@ -637,39 +637,6 @@ body {
   }
 }
 
-/* ── Contextual CTA ────────────────────────────────────── */
-
-@keyframes contextual-cta-in {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes contextual-cta-pulse {
-  0%,
-  100% {
-    box-shadow:
-      0 0 20px rgba(196, 129, 58, 0.2),
-      0 0 40px rgba(196, 129, 58, 0.08);
-  }
-  50% {
-    box-shadow:
-      0 0 28px rgba(232, 165, 75, 0.35),
-      0 0 50px rgba(196, 129, 58, 0.15);
-  }
-}
-
-.contextual-cta-glow {
-  animation:
-    contextual-cta-in 0.6s ease both,
-    contextual-cta-pulse 3s ease-in-out 1s infinite;
-}
-
 /* ── Skip to Content ────────────────────────────────────── */
 
 .skip-to-content:focus {
@@ -705,6 +672,138 @@ textarea:focus-visible {
   outline-offset: 2px;
 }
 
+/* ── Forge Spirit Chat Ember Border ─────────────────────── */
+
+.chat-ember {
+  position: absolute;
+  left: -2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ffaa44;
+  box-shadow: 0 0 6px 1px rgba(255, 136, 51, 0.8);
+  opacity: 0;
+  animation: chat-ember-rise 4s ease-in infinite;
+}
+
+@keyframes chat-ember-rise {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(1);
+  }
+  20% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(6px, -60px) scale(0.3);
+  }
+}
+
+/* ── HUD Tool Rail + Action Dock ────────────────────────── */
+
+.hud-tool {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(245, 222, 179, 0.6);
+  cursor: pointer;
+  pointer-events: auto;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.hud-tool:hover,
+.hud-tool[aria-pressed='true'] {
+  color: #e8a54b;
+  background: rgba(196, 129, 58, 0.12);
+  border-color: rgba(196, 129, 58, 0.35);
+}
+
+.hud-tool-pulse {
+  animation: hud-tool-pulse 0.6s ease;
+}
+
+@keyframes hud-tool-pulse {
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 14px rgba(232, 165, 75, 0.6);
+  }
+}
+
+.hud-dock-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px 0 11px;
+  background: rgba(10, 8, 6, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(196, 129, 58, 0.25);
+  border-radius: 10px;
+  color: rgba(245, 222, 179, 0.7);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.2s ease;
+}
+
+.hud-dock-btn:hover,
+.hud-dock-btn[aria-expanded='true'] {
+  color: #e8a54b;
+  border-color: rgba(196, 129, 58, 0.55);
+  box-shadow: 0 0 12px rgba(196, 129, 58, 0.2);
+}
+
+.hud-dock-btn-primary {
+  color: #f5deb3;
+  border-color: rgba(232, 165, 75, 0.5);
+  background: linear-gradient(135deg, rgba(196, 129, 58, 0.28), rgba(10, 8, 6, 0.7));
+}
+
+/* Labels collapse to icons until there is room beside the NavBar */
+@media (max-width: 1100px) {
+  .nav-label,
+  .hud-dock-label {
+    display: none;
+  }
+
+  .hud-dock-btn {
+    width: 36px;
+    padding: 0;
+    justify-content: center;
+  }
+}
+
+/* ── Zone CTA Plaque ────────────────────────────────────── */
+
+.cta-plaque {
+  animation: cta-plaque-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes cta-plaque-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 16px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
 /* ── Reduced Motion ─────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
@@ -714,5 +813,13 @@ textarea:focus-visible {
   .zone-flash-animate {
     animation: none;
     opacity: 1;
+  }
+  .chat-ember,
+  .hud-tool-pulse,
+  .cta-plaque {
+    animation: none;
+  }
+  .chat-ember {
+    display: none;
   }
 }
