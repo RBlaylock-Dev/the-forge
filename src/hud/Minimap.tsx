@@ -7,7 +7,8 @@ import { ZONE_DEFS } from '@/data/zones';
 import type { ZoneId } from '@/types';
 
 // ── Constants ──────────────────────────────────────────────────
-const SIZE = 140;
+export const MINIMAP_SIZE = 140;
+const SIZE = MINIMAP_SIZE;
 const HALF = SIZE / 2;
 const SCALE = 2.2; // World-to-minimap scale factor
 const PLAYER_RADIUS = 3;
@@ -33,10 +34,7 @@ const ZONE_IDS: ZoneId[] = ['hearth', 'skill-tree', 'vault', 'timeline', 'war-ro
  * X maps to canvas X, Z maps to canvas Y (top-down view).
  */
 function worldToMinimap(worldX: number, worldZ: number): [number, number] {
-  return [
-    HALF + worldX * SCALE,
-    HALF + worldZ * SCALE,
-  ];
+  return [HALF + worldX * SCALE, HALF + worldZ * SCALE];
 }
 
 /**

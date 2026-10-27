@@ -5,33 +5,33 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useChatStore, type ChatMessage } from '@/store/useChatStore';
 import { useForgeStore } from '@/store/useForgeStore';
 import { ZONE_DEFS } from '@/data/zones';
+import { createChatStreamParser, parseActions, type ChatAction } from '@/utils/chat-stream';
 
-// ── Zone navigation helper ──────────────────────────────────
+// ── Ember border ────────────────────────────────────────────
 
-type ZoneId = keyof typeof ZONE_DEFS;
+const BORDER_EMBERS = Array.from({ length: 10 }, (_, i) => ({
+  top: `${8 + ((i * 37) % 84)}%`,
+  delay: (i * 0.7) % 4,
+  duration: 3 + (i % 3),
+}));
 
-function parseActions(text: string): {
-  cleanText: string;
-  actions: { type: 'zone' | 'contact' | 'resume'; value: string }[];
-} {
-  const actions: { type: 'zone' | 'contact' | 'resume'; value: string }[] = [];
-
-  // Match [[zone:xxx]] and [[action:xxx]]
-  const cleaned = text.replace(/\[\[(zone|action):([^\]]+)\]\]/g, (_, type, value) => {
-    if (type === 'zone') {
-      const zoneId = value as ZoneId;
-      const zone = ZONE_DEFS[zoneId];
-      if (zone) {
-        actions.push({ type: 'zone', value: zoneId });
-        return zone.name;
-      }
-    } else if (type === 'action') {
-      actions.push({ type: value as 'contact' | 'resume', value });
-    }
-    return '';
-  });
-
-  return { cleanText: cleaned, actions };
+/** Sparks drifting up the panel's left edge. Decorative only. */
+function EmberBorder() {
+  return (
+    <div
+      className="absolute left-0 top-0 bottom-0 w-2 pointer-events-none overflow-visible"
+      aria-hidden="true"
+    >
+      <div className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-[#ff8833]/60 to-transparent" />
+      {BORDER_EMBERS.map((e, i) => (
+        <span
+          key={i}
+          className="chat-ember"
+          style={{ top: e.top, animationDelay: `${e.delay}s`, animationDuration: `${e.duration}s` }}
+        />
+      ))}
+    </div>
+  );
 }
 
 // ── Chat Bubble ─────────────────────────────────────────────
@@ -41,7 +41,7 @@ function ChatBubble({
   onAction,
 }: {
   message: ChatMessage;
-  onAction: (action: { type: 'zone' | 'contact' | 'resume'; value: string }) => void;
+  onAction: (action: ChatAction) => void;
 }) {
   const isUser = message.role === 'user';
   const { cleanText, actions } = parseActions(message.content);
@@ -74,7 +74,7 @@ function ChatBubble({
                 style={{ fontFamily: 'Rajdhani, sans-serif' }}
               >
                 {action.type === 'zone'
-                  ? `Visit ${ZONE_DEFS[action.value as ZoneId]?.name ?? action.value}`
+                  ? `Visit ${ZONE_DEFS[action.value].name}`
                   : action.value === 'contact'
                     ? 'Contact Robert'
                     : 'View Resume'}
@@ -108,6 +108,15 @@ function TypingIndicator() {
       </div>
     </div>
   );
+}
+
+/** Drops the placeholder assistant message if no text ever arrived. */
+function removeEmptyAssistant() {
+  const msgs = useChatStore.getState().messages;
+  const last = msgs[msgs.length - 1];
+  if (last?.role === 'assistant' && !last.content) {
+    useChatStore.setState({ messages: msgs.slice(0, -1) });
+  }
 }
 
 // ── Main Chat Panel ─────────────────────────────────────────
@@ -146,12 +155,17 @@ export function ChatPanel() {
     }
   }, [messages, isLoading]);
 
-  // Focus input when panel opens
+  // Focus input when panel opens; cancel any in-flight reply when it closes
   useEffect(() => {
     if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 300);
+      const timer = setTimeout(() => inputRef.current?.focus(), 300);
+      return () => clearTimeout(timer);
     }
+    abortRef.current?.abort();
   }, [isOpen]);
+
+  // Cancel any in-flight reply on unmount
+  useEffect(() => () => abortRef.current?.abort(), []);
 
   // Focus trapping + Escape to close
   useEffect(() => {
@@ -188,14 +202,12 @@ export function ChatPanel() {
   }, [isOpen, closeChat]);
 
   const handleAction = useCallback(
-    (action: { type: 'zone' | 'contact' | 'resume'; value: string }) => {
+    (action: ChatAction) => {
       const store = useForgeStore.getState();
       if (action.type === 'zone') {
-        const zone = ZONE_DEFS[action.value as ZoneId];
-        if (zone) {
-          store.flyToZone(zone.center.x, zone.center.z, 0);
-          closeChat();
-        }
+        const zone = ZONE_DEFS[action.value];
+        store.flyToZone(zone.center.x, zone.center.z, 0);
+        closeChat();
       } else if (action.value === 'contact') {
         store.openContact();
         closeChat();
@@ -248,47 +260,39 @@ export function ChatPanel() {
       if (!reader) throw new Error('No response stream.');
 
       const decoder = new TextDecoder();
+      const parser = createChatStreamParser();
       let fullText = '';
+      let streamError: string | null = null;
+
+      const handleEvents = (events: ReturnType<typeof parser.push>) => {
+        for (const event of events) {
+          if (event.type === 'text') {
+            fullText += event.text;
+            updateLastAssistant(fullText);
+          } else if (event.type === 'error') {
+            streamError = event.error;
+          }
+        }
+      };
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-
-        const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split('\n');
-
-        for (const line of lines) {
-          if (!line.startsWith('data: ')) continue;
-          const payload = line.slice(6).trim();
-          if (payload === '[DONE]') break;
-
-          try {
-            const parsed = JSON.parse(payload);
-            if (parsed.text) {
-              fullText += parsed.text;
-              updateLastAssistant(fullText);
-            }
-            if (parsed.error) {
-              throw new Error(parsed.error);
-            }
-          } catch {
-            // Skip malformed chunks
-          }
-        }
+        handleEvents(parser.push(decoder.decode(value, { stream: true })));
       }
+      handleEvents(parser.push(decoder.decode()));
+      handleEvents(parser.flush());
+
+      if (streamError) throw new Error(streamError);
+      if (!fullText) throw new Error('The forge spirit fell silent. Please try again.');
     } catch (err: unknown) {
-      if (err instanceof DOMException && err.name === 'AbortError') return;
+      if (err instanceof DOMException && err.name === 'AbortError') {
+        removeEmptyAssistant();
+        return;
+      }
       const message = err instanceof Error ? err.message : 'Something went wrong.';
       setError(message);
-      // Remove empty assistant message on error
-      const msgs = useChatStore.getState().messages;
-      if (
-        msgs.length > 0 &&
-        msgs[msgs.length - 1].role === 'assistant' &&
-        !msgs[msgs.length - 1].content
-      ) {
-        useChatStore.setState({ messages: msgs.slice(0, -1) });
-      }
+      removeEmptyAssistant();
     } finally {
       setLoading(false);
     }
@@ -314,6 +318,8 @@ export function ChatPanel() {
           aria-label="Forge Spirit Chat"
           aria-modal="true"
         >
+          <EmberBorder />
+
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-[#c4813a]/20">
             <div className="flex items-center gap-2">
