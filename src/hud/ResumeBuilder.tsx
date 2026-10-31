@@ -5,7 +5,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useForgeStore } from '@/store/useForgeStore';
 import { SKILL_CATEGORIES } from '@/data/skills';
 import { PROJECTS } from '@/data/projects';
-import { RESUME_CATEGORIES, CATEGORY_TO_SKILLS, type ResumeCategory } from '@/data/resume-base';
+import {
+  RESUME_HEADER,
+  RESUME_CATEGORIES,
+  CATEGORY_TO_SKILLS,
+  type ResumeCategory,
+} from '@/data/resume-base';
 import type { Skill, Project } from '@/types';
 
 // ── Step indicator ──────────────────────────────────────────
@@ -246,7 +251,7 @@ function StepPreview({
           <div className="text-lg font-bold text-[#f5deb3]" style={{ fontFamily: 'Cinzel, serif' }}>
             Robert Blaylock
           </div>
-          <div className="text-sm text-[#c4813a]">Senior Software Engineer</div>
+          <div className="text-sm text-[#c4813a]">{RESUME_HEADER.title}</div>
           <div className="text-xs text-[#f5deb3]/40 mt-1">
             robert@rblaylock.dev &bull; rblaylock.dev &bull; Counce, TN
           </div>

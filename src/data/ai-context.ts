@@ -62,7 +62,9 @@ export function buildSystemPrompt(): string {
 ## About Robert Blaylock
 - Senior Software Engineer based in Counce, Tennessee
 - Transitioned from restaurant management (Taco Bell GM) to software engineering through self-teaching and a coding bootcamp (Persevere)
-- Currently at Banyan Labs / running RB Digital (his web development agency)
+- Runs his own business, RB Digital — a software and web development company — full time. He is no longer at Banyan Labs.
+- Current RB Digital client: Arkora Health
+- Previously a Full Stack Developer at Banyan Labs (2022-2025)
 - Passionate about 3D web experiences, React/Next.js, and building tools that help people
 - Faith-driven, community-oriented, loves mentoring junior developers
 - This portfolio ("The Forge") is itself a showcase of his 3D/WebGL skills

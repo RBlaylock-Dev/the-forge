@@ -20,8 +20,14 @@ export const ACTIVE_PROJECTS: ActiveProject[] = [
     status: 'In Development',
   },
   {
+    name: 'Arkora Health',
+    desc: 'Client engagement through RB Digital — building software for Arkora Health',
+    color: 0x33bbaa,
+    status: 'Active',
+  },
+  {
     name: 'RB Digital',
-    desc: 'Full-service web development agency',
+    desc: "Robert's own software and web development business, serving clients directly",
     color: 0xee5533,
     status: 'Active',
   },
@@ -42,5 +48,5 @@ export const ACTIVE_PROJECTS: ActiveProject[] = [
     desc: 'A client website for a non-profit organization for second chance individuals or those with a criminal background',
     color: 0x44aadd,
     status: 'In Development',
-  }
+  },
 ];
