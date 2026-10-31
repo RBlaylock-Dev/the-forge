@@ -36,7 +36,12 @@ export function BioCard({ position, worldPosition }: BioCardProps) {
     const dz = playerPosition.z - wp[2];
     const dist = Math.sqrt(dx * dx + dz * dz);
 
-    const opacity = dist >= FADE_FAR ? 0 : dist <= FADE_NEAR ? 1 : 1 - (dist - FADE_NEAR) / (FADE_FAR - FADE_NEAR);
+    const opacity =
+      dist >= FADE_FAR
+        ? 0
+        : dist <= FADE_NEAR
+          ? 1
+          : 1 - (dist - FADE_NEAR) / (FADE_FAR - FADE_NEAR);
     const scale = dist <= 20 ? 1 : Math.max(0.6, 1 - (dist - 20) * 0.04);
 
     el.style.opacity = String(opacity);
@@ -53,7 +58,7 @@ export function BioCard({ position, worldPosition }: BioCardProps) {
       <div ref={containerRef} className="bio-card" style={{ opacity: 0 }}>
         <div className="bio-card-name">Robert Blaylock</div>
         <div className="bio-card-title">
-          Senior Full Stack Software Engineer | 3D Software Engineer
+          Founder, RB Digital | Senior Full Stack &amp; 3D Software Engineer
         </div>
         <div className="bio-card-location">Counce, TN</div>
         <div className="bio-card-tagline">

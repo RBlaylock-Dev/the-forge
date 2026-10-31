@@ -1,5 +1,6 @@
 import type { ForgeState } from '@/types';
 import { selectCodexProgress } from '@/store/useForgeStore';
+import { PROJECTS } from '@/data/projects';
 
 export type AchievementRarity = 'Common' | 'Rare' | 'Epic' | 'Legendary';
 
@@ -42,7 +43,7 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: 'Viewed every project in the Vault',
     icon: '\u{1F4BC}',
     rarity: 'Rare',
-    condition: (s) => s.discoveredProjects.size >= 12,
+    condition: (s) => s.discoveredProjects.size >= PROJECTS.length,
   },
   {
     id: 'time-traveler',

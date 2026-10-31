@@ -97,7 +97,10 @@ describe('useForgeStore', () => {
     it('sets the interact target', () => {
       const target = {
         name: 'Test Project',
-        userData: { type: 'project', data: { name: 'Test', desc: '', tags: [], tier: 'RARE', color: 0, shape: 'box' } } as DetailData,
+        userData: {
+          type: 'project',
+          data: { name: 'Test', desc: '', tags: [], tier: 'RARE', color: 0, shape: 'box' },
+        } as DetailData,
       };
       useForgeStore.getState().setInteractTarget(target);
       expect(useForgeStore.getState().interactTarget).toEqual(target);
@@ -140,8 +143,8 @@ describe('useForgeStore', () => {
   });
 
   describe('selectCodexProgress', () => {
-    // Total items: 5 zones + 12 projects + 21 subcategories + 5 eras + 7 active = 50
-    const TOTAL = 50;
+    // Total items: 6 zones (incl. hidden forge) + 13 projects + 21 subcategories + 5 eras + 8 active = 53
+    const TOTAL = 53;
 
     it('returns 0 when nothing discovered', () => {
       expect(selectCodexProgress(useForgeStore.getState())).toBe(0);
