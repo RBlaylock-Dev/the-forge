@@ -63,7 +63,7 @@ export function buildSystemPrompt(): string {
 - Senior Software Engineer based in Counce, Tennessee
 - Transitioned from restaurant management (Taco Bell GM) to software engineering through self-teaching and a coding bootcamp (Persevere)
 - Runs his own business, RB Digital — a software and web development company — full time. He is no longer at Banyan Labs.
-- Current RB Digital client: Arkora Health
+- Current RB Digital client: Arkora Health — Robert built and launched their website, and is now leading their rebrand
 - Previously a Full Stack Developer at Banyan Labs (2022-2025)
 - Passionate about 3D web experiences, React/Next.js, and building tools that help people
 - Faith-driven, community-oriented, loves mentoring junior developers

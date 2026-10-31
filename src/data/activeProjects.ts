@@ -21,7 +21,7 @@ export const ACTIVE_PROJECTS: ActiveProject[] = [
   },
   {
     name: 'Arkora Health',
-    desc: 'Client engagement through RB Digital — building software for Arkora Health',
+    desc: 'RB Digital client — built and shipped their website, now leading a full brand refresh',
     color: 0x33bbaa,
     status: 'Active',
   },
