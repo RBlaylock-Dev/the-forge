@@ -30,8 +30,8 @@ export const TIMELINE_DATA: TimelineEra[] = [
     color: 0x5566cc,
   },
   {
-    era: 'Senior Engineer',
-    org: 'Banyan Labs / RB Digital',
+    era: 'Founder & Engineer',
+    org: 'RB Digital',
     years: '2025+',
     skill: 'Mastery',
     color: 0x44aa88,

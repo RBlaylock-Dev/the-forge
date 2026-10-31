@@ -255,10 +255,10 @@ export const useForgeStore = create<ForgeState>()((set) => ({
 
 // ── Total discoverable item counts ──────────────────────────
 const TOTAL_ZONES = 6;
-const TOTAL_PROJECTS = 12;
+const TOTAL_PROJECTS = 13;
 const TOTAL_SUBCATEGORIES = 21;
 const TOTAL_ERAS = 5;
-const TOTAL_ACTIVE_PROJECTS = 7;
+const TOTAL_ACTIVE_PROJECTS = 8;
 const TOTAL_ITEMS =
   TOTAL_ZONES + TOTAL_PROJECTS + TOTAL_SUBCATEGORIES + TOTAL_ERAS + TOTAL_ACTIVE_PROJECTS;
 

@@ -31,19 +31,21 @@ const SHAPE_GEOMETRIES: Record<ArtifactShape, THREE.BufferGeometry> = {
 };
 
 // ── 3-Row Amphitheater Layout ───────────────────────────────
-// 3 rows of 4 projects in a 100° arc. Fewer items per row = no overlap.
+// 3 rows spread evenly across a 100° arc (currently 5/5/3).
 // Each row is further out and elevated so nothing hides.
-const ITEMS_PER_ROW = 4;
 const ARC_DEG = 100;
 const ARC_RAD = (ARC_DEG * Math.PI) / 180;
 const HALF_ARC = ARC_RAD / 2;
-const STEP = ARC_RAD / (ITEMS_PER_ROW - 1);
 
 const ROWS: { radius: number; baseY: number; pedestal: PedestalSize }[] = [
   { radius: 5, baseY: 2.0, pedestal: 'short' },
   { radius: 8, baseY: 3.5, pedestal: 'medium' },
   { radius: 11, baseY: 5.0, pedestal: 'tall' },
 ];
+
+// Spread projects across the fixed rows so adding one never overflows the layout
+const ITEMS_PER_ROW = Math.ceil(PROJECTS.length / ROWS.length);
+const STEP = ARC_RAD / (ITEMS_PER_ROW - 1);
 
 const LABEL_OFFSET_Y = 1.2;
 
@@ -132,7 +134,12 @@ export const ProjectVault = memo(function ProjectVault() {
 
   return (
     <group position={[22, 0, 0]}>
-      <ZoneLabel title="Projects" subtitle="12 shipped projects" position={[0, 8, 0]} worldPosition={[22, 8, 0]} />
+      <ZoneLabel
+        title="Projects"
+        subtitle={`${PROJECTS.length} shipped projects`}
+        position={[0, 8, 0]}
+        worldPosition={[22, 8, 0]}
+      />
 
       {/* Platform */}
       <mesh position={[0, 0.1, 0]} material={platformMat}>
@@ -145,7 +152,11 @@ export const ProjectVault = memo(function ProjectVault() {
         const tierColor = TIER_COLORS[proj.tier];
         return (
           <group key={proj.name}>
-            <Pedestal position={[layout.x, 0, layout.z]} tierColor={tierColor} size={layout.pedestal} />
+            <Pedestal
+              position={[layout.x, 0, layout.z]}
+              tierColor={tierColor}
+              size={layout.pedestal}
+            />
             <Artifact
               project={proj}
               index={i}

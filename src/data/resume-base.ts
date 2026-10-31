@@ -6,14 +6,14 @@
 
 export const RESUME_HEADER = {
   name: 'Robert Blaylock',
-  title: 'Senior Software Engineer',
+  title: 'Founder & Senior Software Engineer',
   email: 'robert@rblaylock.dev',
   website: 'rblaylock.dev',
   location: 'Counce, Tennessee',
 };
 
 export const RESUME_SUMMARY =
-  'Senior Software Engineer specializing in full-stack web development, 3D web experiences, and React/Next.js applications. Transitioned from restaurant operations leadership into software engineering, bringing a unique blend of technical depth and team leadership. Passionate about building tools that help people, mentoring developers, and pushing the boundaries of what the web can do.';
+  'Founder of RB Digital and Senior Software Engineer specializing in full-stack web development, 3D web experiences, and React/Next.js applications. Transitioned from restaurant operations leadership into software engineering, bringing a unique blend of technical depth and team leadership. Passionate about building tools that help people, mentoring developers, and pushing the boundaries of what the web can do.';
 
 export const RESUME_EDUCATION = [
   {

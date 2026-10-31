@@ -143,8 +143,8 @@ describe('useForgeStore', () => {
   });
 
   describe('selectCodexProgress', () => {
-    // Total items: 6 zones (incl. hidden forge) + 12 projects + 21 subcategories + 5 eras + 7 active = 51
-    const TOTAL = 51;
+    // Total items: 6 zones (incl. hidden forge) + 13 projects + 21 subcategories + 5 eras + 8 active = 53
+    const TOTAL = 53;
 
     it('returns 0 when nothing discovered', () => {
       expect(selectCodexProgress(useForgeStore.getState())).toBe(0);
