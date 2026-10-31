@@ -47,6 +47,15 @@ export const PROJECTS: Project[] = [
     previewable: true,
   },
   {
+    name: 'Arkora Health',
+    desc: 'Client website for Arkora Health, built and launched through RB Digital ahead of their rebrand.',
+    tags: ['Next.js', 'Supabase', 'TypeScript', 'Client'],
+    tier: 'EPIC',
+    color: 0x33bbaa,
+    shape: 'octa',
+    role: 'Designed and built the full website end to end as an RB Digital client engagement, with Next.js and TypeScript on the front end and Supabase on the back end.',
+  },
+  {
     name: 'Stor-It',
     desc: 'Cloud storage platform with file uploads, OTP authentication, and clean UI for managing personal documents.',
     tags: ['Next.js', 'Appwrite', 'File-Uploads', 'OTP'],
